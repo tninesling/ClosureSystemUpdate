@@ -1,0 +1,78 @@
+[info] Loading project definition from C:\Users\Taylor\Programs\CourseWork\MA152\project
+[info] Set current project to CanonicalDirectBasis (in build file:/C:/Users/Taylor/Programs/CourseWork/MA152/)
+[info] Compiling 1 Scala source to C:\Users\Taylor\Programs\CourseWork\MA152\target\scala-2.11\test-classes...
+2 3 -> 4 
+(Set(2, 3),Set(4)) added
+3 4 -> 2 
+(Set(3, 4),Set(2)) added
+1 4 -> 3 
+(Set(1, 4),Set(3)) added
+2 5 -> 1 
+(Set(2, 5),Set(1)) added
+1 4 -> 2 
+(Set(1, 4),Set(2)) added
+1 5 -> 3 
+(Set(1, 5),Set(3)) added
+1 2 3 -> 5 
+(Set(1, 2, 3),Set(5)) added
+1 4 -> 5 
+(Set(1, 4),Set(5)) added
+5 -> 4 
+(Set(5),Set(4)) added
+2 4 -> 3 
+(Set(2, 4),Set(3)) added
+2 5 -> 3 
+(Set(2, 5),Set(3)) added
+3 5 -> 1 
+(Set(3, 5),Set(1)) added
+3 5 -> 2 
+(Set(3, 5),Set(2)) added
+1 5 -> 2 
+(Set(1, 5),Set(2)) added
+WILD TEST
+
+
+
+2 3 -> 4 
+(Set(2, 3),Set(4)) added
+3 4 -> 2 
+(Set(3, 4),Set(2)) added
+1 4 -> 3 
+(Set(1, 4),Set(3)) added
+2 5 -> 1 
+(Set(2, 5),Set(1)) added
+1 4 -> 2 
+(Set(1, 4),Set(2)) added
+1 5 -> 3 
+(Set(1, 5),Set(3)) added
+1 2 3 -> 5 
+(Set(1, 2, 3),Set(5)) added
+1 4 -> 5 
+(Set(1, 4),Set(5)) added
+5 -> 4 
+(Set(5),Set(4)) added
+2 4 -> 3 
+(Set(2, 4),Set(3)) added
+2 5 -> 3 
+(Set(2, 5),Set(3)) added
+3 5 -> 1 
+(Set(3, 5),Set(1)) added
+3 5 -> 2 
+(Set(3, 5),Set(2)) added
+1 5 -> 2 
+(Set(1, 5),Set(2)) added
+Set((Set(1, 4),Set(2)), (Set(3, 5),Set(2)), (Set(3, 5),Set(1)), (Set(5),Set(4)), (Set(1, 4),Set(5)), (Set(1, 2, 3),Set(5)), (Set(3, 4),Set(2)), (Set(2, 4),Set(3)), (Set(2, 5),Set(1)), (Set(2, 3),Set(4)), (Set(1, 4),Set(3)), (Set(2, 5),Set(3)), (Set(1, 5),Set(2)), (Set(1, 5),Set(3)))
+[info] WildCanonicalDirectBasisSpec:
+[info] The Wild Canonical Direct basis
+[info] - should have an equivalent basis to the CD unit basis
+[info] - should produce the an updated basis equivalent to the updated CD unit basis *** FAILED ***
+[info]   false was not equal to true (WildCanonicalDirectBasisSpec.scala:52)
+[info] Run completed in 466 milliseconds.
+[info] Total number of tests run: 2
+[info] Suites: completed 1, aborted 0
+[info] Tests: succeeded 1, failed 1, canceled 0, ignored 0, pending 0
+[info] *** 1 TEST FAILED ***
+[error] Failed tests:
+[error] 	tests.WildCanonicalDirectBasisSpec
+[error] (test:testOnly) sbt.TestsFailedException: Tests unsuccessful
+[error] Total time: 6 s, completed Jul 18, 2017 7:50:56 PM

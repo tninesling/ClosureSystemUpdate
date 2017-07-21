@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0m[32mCanonicalDirectBasisSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mThe Canonical Direct basis[0m[0m
+[0m[[0minfo[0m] [0m[32m- should parse 14 implications from the basis.txt test file[0m[0m
+[0m[[0minfo[0m] [0m[32m- should split the basis into 5 sectors[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return the basis with sectorsToBasis[0m[0m
+[0m[[0minfo[0m] [0m[32m- should add 5 to the family when updated with 5[0m[0m
+[0m[[0minfo[0m] [0m[32m- should add 123 and 23 when updated with 123[0m[0m
+[0m[[0minfo[0m] [0m[32mA Basis[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce the correct Moore family[0m[0m
