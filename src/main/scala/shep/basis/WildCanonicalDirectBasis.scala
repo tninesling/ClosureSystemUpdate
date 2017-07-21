@@ -52,8 +52,6 @@ trait WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
       val strongerConsequents = stronger.map(_._2).flatten
       (t._1, t._2 &~ strongerConsequents)
     }
-    println(restricted.mkString(", "))
-    println()
 
     for (
       tuple <- restricted;
