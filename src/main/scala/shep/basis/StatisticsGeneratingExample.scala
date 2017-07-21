@@ -10,7 +10,7 @@ object StatisticsGeneratingExample {
   def main(args: Array[String]) = {
     // Rows, Columns, Total implications, Implications broken, Time taken
 
-    val stats = (1 to ).toList.map { x =>
+    val stats = (1 to 1000).toList.par.map { x =>
       // Randomly generate a table and generate the basis
       val t = generateTable()
       val r = t.reduce()

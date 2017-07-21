@@ -1,4 +1,4 @@
-/target
-/project
-/output*
-/data
+target/
+project/
+output*
+data/
