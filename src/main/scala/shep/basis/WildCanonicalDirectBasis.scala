@@ -36,7 +36,7 @@ trait WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
           Y = Y | D
       }
 
-      if (B.subsetOf(Y)) {//&& !baseSet.subsetOf(B)) { // !baseSet.subsetOf(B) added by me, not part of Wild's algorithm
+      if (B.subsetOf(Y)) {
         basis = basis - implication
       } else {
         basis = (basis - implication) + ((A, B | Y))
@@ -45,17 +45,19 @@ trait WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
   }
 
   def unitBasis = {
-    val uBasis =
-      for (
-        tuple <- this.basis;
-        right <- tuple._2 &~ tuple._1
-      ) yield ((tuple._1, Set(right)))
+    val nonRedundant = this.basis.map(t => (t._1, t._2 &~ t._1))
 
-    uBasis.filter(implication =>
-      (uBasis - implication).forall(basisImp =>
-        !(basisImp._1.subsetOf(implication._1) &&
-        basisImp._2.equals(implication._2))
-      )
-    )
+    val restricted = nonRedundant.map { t =>
+      val stronger = (nonRedundant - t).filter(x => x._1.subsetOf(t._1))
+      val strongerConsequents = stronger.map(_._2).flatten
+      (t._1, t._2 &~ strongerConsequents)
+    }
+    println(restricted.mkString(", "))
+    println()
+
+    for (
+      tuple <- restricted;
+      right <- tuple._2
+    ) yield ((tuple._1, Set(right)))
   }
 }

@@ -1,7 +1,7 @@
 #Successful Tests
-#Thu Jul 20 17:10:31 PDT 2017
-tests.WildCanonicalDirectBasisSpec=1500595831667
-tests.NaiveCanonicalDirectBasisSpec=1500516930560
-tests.CanonicalDirectBasisSpec=1500516930605
-tests.TableSpec=1500516930601
+#Thu Jul 20 18:30:46 PDT 2017
+tests.WildCanonicalDirectBasisSpec=1500600646887
+tests.NaiveCanonicalDirectBasisSpec=1500599952375
+tests.CanonicalDirectBasisSpec=1500599952412
 tests.ClosureSystemSpec=1494359402791
+tests.TableSpec=1500599952403

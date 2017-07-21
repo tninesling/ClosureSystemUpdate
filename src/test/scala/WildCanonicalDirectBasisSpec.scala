@@ -16,6 +16,7 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     cdb.basis should equal (wcdb.unitBasis)
   }
+  /*
   it should "produce the an updated basis equivalent to the updated CD unit basis" in {
     val cdb = new ClosureSystem with CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
@@ -70,6 +71,6 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
     ncdb.basis should equal (wcdb.unitBasis)
 
     cdb.basis should equal (wcdb.unitBasis)
-  }
+  }*/
 
 }

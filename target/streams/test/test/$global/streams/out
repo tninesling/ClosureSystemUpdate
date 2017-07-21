@@ -1,14 +1,16 @@
-[0m[[0mdebug[0m] [0mRunning TaskDef(tests.WildCanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@536fbd, false, [SuiteSelector])[0m
-[0m[[0mdebug[0m] [0mRunning TaskDef(tests.NaiveCanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@536fbd, false, [SuiteSelector])[0m
-[0m[[0mdebug[0m] [0mRunning TaskDef(tests.TableSpec, org.scalatest.tools.Framework$$anon$1@536fbd, false, [SuiteSelector])[0m
-[0m[[0mdebug[0m] [0mRunning TaskDef(tests.CanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@536fbd, false, [SuiteSelector])[0m
-[0m[[0minfo[0m] [0m[36mRun completed in 497 milliseconds.[0m[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(tests.NaiveCanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@d3cef3, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(tests.CanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@d3cef3, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(tests.WildCanonicalDirectBasisSpec, org.scalatest.tools.Framework$$anon$1@d3cef3, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(tests.TableSpec, org.scalatest.tools.Framework$$anon$1@d3cef3, false, [SuiteSelector])[0m
+[0m[[0minfo[0m] [0m[36mRun completed in 684 milliseconds.[0m[0m
 [0m[[0minfo[0m] [0m[36mTotal number of tests run: 26[0m[0m
 [0m[[0minfo[0m] [0m[36mSuites: completed 4, aborted 0[0m[0m
-[0m[[0minfo[0m] [0m[36mTests: succeeded 26, failed 0, canceled 0, ignored 0, pending 0[0m[0m
-[0m[[0minfo[0m] [0m[32mAll tests passed.[0m[0m
+[0m[[0minfo[0m] [0m[36mTests: succeeded 23, failed 3, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0minfo[0m] [0m[31m*** 3 TESTS FAILED ***[0m[0m
 [0m[[0mdebug[0m] [0mPassed tests:[0m
 [0m[[0mdebug[0m] [0m	tests.TableSpec[0m
 [0m[[0mdebug[0m] [0m	tests.NaiveCanonicalDirectBasisSpec[0m
-[0m[[0mdebug[0m] [0m	tests.WildCanonicalDirectBasisSpec[0m
 [0m[[0mdebug[0m] [0m	tests.CanonicalDirectBasisSpec[0m
+[0m[[31merror[0m] [0mFailed tests:[0m
+[0m[[31merror[0m] [0m	tests.WildCanonicalDirectBasisSpec[0m
+[0m[[31merror[0m] [0m(test:[31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m
