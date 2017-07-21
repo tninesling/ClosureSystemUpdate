@@ -1,8 +1,0 @@
-[0m[[0minfo[0m] [0m[32mWildCanonicalDirectBasisSpec:[0m[0m
-[0m[[0minfo[0m] [0m[32mThe Wild Canonical Direct basis[0m[0m
-[0m[[0minfo[0m] [0m[31m- should have an equivalent basis to the CD unit basis *** FAILED ***[0m[0m
-[0m[[0minfo[0m] [0m[31m  Set((Set(1, 4),Set(2)), (Set(3, 5),Set(2)), (Set(3, 5),Set(1)), (Set(5),Set(4)), (Set(1, 4),Set(5)), (Set(1, 2, 3),Set(5)), (Set(3, 4),Set(2)), (Set(2, 4),Set(3)), (Set(2, 5),Set(1)), (Set(2, 3),Set(4)), (Set(1, 4),Set(3)), (Set(2, 5),Set(3)), (Set(1, 5),Set(2)), (Set(1, 5),Set(3))) did not equal Set() (WildCanonicalDirectBasisSpec.scala:17)[0m[0m
-[0m[[0minfo[0m] [0m[31m- should produce the an updated basis equivalent to the updated CD unit basis *** FAILED ***[0m[0m
-[0m[[0minfo[0m] [0m[31m  false was not equal to true (WildCanonicalDirectBasisSpec.scala:43)[0m[0m
-[0m[[0minfo[0m] [0m[31m- should produce the an updated basis equivalent to the updated CD unit basis again *** FAILED ***[0m[0m
-[0m[[0minfo[0m] [0m[31m  Set((Set(1, 4),Set(2)), (Set(3, 5),Set(2)), (Set(3, 5),Set(1)), (Set(1, 4),Set(5)), (Set(5, 3),Set(4)), (Set(1, 2, 3),Set(5)), (Set(3, 4),Set(2)), (Set(2, 4),Set(3)), (Set(5, 1),Set(4)), (Set(2, 5),Set(1)), (Set(2, 3),Set(4)), (Set(1, 4),Set(3)), (Set(2, 5),Set(3)), (Set(1, 5),Set(2)), (Set(5, 2),Set(4)), (Set(1, 5),Set(3))) did not equal Set() (WildCanonicalDirectBasisSpec.scala:70)[0m[0m
