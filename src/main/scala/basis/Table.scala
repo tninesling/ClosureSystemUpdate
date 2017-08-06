@@ -1,7 +1,4 @@
-package shep.table
-
-import shep._
-import shep.basis._
+package basis
 
 import scala.io.Source
 
@@ -17,7 +14,7 @@ class Table {
   def buildCdBasis(family: Set[Set[String]]): CanonicalDirectBasis = {
     val baseSet = family.flatten
 
-    val cdBasis = new ClosureSystem with CanonicalDirectBasis
+    val cdBasis = new CanonicalDirectBasis
     cdBasis.baseSet = baseSet
     cdBasis.basis = baseSet.map(baseElement => (Set[String](), Set(baseElement)))
 
@@ -34,7 +31,7 @@ class Table {
   def buildNcdBasis(family: Set[Set[String]]): NaiveCanonicalDirectBasis = {
     val baseSet = family.flatten
 
-    val cdBasis = new ClosureSystem with NaiveCanonicalDirectBasis
+    val cdBasis = new NaiveCanonicalDirectBasis
     cdBasis.baseSet = baseSet
     cdBasis.basis = baseSet.map(baseElement => (Set[String](), Set(baseElement)))
 

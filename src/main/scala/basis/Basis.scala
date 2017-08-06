@@ -1,4 +1,4 @@
-package shep.basis
+package basis
 
 import scala.collection.SortedSet
 import scala.io.Source

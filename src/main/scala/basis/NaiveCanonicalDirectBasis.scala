@@ -1,6 +1,6 @@
-package shep.basis
+package basis
 
-trait NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
+class NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
 
   override def update(closedSet: Set[String]) = {
     val unbroken =

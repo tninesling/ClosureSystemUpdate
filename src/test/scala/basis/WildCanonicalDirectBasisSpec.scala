@@ -1,7 +1,4 @@
-package tests
-
-import shep._
-import shep.basis._
+package basis
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -9,22 +6,21 @@ import org.scalatest.Matchers
 class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
   "The Wild Canonical Direct basis" should "have an equivalent basis to the CD unit basis" in {
-    val cdb = new ClosureSystem with CanonicalDirectBasis
+    val cdb = new CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
 
     val wcdb = cdb.toWildCdb()
 
     cdb.basis should equal (wcdb.unitBasis)
   }
-  /*
   it should "produce the an updated basis equivalent to the updated CD unit basis" in {
-    val cdb = new ClosureSystem with CanonicalDirectBasis
+    val cdb = new CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
 
-    val ncdb = new ClosureSystem with NaiveCanonicalDirectBasis
+    val ncdb = new NaiveCanonicalDirectBasis
     ncdb.fromFile("./src/test/data/example1/basis.txt")
 
-    val wcdb = new ClosureSystem with WildCanonicalDirectBasis
+    val wcdb = new WildCanonicalDirectBasis
     wcdb.fromFile("./src/test/data/example1/basis.txt")
 
     wcdb.basis =
@@ -45,13 +41,13 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
     cdb.basisEquals(wcdb.unitBasis) shouldBe true
   }
   it should "produce the an updated basis equivalent to the updated CD unit basis again" in {
-    val cdb = new ClosureSystem with CanonicalDirectBasis
+    val cdb = new CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
 
-    val ncdb = new ClosureSystem with NaiveCanonicalDirectBasis
+    val ncdb = new NaiveCanonicalDirectBasis
     ncdb.fromFile("./src/test/data/example1/basis.txt")
 
-    val wcdb = new ClosureSystem with WildCanonicalDirectBasis
+    val wcdb = new WildCanonicalDirectBasis
     wcdb.fromFile("./src/test/data/example1/basis.txt")
 
     wcdb.basis =
@@ -71,6 +67,6 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
     ncdb.basis should equal (wcdb.unitBasis)
 
     cdb.basis should equal (wcdb.unitBasis)
-  }*/
+  }
 
 }

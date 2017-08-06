@@ -1,7 +1,4 @@
-package shep.table
-
-import shep._
-import shep.basis._
+package basis
 
 object TableExample {
   def main(args: Array[String]) = {
@@ -20,7 +17,7 @@ object TableExample {
     val basis2 = t.buildCdBasis(family - Set("1","2","3"))
     println(basis2.toString())
 
-    val diffBasis = new ClosureSystem with CanonicalDirectBasis
+    val diffBasis = new CanonicalDirectBasis
     diffBasis.basis = basis1.basis &~ basis2.basis
     println(diffBasis.toString())
   }

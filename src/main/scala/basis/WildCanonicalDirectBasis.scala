@@ -1,6 +1,6 @@
-package shep.basis
+package basis
 
-trait WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
+class WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
 
   override def update(X: Set[String]) = {
     var sigma: Set[(Set[String], Set[String])] = Set()

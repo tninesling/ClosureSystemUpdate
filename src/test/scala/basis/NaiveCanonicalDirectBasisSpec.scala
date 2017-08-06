@@ -1,7 +1,4 @@
-package tests
-
-import shep._
-import shep.basis._
+package basis
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -9,10 +6,10 @@ import org.scalatest.Matchers
 class NaiveCanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
   "The Naive Canonical Direct basis" should "produced the same updated basis as the CD basis" in {
-    val cdb = new ClosureSystem with CanonicalDirectBasis
+    val cdb = new CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
 
-    val ncdb = new ClosureSystem with NaiveCanonicalDirectBasis
+    val ncdb = new NaiveCanonicalDirectBasis
     ncdb.fromFile("./src/test/data/example1/basis.txt")
 
     // Basis should be equal before update

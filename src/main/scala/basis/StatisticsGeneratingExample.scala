@@ -1,8 +1,4 @@
-package shep.basis
-
-import shep._
-import shep.logging.LoggingBasis
-import shep.table.Table
+package basis
 
 import scala.util.{Try, Success, Failure}
 
@@ -107,12 +103,4 @@ object StatisticsGeneratingExample {
 
   def printCsv(stats: List[List[_]]) =
     stats.map(_.mkString(",")).foreach(println)
-
-  /*def stringify(stats: List[_]): String =
-    stats match {
-      case Nil =>
-        ""
-      case stat::tail =>
-        s"${stat._1},${stat._2},${stat._3},${stat._4},${stat._5},${stat._6}\n" + stringify(tail)
-    }*/
 }

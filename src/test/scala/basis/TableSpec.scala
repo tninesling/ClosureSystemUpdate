@@ -1,8 +1,4 @@
-package tests
-
-import shep._
-import shep.basis._
-import shep.table._
+package basis
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -101,7 +97,7 @@ class TableSpec extends FlatSpec with Matchers {
     val r = t.reduce()
     val generatedBasis = r.buildCdBasis()
 
-    val correctBasis = new ClosureSystem with CanonicalDirectBasis
+    val correctBasis = new CanonicalDirectBasis
     correctBasis.fromFile("./src/test/data/example2/basis.txt")
 
     generatedBasis.basis should equal(correctBasis.basis)

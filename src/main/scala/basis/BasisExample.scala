@@ -1,13 +1,10 @@
-package shep.basis
-
-import shep._
-import shep.logging.LoggingBasis
+package basis
 
 object BasisExample {
   def main(args: Array[String]) = {
 
-    val cs1 = new ClosureSystem with NaiveCanonicalDirectBasis with LoggingBasis
-    val cs2 = new ClosureSystem with CanonicalDirectBasis with LoggingBasis
+    val cs1 = new NaiveCanonicalDirectBasis with LoggingBasis
+    val cs2 = new CanonicalDirectBasis with LoggingBasis
 
     cs1.fromFile("./data/largeExample/basis.txt")
     cs2.fromFile("./data/largeExample/basis.txt")
