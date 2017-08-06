@@ -18,8 +18,8 @@ class CanonicalDirectBasis extends Basis {
 
     wcdb.basis =
       this.basis
-        .map(_._1)
-        .map(x => (x, x | closure(x)))
+        .map(_.premise)
+        .map(x => Implication(x, x | closure(x)))
 
     wcdb
   }
@@ -51,29 +51,29 @@ class CanonicalDirectBasis extends Basis {
   def buildSectors() =
     basis.foreach(addImplication)
 
-  def addImplication(implication: (Set[String],Set[String])) = {
-    val C = implication._1
-    val d = implication._2
+  def addImplication(implication: Implication) = {
+    val C = implication.premise
+    val d = implication.conclusion
 
     val dSec = sectors.get(d) match {
       case Some(sec) => sec
       case None => new Sector(baseSet, d)
     }
 
-    val E = basis.filter(_._2.equals(d)) // only check implications with right side d
-                 .map(_._1 &~ C) // map all of these to set difference with C
+    val E = basis.filter(_.conclusion.equals(d)) // only check implications with right side d
+                 .map(_.premise &~ C) // map all of these to set difference with C
                  .filter(_.size == 1) // keep if set difference is a singleton
                  .flatten
 
     sectors.put(d, dSec + SectorImplication(C, E))
   }
 
-  def sectorsToBasis(): Set[(Set[String], Set[String])] = {
+  def sectorsToBasis(): Set[Implication] = {
     val sectorTuples = sectors.toSet
 
     sectorTuples.map { tuple =>
       tuple._2.implications.map { imp =>
-        (imp.leftSide, tuple._1)
+        Implication(imp.leftSide, tuple._1)
       }
     }.flatten
   }

@@ -3,19 +3,21 @@ package basis
 import scala.collection.SortedSet
 import scala.io.Source
 
+case class Implication(premise: Set[String], conclusion: Set[String])
+
 trait Basis {
   var baseSet: Set[String] = Set()
-  var basis: Set[(Set[String], Set[String])] = Set()
+  var basis: Set[Implication] = Set()
 
   def basisEquals(other: Basis): Boolean =
     this.basis.subsetOf(other.basis) && other.basis.subsetOf(this.basis)
 
-  def basisEquals(other: Set[(Set[String], Set[String])]): Boolean =
+  def basisEquals(other: Set[Implication]): Boolean =
     this.basis.subsetOf(other) && other.subsetOf(this.basis)
 
   def closure(A: Set[String]) =
-    A | basis.filter(_._1.subsetOf(A))
-      .map(_._2)
+    A | basis.filter(_.premise.subsetOf(A))
+      .map(_.conclusion)
       .flatten
 
   // Modifies the basis to include the closed set in its Moore family
@@ -41,12 +43,12 @@ trait Basis {
   }
 
   // Parses an implication string "12->3" as the tuple (Set("1","2"), Set("3"))
-  def parseImplication(impString: String): (Set[String], Set[String]) = {
+  def parseImplication(impString: String): Implication = {
     val split = impString.split("->")
     val left = parseSet(split(0).trim())
     val right = parseSet(split(1).trim())
 
-    (left, right)
+    Implication(left, right)
   }
 
   ////////// Update to handle sets which have more than one element ////////
@@ -54,7 +56,7 @@ trait Basis {
     setString.split(" ").toSet
 
   def generateBaseSet() = {
-    baseSet = basis.map(tuple => tuple._1 | tuple._2).flatten
+    baseSet = basis.map(imp => imp.premise | imp.conclusion).flatten
   }
 
   // Generates the Moore Family defined by the Basis
@@ -67,8 +69,8 @@ trait Basis {
       var previousY = Set[String]()
       while (previousY.size < Y.size) {
         previousY = Y.to[Set]
-        Y = Y | basis.filter(tuple => tuple._1.subsetOf(Y))
-                     .flatMap(_._2)
+        Y = Y | basis.filter(imp => imp.premise.subsetOf(Y))
+                     .flatMap(_.conclusion)
       }
 
       if (Y.size > 0)
@@ -82,7 +84,7 @@ trait Basis {
     implicationsToString(basis.toList)
   }
 
-  def implicationsToString(basis: List[(Set[String],Set[String])]): String = {
+  def implicationsToString(basis: List[Implication]): String = {
     basis match {
       case Nil => ""
       case imp::Nil => implicationToString(imp)
@@ -90,8 +92,8 @@ trait Basis {
     }
   }
 
-  def implicationToString(imp: (Set[String], Set[String])): String = {
-    s"${listToString(imp._1.toList)} -> ${listToString(imp._2.toList)}"
+  def implicationToString(imp: Implication): String = {
+    s"${listToString(imp.premise.toList)} -> ${listToString(imp.conclusion.toList)}"
   }
 
   def listToString(ls: List[String]): String = {
@@ -103,5 +105,5 @@ trait Basis {
   }
 
   def brokenBy(strSet: Set[String]) =
-    basis.filter(tuple => tuple._1.subsetOf(strSet) && !tuple._2.subsetOf(strSet))
+    basis.filter(imp => imp.premise.subsetOf(strSet) && !imp.conclusion.subsetOf(strSet))
 }

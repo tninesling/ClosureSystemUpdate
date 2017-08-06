@@ -9,8 +9,8 @@ trait LoggingBasis extends Basis {
 
   abstract override def update(closedSet: Set[String]) = {
     val affectedSets = basis.filter(imp =>
-      imp._1.subsetOf(closedSet) &&
-      !imp._2.subsetOf(closedSet)
+      imp.premise.subsetOf(closedSet) &&
+      !imp.conclusion.subsetOf(closedSet)
     )
 
     val affectedSize = affectedSets.size

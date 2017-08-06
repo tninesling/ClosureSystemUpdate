@@ -3,20 +3,20 @@ package basis
 class WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
 
   override def update(X: Set[String]) = {
-    var sigma: Set[(Set[String], Set[String])] = Set()
+    var sigma: Set[Implication] = Set()
 
     // Build extended basis
     basis foreach { implication =>
       // implication is A -> B
-      val A = implication._1
-      val B = implication._2
+      val A = implication.premise
+      val B = implication.conclusion
 
       if (!A.subsetOf(X)) {
         sigma = sigma + implication
       } else {
-        sigma = sigma + ((A, B & X))
+        sigma = sigma + (Implication(A, B & X))
         (baseSet &~ X) foreach { y =>
-          sigma = sigma + ((A + y, B))
+          sigma = sigma + (Implication(A + y, B))
         }
       }
     }
@@ -24,13 +24,13 @@ class WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
 
     // Remove unnecessary implications
     sigma foreach { implication => // for each (A -> B)
-      var A = implication._1
-      var B = implication._2
+      var A = implication.premise
+      var B = implication.conclusion
       var Y = A
 
       (basis - implication) foreach { otherImplication =>
-        val C = otherImplication._1
-        val D = otherImplication._2
+        val C = otherImplication.premise
+        val D = otherImplication.conclusion
 
         if (C.subsetOf(A))
           Y = Y | D
@@ -39,23 +39,23 @@ class WildCanonicalDirectBasis extends NaiveCanonicalDirectBasis {
       if (B.subsetOf(Y)) {
         basis = basis - implication
       } else {
-        basis = (basis - implication) + ((A, B | Y))
+        basis = (basis - implication) + (Implication(A, B | Y))
       }
     }
   }
 
   def unitBasis = {
-    val nonRedundant = this.basis.map(t => (t._1, t._2 &~ t._1))
+    val nonRedundant = this.basis.map(t => Implication(t.premise, t.conclusion &~ t.premise))
 
     val restricted = nonRedundant.map { t =>
-      val stronger = (nonRedundant - t).filter(x => x._1.subsetOf(t._1))
-      val strongerConsequents = stronger.map(_._2).flatten
-      (t._1, t._2 &~ strongerConsequents)
+      val stronger = (nonRedundant - t).filter(x => x.premise.subsetOf(t.premise))
+      val strongerConsequents = stronger.map(_.conclusion).flatten
+      Implication(t.premise, t.conclusion &~ strongerConsequents)
     }
 
     for (
       tuple <- restricted;
-      right <- tuple._2
-    ) yield ((tuple._1, Set(right)))
+      right <- tuple.conclusion
+    ) yield (Implication(tuple.premise, Set(right)))
   }
 }

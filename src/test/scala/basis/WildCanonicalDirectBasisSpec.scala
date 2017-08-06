@@ -25,9 +25,9 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     wcdb.basis =
       wcdb.basis
-        .map(_._1)
+        .map(_.premise)
         .map(x =>
-          (x, wcdb.closure(x))
+          Implication(x, wcdb.closure(x))
         )
 
     cdb.update(Set("1", "2", "3"))
@@ -52,9 +52,9 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     wcdb.basis =
       wcdb.basis
-        .map(_._1)
+        .map(_.premise)
         .map(x =>
-          (x, x | wcdb.closure(x))
+          Implication(x, x | wcdb.closure(x))
         )
 
     cdb.update(Set("5"))

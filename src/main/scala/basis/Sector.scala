@@ -44,3 +44,5 @@ case class Sector(baseSet: Set[String], rightSide: Set[String], implications: Se
     Sector(baseSet, rightSide, enrichedImplications)
   }
 }
+
+case class SectorImplication(leftSide: Set[String], skewedDifferences: Set[String])

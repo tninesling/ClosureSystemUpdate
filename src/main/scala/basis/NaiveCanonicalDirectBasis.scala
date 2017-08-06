@@ -5,16 +5,16 @@ class NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
   override def update(closedSet: Set[String]) = {
     val unbroken =
       basis.filter(implication =>
-        !implication._1.subsetOf(closedSet) ||
-        implication._2.subsetOf(closedSet)
+        !implication.premise.subsetOf(closedSet) ||
+        implication.conclusion.subsetOf(closedSet)
       )
 
     val broken = basis &~ unbroken
 
     val newImplications =
       broken.flatMap(implication =>
-        (baseSet &~ (closedSet | implication._2)).map(extension =>
-          (implication._1 + extension, implication._2)
+        (baseSet &~ (closedSet | implication.conclusion)).map(extension =>
+          Implication(implication.premise + extension, implication.conclusion)
         )
       )
 
@@ -28,8 +28,8 @@ class NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
     basis =
       basis.filter(implication =>
         (basis - implication).forall(basisImp =>
-          !(basisImp._1.subsetOf(implication._1) &&
-          basisImp._2.equals(implication._2))
+          !(basisImp.premise.subsetOf(implication.premise) &&
+          basisImp.conclusion.equals(implication.conclusion))
         )
       )
   }

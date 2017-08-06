@@ -16,7 +16,7 @@ class Table {
 
     val cdBasis = new CanonicalDirectBasis
     cdBasis.baseSet = baseSet
-    cdBasis.basis = baseSet.map(baseElement => (Set[String](), Set(baseElement)))
+    cdBasis.basis = baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
 
     cdBasis.buildSectors()
 
@@ -33,7 +33,7 @@ class Table {
 
     val cdBasis = new NaiveCanonicalDirectBasis
     cdBasis.baseSet = baseSet
-    cdBasis.basis = baseSet.map(baseElement => (Set[String](), Set(baseElement)))
+    cdBasis.basis = baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
 
     cdBasis.buildSectors()
 
