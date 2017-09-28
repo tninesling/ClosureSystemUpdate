@@ -1,6 +1,6 @@
 target/
 project/
 output*
-data/
+./data/
 *.xlsx
 .Rproj.user
