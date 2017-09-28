@@ -24,6 +24,24 @@ class CanonicalDirectBasis extends Basis {
     wcdb
   }
 
+  def toDbasis(): DBasis = {
+    val db = new DBasis
+    db.baseSet = this.baseSet
+    db.basis = this.basis
+
+    val binary = this.basis.filter(imp => ((imp.premise.size == 1) && (imp.conclusion.size == 1)))
+    val nonBinary = this.basis &~ binary
+
+    val refined = nonBinary filterNot {imp1 =>
+      (nonBinary - imp1) exists {imp2 =>
+        db.refines(imp2, imp1)
+      }
+    }
+
+    db.basis = binary | refined
+    db
+  }
+
   /** Adds a new closed set to the Moore family represented by the basis.
    *  The only implications that will be removed are ones with left sides that
    *  are subsets of the closed set and right sides not in the closed set.

@@ -6,7 +6,7 @@ lazy val root = project in file(".")
 
 scalaVersion := "2.11.7"
 
-mainClass in (Compile, run) := Some("shep.basis.StatisticsGeneratingExample")
+mainClass in (Compile, run) := Some("basis.StatisticsGeneratingExample")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.6" % "test",

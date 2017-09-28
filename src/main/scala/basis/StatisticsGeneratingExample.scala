@@ -6,13 +6,17 @@ object StatisticsGeneratingExample {
   def main(args: Array[String]) = {
     // Rows, Columns, Total implications, Implications broken, Time taken
 
-    val stats = (1 to 1000).toList.par.map { x =>
+    val stats = /*(1 to 1000)*/(1 to 1).toList.par.map { x =>
       // Randomly generate a table and generate the basis
       val t = generateTable()
       val r = t.reduce()
       val cdb = r.buildCdBasis()
       val ncdb = cdb.toNaiveCdb()
       val wcdb = cdb.toWildCdb()
+      val db = cdb.toDbasis()
+
+      val origcdb = cdb.basis
+      val origdb = db.basis
 
       // Select some new closed set to be added
       val updateKey = selectUpdateKey(r)
@@ -35,18 +39,40 @@ object StatisticsGeneratingExample {
       wcdb.update(updateKey)
       val wcdTime = System.currentTimeMillis() - wcdStart
 
+      val dbStart = System.currentTimeMillis()
+      db.update(updateKey)
+      val dbTime = System.currentTimeMillis() - dbStart
+
       val cEqN = Try(assert(cdb.basisEquals(ncdb)))
       val cEqW = Try(assert(cdb.basisEquals(wcdb.unitBasis)))
+      val cEqD1 = Try(assert(cdb.basisEquals(db.toCdb)))
+      val cEqD2 = Try(assert(db.basisEquals(cdb.toDbasis)))
 
-      (cEqN, cEqW) match {
-        case (Success(a), Success(b)) =>
-          List(r.rows.size, r.columns.size, basisSize, numBroken, cdTime, ncdTime, wcdTime)
-        case (Failure(a), _) => {
-          println("NCDB not equal")
+      (cEqN, cEqW, cEqD1, cEqD2) match {
+        case (Success(a), Success(b), Success(c), Success(d)) =>
+          List(r.rows.size, r.columns.size, basisSize, numBroken, cdTime, ncdTime, wcdTime, dbTime)
+        case (_,_,Failure(e),_) => {
+          println(s"1st Dbasis check wrong by ${((cdb.basis &~ db.toCdb.basis) | (db.toCdb.basis &~ cdb.basis)).size}")
+          t.toCsv
+          println(s"Orig CDB: $origcdb")
+          println(s"Orig DB: $origdb")
+          println(s"Update with $updateKey")
+          println(s"CDB: ${cdb.basis}")
+          println(s"DB: ${db.basis}")
+          println("As CDB")
+          println(s"CDB-DB: ${cdb.basis &~ db.toCdb.basis}")
+          println(s"DB-CDB: ${db.toCdb.basis &~ cdb.basis}")
+          println("As DB")
+          println(s"CDB-DB: ${cdb.toDbasis.basis &~ db.basis}")
+          println(s"DB-CDB: ${db.basis &~ cdb.toDbasis.basis}")
+          Nil
+        }
+        case (_,_,_,Failure(e)) => {
+          println("2nd Dbasis check wrong")
           Nil
         }
         case _ => {
-          println("WCDB not equal")
+          println("Computed basis was not equal")
           Nil
         }
       }
@@ -57,8 +83,8 @@ object StatisticsGeneratingExample {
 
   // Generates a Table object of random size less or equal to 15 x 15
   def generateTable(): Table = {
-    val numRows = generateRandomBetween(10, 15)
-    val numCols = generateRandomBetween(10, 15)
+    val numRows = generateRandomBetween(5,5)//(10, 15)
+    val numCols = generateRandomBetween(5,5)//(10, 15)
 
     val t = new Table()
 

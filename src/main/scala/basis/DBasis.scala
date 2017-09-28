@@ -58,7 +58,7 @@ class DBasis extends Basis {
   // Calculates the ideal of an element in the lattice after partial orders are broken by newSet
   def ideal(a: Set[String], newSet: Set[String]): Set[Set[String]] = {
     val children =
-      (binary &~ brokenImplications(newSet)).filter(imp => imp.premise.equals(a))
+      (binary &~ brokenImplications(newSet)).filter(imp => imp.premise.subsetOf(a))
         .map(_.conclusion)
 
     children.map(child => ideal(child, newSet))
@@ -116,5 +116,24 @@ class DBasis extends Basis {
     }
 
     this.basis = refined
+  }
+
+  def toCdb(): CanonicalDirectBasis = {
+    val cdb = new CanonicalDirectBasis
+    cdb.baseSet = this.baseSet
+
+    // Replace elements that are conclusion of binary imp with the premise of that imp
+    // This generates the elements of the CDB that would have refinements in the D-basis
+    val unrefined = binary flatMap {binImp =>
+      nonBinary filter {nbImp =>
+        binImp.conclusion.subsetOf(nbImp.premise) && !binImp.premise.subsetOf(nbImp.conclusion) // keep if the conclusion of the binary imp is in the premise
+      } map {nbImp =>
+        val newPrem = (nbImp.premise &~ binImp.conclusion) | binImp.premise
+        Implication(newPrem, nbImp.conclusion)
+      }
+    }
+
+    cdb.basis = this.basis | unrefined
+    cdb
   }
 }

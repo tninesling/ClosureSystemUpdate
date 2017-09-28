@@ -88,6 +88,43 @@ class DBasisSpec extends FlatSpec with Matchers {
     (a3DownA &~ yDown) should equal (Set(Set("a2")))
   }
 
+  "The refinement check" should "determine 14->3 refines 15->3" in {
+    val db = new DBasis()
+    db.baseSet = Set("1", "2", "3", "4", "5")
+    db.basis = Set(
+      Implication(Set("5"), Set("4")),
+      Implication(Set("2", "3"), Set("4")),
+      Implication(Set("2", "4"), Set("3")),
+      Implication(Set("3", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("3")),
+      Implication(Set("1", "4"), Set("5")),
+      Implication(Set("2", "5"), Set("1")),
+      Implication(Set("3", "5"), Set("1")),
+      Implication(Set("1", "2", "3"), Set("5"))
+    )
+
+    db.refines(Implication(Set("1", "4"), Set("3")), Implication(Set("1", "5"), Set("3"))) should be (true)
+  }
+  it should "give the right ideal" in {
+    val db = new DBasis()
+    db.baseSet = Set("1", "2", "3", "4", "5")
+    db.basis = Set(
+      Implication(Set("5"), Set("4")),
+      Implication(Set("2", "3"), Set("4")),
+      Implication(Set("2", "4"), Set("3")),
+      Implication(Set("3", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("3")),
+      Implication(Set("1", "4"), Set("5")),
+      Implication(Set("2", "5"), Set("1")),
+      Implication(Set("3", "5"), Set("1")),
+      Implication(Set("1", "2", "3"), Set("5"))
+    )
+
+    db.ideal(Set("5")) should equal (Set(Set("4")))
+  }
+
   "The update method" should "add implications 15 -> 4, 25 -> 4, and 35 -> 4" in {
     val testBasis = new DBasis
     testBasis.baseSet = Set("1", "2", "3", "4", "5")
@@ -154,10 +191,50 @@ class DBasisSpec extends FlatSpec with Matchers {
       Implication(Set("3", "5"), Set("1"))
     )
 
-    println("Update with 123:")
-    println(testBasis.basis &~ updatedBasis)
-    println()
-    println(updatedBasis &~ testBasis.basis)
     testBasis.basis should equal (updatedBasis)
+  }
+
+  "The conversion" should "derive the D-basis from the CDB" in {
+    val cdb = new CanonicalDirectBasis()
+    cdb.fromFile("./src/test/data/example1/basis.txt")
+    cdb.baseSet = Set("1","2","3","4","5")
+
+    val db = cdb.toDbasis
+
+    val expectedDbasis = Set(
+      Implication(Set("5"), Set("4")),
+      Implication(Set("2", "3"), Set("4")),
+      Implication(Set("2", "4"), Set("3")),
+      Implication(Set("3", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("3")),
+      Implication(Set("1", "4"), Set("5")),
+      Implication(Set("2", "5"), Set("1")),
+      Implication(Set("3", "5"), Set("1")),
+      Implication(Set("1", "2", "3"), Set("5"))
+    )
+
+    db.basis should equal (expectedDbasis)
+  }
+  it should "derive the CDB from the D-basis" in {
+    val cdb = new CanonicalDirectBasis()
+    cdb.fromFile("./src/test/data/example1/basis.txt")
+
+    val db = new DBasis()
+    db.baseSet = Set("1", "2", "3", "4", "5")
+    db.basis = Set(
+      Implication(Set("5"), Set("4")),
+      Implication(Set("2", "3"), Set("4")),
+      Implication(Set("2", "4"), Set("3")),
+      Implication(Set("3", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("2")),
+      Implication(Set("1", "4"), Set("3")),
+      Implication(Set("1", "4"), Set("5")),
+      Implication(Set("2", "5"), Set("1")),
+      Implication(Set("3", "5"), Set("1")),
+      Implication(Set("1", "2", "3"), Set("5"))
+    )
+
+    db.toCdb.basis should equal (cdb.basis)
   }
 }
