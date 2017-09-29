@@ -8,7 +8,8 @@ class Table {
   var rows: List[List[Int]] = Nil
 
   def buildCdBasis(): CanonicalDirectBasis = {
-    buildCdBasis(mooreFamily())
+    val family = mooreFamily()
+    buildCdBasis(family)
   }
 
   def buildCdBasis(family: Set[Set[String]]): CanonicalDirectBasis = {
@@ -21,16 +22,16 @@ class Table {
     cdBasis.buildSectors()
 
     family.foreach {closedSet =>
-      //////// Extra print statement ////////
-      println(s"Basis size: ${cdBasis.basis.size}")
       cdBasis.update(closedSet)
     }
 
     cdBasis
   }
 
-  def buildNcdBasis(): NaiveCanonicalDirectBasis =
-    buildNcdBasis(mooreFamily())
+  def buildNcdBasis(): NaiveCanonicalDirectBasis = {
+    val family = mooreFamily()
+    buildNcdBasis(family)
+  }
 
   def buildNcdBasis(family: Set[Set[String]]): NaiveCanonicalDirectBasis = {
     val baseSet = family.flatten

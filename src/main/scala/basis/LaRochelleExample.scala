@@ -5,12 +5,13 @@ object LaRochelleExample {
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val r = t.reduce()
-    println("Table reduced")
 
-    val family = r.mooreFamily()
-    println("Moore family generated")
+    val time1 = System.currentTimeMillis()
+    val cdb = r.buildCdBasis()
+    val timeDif = System.currentTimeMillis() - time1
 
-    val cdb = r.buildCdBasis(family)
+    println(s"Size: ${cdb.basis.size}")
+    println(s"Computed in: ${timeDif} ms\n")
     println(cdb.toString())
   }
 }
