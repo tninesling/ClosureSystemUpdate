@@ -20,7 +20,11 @@ class Table {
 
     cdBasis.buildSectors()
 
-    family.foreach(closedSet => cdBasis.update(closedSet))
+    family.foreach {closedSet =>
+      //////// Extra print statement ////////
+      println(s"Basis size: ${cdBasis.size}")
+      cdBasis.update(closedSet)
+    }
 
     cdBasis
   }
