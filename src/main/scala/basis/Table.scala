@@ -22,7 +22,7 @@ class Table {
 
     family.foreach {closedSet =>
       //////// Extra print statement ////////
-      println(s"Basis size: ${cdBasis.size}")
+      println(s"Basis size: ${cdBasis.basis.size}")
       cdBasis.update(closedSet)
     }
 
