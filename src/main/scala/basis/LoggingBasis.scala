@@ -1,6 +1,5 @@
 package basis
 
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 trait LoggingBasis extends Basis {
@@ -8,10 +7,7 @@ trait LoggingBasis extends Basis {
   val logger = LoggerFactory.getLogger(classOf[LoggingBasis])
 
   abstract override def update(closedSet: Set[String]) = {
-    val affectedSets = basis.filter(imp =>
-      imp.premise.subsetOf(closedSet) &&
-      !imp.conclusion.subsetOf(closedSet)
-    )
+    val affectedSets = this.brokenImplications(closedSet)
 
     val affectedSize = affectedSets.size
     val basisSize = basis.size

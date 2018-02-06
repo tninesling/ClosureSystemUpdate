@@ -1,18 +1,14 @@
 package basis
 
 class DBasis extends Basis {
-  def binary = this.basis.filter(imp => ((imp.premise.size == 1) && (imp.conclusion.size == 1)))
-  def nonBinary = this.basis &~ binary
-
-  def brokenImplications(newSet: Set[String]) =
-      this.basis.filter(imp => imp.premise.subsetOf(newSet) && !imp.conclusion.subsetOf(newSet))
-
-  def unbrokenImplications(newSet: Set[String]) = this.basis &~ brokenImplications(newSet)
 
   // Step 1 in D-basis update section of paper
 
   def targets(newSet: Set[String]): Set[String] =
-    (binary & brokenImplications(newSet)).flatMap(_.conclusion)
+    //(binary & brokenImplications(newSet)).flatMap(_.conclusion)
+    //binary.flatMap(_.conclusion) & newSet
+    binary.filter(imp => imp.premise.subsetOf(newSet) || imp.conclusion.subsetOf(newSet))
+      .flatMap(imp => imp.premise | imp.conclusion)
 
   // Step 2 in D-basis update section of paper
 
@@ -29,10 +25,11 @@ class DBasis extends Basis {
       x
 
   def A_x(x: Set[String], newSet: Set[String]): Set[Set[String]] = {
-    val allPossible =
+    /*val allPossible =
       binary.map(_.premise)
         .filter(_.subsetOf(newSet))
-        .filter(a => greaterThanOrEqualTo(a, x))
+        .filter(a => greaterThanOrEqualTo(a, x))*/
+    val allPossible = binary.filter(imp => x.subsetOf(imp.conclusion)).map(_.premise)
 
     allPossible.filter(a1 =>
       (allPossible &~ Set(a1)).forall(a2 => !(greaterThanOrEqualTo(a1, a2)))
@@ -45,7 +42,7 @@ class DBasis extends Basis {
     else { // some element of C is in the target set
       for {
         removable <- imp.premise & targets(newSet)
-        replacement <- A_x(Set(removable), newSet)
+        replacement <- A_x(Set(removable), newSet) - imp.conclusion
       } yield Implication(((imp.premise - removable) | replacement), imp.conclusion)
     }
   }
@@ -82,11 +79,14 @@ class DBasis extends Basis {
 
   // Step 4
   def upSet(A: Set[String], newSet: Set[String]): Set[Set[String]] =
-    A map (a =>
+    (binary & unbrokenImplications(newSet)).filter(imp =>
+      imp.conclusion.subsetOf(A)//A.exists(a => imp.conclusion.contains(a))
+    ).map(_.premise)
+    /*A map (a =>
       this.baseSet filter (x =>
         greaterThanOrEqualTo(Set(x), Set(a), newSet)
       )
-    )
+    )*/
 
   def minimalElems(A: Set[Set[String]], newSet: Set[String]) =
     A filterNot (a =>
@@ -96,28 +96,49 @@ class DBasis extends Basis {
   def update(newSet: Set[String]) = {
     val broken = brokenImplications(newSet)
     val unbroken = unbrokenImplications(newSet)
-    val lifted = broken flatMap (imp => restrictedAlift(imp, newSet))
+    val T = targets(newSet)
+    val liftable = nonBinary.filter(imp =>
+      T.exists(elem => imp.premise.contains(elem))
+    )
+    val lifted = liftable flatMap (imp => Alift(imp, newSet))
+
+    val brokenLifted = lifted.filter(imp => imp.premise.subsetOf(newSet) && !imp.conclusion.subsetOf(newSet))
+    val unbrokenLifted = lifted &~ brokenLifted
 
     // Perform body building on lifted broken implications
-    val updated = lifted flatMap {imp =>
-      val extensions = this.baseSet &~ (newSet | imp.conclusion | minimalElems(upSet(imp.conclusion, newSet), newSet).flatten)
+    val updated = (broken | brokenLifted) flatMap {imp =>
+      val extensions = this.baseSet &~ (newSet | imp.conclusion | upSet(imp.conclusion | imp.premise, newSet).flatten)
       extensions map (ext =>
         Implication(imp.premise + ext, imp.conclusion)
       )
     }
+/*
+    println(s"Broken: $broken \n")
+    println(s"Unbroken: $unbroken \n")
+    println(s"Liftable: $liftable \n")
+    println(s"Lifted: $lifted \n")
+    println(s"Broken lifted: $brokenLifted \n")
+    println(s"Unbroken lifted: $unbrokenLifted \n")
+    println(s"Update results: $updated \n")
+*/
+    val unrefinedCandidates = updated | unbroken | unbrokenLifted
 
-    val unrefinedCandidates = updated | unbroken
+    // Split candidates into binary and nonbinary since only the nonbinary should
+    // be filtered due to refinements; want to keep transitivities in binary
+    val binaryCandidates = unrefinedCandidates.filter(_.premise.size == 1)
+    val nonBinaryCandidates = unrefinedCandidates &~ binaryCandidates
 
     // Filter out implications which have refinements
-    val refined = unrefinedCandidates filterNot {imp1 =>
+    val refined = nonBinaryCandidates filterNot {imp1 =>
       (unrefinedCandidates - imp1) exists {imp2 =>
         refines(imp2, imp1, newSet)
       }
     }
 
-    this.basis = refined
+    this.basis = binaryCandidates | refined
   }
 
+  /* This is not entirely correct; produces incorrect CDB for some examples */
   def toCdb(): CanonicalDirectBasis = {
     val cdb = new CanonicalDirectBasis
     cdb.baseSet = this.baseSet
@@ -126,7 +147,8 @@ class DBasis extends Basis {
     // This generates the elements of the CDB that would have refinements in the D-basis
     val unrefined = binary flatMap {binImp =>
       nonBinary filter {nbImp =>
-        binImp.conclusion.subsetOf(nbImp.premise) && !binImp.premise.subsetOf(nbImp.conclusion) // keep if the conclusion of the binary imp is in the premise
+        binImp.conclusion.subsetOf(nbImp.premise) &&
+        !binImp.premise.subsetOf(nbImp.conclusion) // keep if the conclusion of the binary imp is in the premise
       } map {nbImp =>
         val newPrem = (nbImp.premise &~ binImp.conclusion) | binImp.premise
         Implication(newPrem, nbImp.conclusion)
@@ -134,6 +156,13 @@ class DBasis extends Basis {
     }
 
     cdb.basis = this.basis | unrefined
+    cdb.basis =
+      cdb.basis.filter(implication =>
+        (cdb.basis - implication).forall(basisImp =>
+          !(basisImp.premise.subsetOf(implication.premise) &&
+          basisImp.conclusion.equals(implication.conclusion))
+        )
+      )
     cdb
   }
 }

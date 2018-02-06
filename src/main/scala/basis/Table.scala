@@ -49,26 +49,8 @@ class Table {
 
   def printFamily() = {
     val family = mooreFamily()
-    val familyLists = family.map(_.toList).toList
-    val familyString = listOfListsToString(familyLists)
-
-    println(s"[${familyString}]")
-  }
-
-  def listOfListsToString(ls: List[List[String]]): String = {
-    ls match {
-      case Nil => ""
-      case ls2::Nil => s"[${listToString(ls2)}]"
-      case ls2::tail => s"[${listToString(ls2)}], ${listOfListsToString(tail)}"
-    }
-  }
-
-  def listToString(ls: List[String]): String = {
-    ls match {
-      case Nil => ""
-      case x::Nil => x
-      case x::tail => s"${x},${listToString(tail)}"
-    }
+    val txt = "[" + family.map(s => s"[${s.mkString(", ")}]").mkString(", ") + "]"
+    println(txt)
   }
 
   def mooreFamily(): Set[Set[String]] = {
@@ -103,7 +85,6 @@ class Table {
     val uniqueClosuresIndexes = uniqueSingletonClosuresTable.uniqueClosures()
     val uniqueClosuresTable = uniqueSingletonClosuresTable.select(uniqueClosuresIndexes)
 
-    //uniqueClosuresTable.reduced = true
     uniqueClosuresTable
   }
 
@@ -177,6 +158,16 @@ class Table {
     }
   }
 
+  def select(columnNames: Set[String]): Table = {
+    val indexes =
+      header.zipWithIndex
+        .filter {
+          case (x,i) => columnNames.contains(x)
+        }.map(_._2)
+
+    this.select(indexes.toList)
+  }
+
   def select(table: List[List[Int]], indexes: List[Int]): List[List[Int]] = {
     indexes match {
       case Nil => List[List[Int]]()
@@ -226,15 +217,8 @@ class Table {
     }
 
   def toCsv = {
-    val headerStr = header.toString
-    println(headerStr.substring(5,headerStr.length - 1))
-    rows.map(row => stringify(row))
-        .foreach(println)
-  }
-
-  def stringify(ls: List[Int]) = {
-    val str = ls.toString
-    str.substring(5, str.length - 1)
+    println(header.mkString(", "))
+    rows.foreach(row => println(row.mkString(", ")))
   }
 
   def apply(index: Int): Table = {
@@ -254,4 +238,19 @@ class Table {
 
     newTable
   }
+
+  def holds(imp: Implication): Boolean = {
+    val premiseCols = this.select(imp.premise)
+    val conclusionCols = this.select(imp.conclusion)
+
+    val premiseBools = allRowsEqual1(premiseCols.columns)
+    val conclusionBools = allRowsEqual1(conclusionCols.columns)
+
+    premiseBools zip conclusionBools forall { case (x,y) => if (x) y else true }
+  }
+
+  def allRowsEqual1(cols: List[List[Int]]): List[Boolean] =
+    cols.map(_.map(_ == 1))
+      .foldLeft(this.rows.map(x => true))((x,y) => x.zip(y).map { case (x,y) => x && y })
+
 }

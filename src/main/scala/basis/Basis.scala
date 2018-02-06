@@ -3,11 +3,25 @@ package basis
 import scala.collection.SortedSet
 import scala.io.Source
 
-case class Implication(premise: Set[String], conclusion: Set[String])
+case class Implication(premise: Set[String], conclusion: Set[String]) {
+  override def toString(): String =
+    s"${premise.mkString(" ")} -> ${conclusion.mkString(" ")}"
+}
 
 trait Basis {
   var baseSet: Set[String] = Set()
   var basis: Set[Implication] = Set()
+
+  // Modifies the basis to include the closed set in its Moore family
+  def update(closedSet: Set[String])
+
+  def brokenImplications(strSet: Set[String]) =
+    this.basis.filter(imp => imp.premise.subsetOf(strSet) && !imp.conclusion.subsetOf(strSet))
+
+  def unbrokenImplications(newSet: Set[String]) = this.basis &~ brokenImplications(newSet)
+
+  def binary = this.basis.filter(imp => ((imp.premise.size == 1) && (imp.conclusion.size == 1)))
+  def nonBinary = this.basis &~ binary
 
   def basisEquals(other: Basis): Boolean =
     this.basis.subsetOf(other.basis) && other.basis.subsetOf(this.basis)
@@ -19,9 +33,6 @@ trait Basis {
     A | basis.filter(_.premise.subsetOf(A))
       .map(_.conclusion)
       .flatten
-
-  // Modifies the basis to include the closed set in its Moore family
-  def update(closedSet: Set[String])
 
   /** Reads the basis for a closure
    *  system. Expects a file formatted as the following:
@@ -51,7 +62,6 @@ trait Basis {
     Implication(left, right)
   }
 
-  ////////// Update to handle sets which have more than one element ////////
   def parseSet(setString: String) =
     setString.split(" ").toSet
 
@@ -80,30 +90,6 @@ trait Basis {
     closedSets
   }
 
-  override def toString(): String = {
-    implicationsToString(basis.toList)
-  }
-
-  def implicationsToString(basis: List[Implication]): String = {
-    basis match {
-      case Nil => ""
-      case imp::Nil => implicationToString(imp)
-      case imp::tail => s"${implicationToString(imp)}, ${implicationsToString(tail)}"
-    }
-  }
-
-  def implicationToString(imp: Implication): String = {
-    s"${listToString(imp.premise.toList)} -> ${listToString(imp.conclusion.toList)}"
-  }
-
-  def listToString(ls: List[String]): String = {
-    ls match {
-      case Nil => ""
-      case x::Nil => x
-      case x::tail => x + " " + listToString(tail)
-    }
-  }
-
-  def brokenBy(strSet: Set[String]) =
-    basis.filter(imp => imp.premise.subsetOf(strSet) && !imp.conclusion.subsetOf(strSet))
+  override def toString(): String =
+    basis.mkString(", ")
 }

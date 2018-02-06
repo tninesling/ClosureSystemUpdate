@@ -29,16 +29,13 @@ class CanonicalDirectBasis extends Basis {
     db.baseSet = this.baseSet
     db.basis = this.basis
 
-    val binary = this.basis.filter(imp => ((imp.premise.size == 1) && (imp.conclusion.size == 1)))
-    val nonBinary = this.basis &~ binary
-
-    val refined = nonBinary filterNot {imp1 =>
+    val refined = this.nonBinary filterNot {imp1 =>
       (nonBinary - imp1) exists {imp2 =>
         db.refines(imp2, imp1)
       }
     }
 
-    db.basis = binary | refined
+    db.basis = this.binary | refined
     db
   }
 

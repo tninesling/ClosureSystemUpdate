@@ -1,0 +1,23 @@
+626 implications found in LaRochelle version but not in mine
+
+186 of them have 8 in the premise (8 should be removed since 7 and 8 are equivalent)
+37 of these 186 have 7 as a conclusion (Can remove since 7 is now in premise instead of 8)
+Replacing all 8s with 7s gives us 149 unique implications
+38 of these are not in the CD-basis (These all have a stronger implications already in basis; should be reduced)
+
+440 do not have 8 in premise
+Replacing conclusions of 8 with 7 leaves us with 376 unique implications
+16 of these already have 7 in premise so we have 360 left
+16 of those (after replacement) are already in CD-basis; 344 left
+The remaining 344 all have stronger implications in CD-basis and should be reduced
+
+Result: All 626 implications accounted for
+
+
+635 implications found in my basis but not in LaRochelle's
+
+For all X -> d, d is not in Cl(X)
+All 635 implications hold in the table, thus they should be included
+
+Binary implications missing which hold in table:
+4 -> 7, 5 -> 16, 2 -> 1, 17 -> 18, 5 -> 7, 18 -> 16, 9 -> 10, 12 -> 7, 19 -> 7, 3 -> 10, 12 -> 4, 17 -> 16, 9 -> 11

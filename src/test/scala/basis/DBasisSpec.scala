@@ -5,6 +5,62 @@ import org.scalatest.Matchers
 
 class DBasisSpec extends FlatSpec with Matchers {
 
+  "Edge case 3" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(1,0,1,0,1), List(1,1,1,1,1), List(0,1,0,1,0), List(1,0,0,0,0), List(0,0,1,0,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    val updateSet = Set("5")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+
+  "Edge case 2" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(0,0,1,0,0), List(0,0,1,1,1), List(1,1,0,0,0), List(1,0,1,1,1), List(0,1,1,1,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    val updateSet = Set("2", "3", "4")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+  "Edge case 1" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(0,0,0,0,1), List(1,1,1,1,0), List(1,0,1,1,0), List(0,1,1,1,0), List(0,1,1,0,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    val updateSet = Set("1", "2")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+/*
   "The set of targets" should "be {x,y}" in {
     val testBasis = new DBasis
     testBasis.baseSet = Set("x", "y", "d", "a1", "a2")
@@ -68,6 +124,7 @@ class DBasisSpec extends FlatSpec with Matchers {
 
     testBasis.Alift(Implication(Set("2", "5"), Set("1")), newSet) should equal (Set(Implication(Set("2", "5"), Set("1"))))
   }
+*/
 
   // Example 4.3
   "The set difference of ideals" should "be a2" in {
@@ -156,6 +213,10 @@ class DBasisSpec extends FlatSpec with Matchers {
       Implication(Set("1", "4"), Set("5")),
       Implication(Set("2", "5"), Set("1")),
       Implication(Set("3", "5"), Set("1")),
+      Implication(Set("1", "5"), Set("2")),
+      Implication(Set("3", "5"), Set("2")),
+      Implication(Set("1", "5"), Set("3")),
+      Implication(Set("2", "5"), Set("3")),
       Implication(Set("1", "2", "3"), Set("5"))
     )
 
@@ -237,4 +298,5 @@ class DBasisSpec extends FlatSpec with Matchers {
 
     db.toCdb.basis should equal (cdb.basis)
   }
+
 }
