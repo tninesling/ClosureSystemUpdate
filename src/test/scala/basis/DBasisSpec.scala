@@ -5,60 +5,6 @@ import org.scalatest.Matchers
 
 class DBasisSpec extends FlatSpec with Matchers {
 
-  "Edge case 3" should "be compared correctly" in {
-    val t = new Table
-    t.columns = List(List(1,0,1,0,1), List(1,1,1,1,1), List(0,1,0,1,0), List(1,0,0,0,0), List(0,0,1,0,0))
-    t.header = List("1", "2", "3", "4", "5")
-    t.rows = t.transpose(t.columns)
-    val r = t.reduce
-
-    val cdb = r.buildCdBasis()
-    val db = cdb.toDbasis()
-    val updateSet = Set("5")
-
-    cdb.update(updateSet)
-    db.update(updateSet)
-
-    cdb.toDbasis.basis should equal (db.basis)
-    db.toCdb.basis should equal (cdb.basis)
-  }
-
-
-  "Edge case 2" should "be compared correctly" in {
-    val t = new Table
-    t.columns = List(List(0,0,1,0,0), List(0,0,1,1,1), List(1,1,0,0,0), List(1,0,1,1,1), List(0,1,1,1,0))
-    t.header = List("1", "2", "3", "4", "5")
-    t.rows = t.transpose(t.columns)
-    val r = t.reduce
-
-    val cdb = r.buildCdBasis()
-    val db = cdb.toDbasis()
-    val updateSet = Set("2", "3", "4")
-
-    cdb.update(updateSet)
-    db.update(updateSet)
-
-    cdb.toDbasis.basis should equal (db.basis)
-    db.toCdb.basis should equal (cdb.basis)
-  }
-
-  "Edge case 1" should "be compared correctly" in {
-    val t = new Table
-    t.columns = List(List(0,0,0,0,1), List(1,1,1,1,0), List(1,0,1,1,0), List(0,1,1,1,0), List(0,1,1,0,0))
-    t.header = List("1", "2", "3", "4", "5")
-    t.rows = t.transpose(t.columns)
-    val r = t.reduce
-
-    val cdb = r.buildCdBasis()
-    val db = cdb.toDbasis()
-    val updateSet = Set("1", "2")
-
-    cdb.update(updateSet)
-    db.update(updateSet)
-
-    cdb.toDbasis.basis should equal (db.basis)
-    db.toCdb.basis should equal (cdb.basis)
-  }
 
 /*
   "The set of targets" should "be {x,y}" in {
@@ -129,20 +75,20 @@ class DBasisSpec extends FlatSpec with Matchers {
   // Example 4.3
   "The set difference of ideals" should "be a2" in {
     val testBasis = new DBasis
-    testBasis.baseSet = Set("x", "y", "d", "a1", "a2", "a3")
+    testBasis.baseSet = Set("x", "y", "d", "a", "a'", "a_y")
     testBasis.basis = Set(
-      Implication(Set("a1"), Set("x")),
+      Implication(Set("a"), Set("x")),
       Implication(Set("x", "y"), Set("d")),
-      Implication(Set("a3"), Set("y")),
-      Implication(Set("a3"), Set("a2")),
-      Implication(Set("x", "a2"), Set("d"))
+      Implication(Set("a_y"), Set("y")),
+      Implication(Set("a_y"), Set("a'")),
+      Implication(Set("x", "a'"), Set("d"))
     )
-    val newSet = Set("a1", "a2", "a3")
+    val newSet = Set("a", "a'", "a_y")
 
-    val a3DownA = testBasis.ideal(Set("a3"), newSet)
-    val yDown = testBasis.ideal(Set("y"))
+    val ideal1 = testBasis.ideal(Set("a_y"), newSet)
+    val ideal2 = testBasis.ideal(Set("y"))
 
-    (a3DownA &~ yDown) should equal (Set(Set("a2")))
+    (ideal1 &~ ideal2) should equal (Set("a_y", "a'"))
   }
 
   "The refinement check" should "determine 14->3 refines 15->3" in {
@@ -179,7 +125,7 @@ class DBasisSpec extends FlatSpec with Matchers {
       Implication(Set("1", "2", "3"), Set("5"))
     )
 
-    db.ideal(Set("5")) should equal (Set(Set("4")))
+    db.ideal(Set("5")) should equal (Set("4", "5"))
   }
 
   "The update method" should "add implications 15 -> 4, 25 -> 4, and 35 -> 4" in {
@@ -296,6 +242,61 @@ class DBasisSpec extends FlatSpec with Matchers {
       Implication(Set("1", "2", "3"), Set("5"))
     )
 
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+  "Edge case 1" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(0,0,0,0,1), List(1,1,1,1,0), List(1,0,1,1,0), List(0,1,1,1,0), List(0,1,1,0,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    println(db.targets(Set("2", "1")))
+    val updateSet = Set("1", "2")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+  "Edge case 2" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(0,0,1,0,0), List(0,0,1,1,1), List(1,1,0,0,0), List(1,0,1,1,1), List(0,1,1,1,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    val updateSet = Set("2", "3", "4")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
+    db.toCdb.basis should equal (cdb.basis)
+  }
+
+  "Edge case 3" should "be compared correctly" in {
+    val t = new Table
+    t.columns = List(List(1,0,1,0,1), List(1,1,1,1,1), List(0,1,0,1,0), List(1,0,0,0,0), List(0,0,1,0,0))
+    t.header = List("1", "2", "3", "4", "5")
+    t.rows = t.transpose(t.columns)
+    val r = t.reduce
+
+    val cdb = r.buildCdBasis()
+    val db = cdb.toDbasis()
+    val updateSet = Set("5")
+
+    cdb.update(updateSet)
+    db.update(updateSet)
+
+    cdb.toDbasis.basis should equal (db.basis)
     db.toCdb.basis should equal (cdb.basis)
   }
 

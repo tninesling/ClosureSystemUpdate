@@ -34,9 +34,6 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
     ncdb.update(Set("1", "2", "3"))
     wcdb.update(Set("1", "2", "3"))
 
-    val c = cdb.basis &~ wcdb.unitBasis
-    val w = wcdb.unitBasis &~ cdb.basis
-
     ncdb.basisEquals(wcdb.unitBasis) shouldBe true
     cdb.basisEquals(wcdb.unitBasis) shouldBe true
   }
@@ -61,11 +58,7 @@ class WildCanonicalDirectBasisSpec extends FlatSpec with Matchers {
     ncdb.update(Set("5"))
     wcdb.update(Set("5"))
 
-    val c = cdb.basis &~ wcdb.unitBasis
-    val w = wcdb.unitBasis &~ cdb.basis
-
     ncdb.basis should equal (wcdb.unitBasis)
-
     cdb.basis should equal (wcdb.unitBasis)
   }
 

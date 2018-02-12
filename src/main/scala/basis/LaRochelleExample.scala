@@ -5,15 +5,18 @@ object LaRochelleExample {
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val r = t.reduce()
-    r
-/*
+
     val time1 = System.currentTimeMillis()
-    val cdb = r.buildCdBasis()
+    val db = r.buildDBasis()
     val timeDif = System.currentTimeMillis() - time1
 
-    println(s"Size: ${cdb.basis.size}")
+    println(s"Size: ${db.basis.size}")
     println(s"Computed in: ${timeDif} ms\n")
-    println(cdb.toString())
-    */
+
+    val target = new DBasis
+    target.fromFile("./src/test/data/example3/FormattedTargetDbasis.txt")
+
+    assert(db.basisEquals(target))
+
   }
 }

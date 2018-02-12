@@ -7,6 +7,22 @@ class Table {
   var columns: List[List[Int]] = Nil
   var rows: List[List[Int]] = Nil
 
+  def buildDBasis(): DBasis = {
+    val family = mooreFamily()
+    println(s"Family size: ${family.size}")
+
+    val dBasis = new DBasis
+    dBasis.baseSet = family.flatten
+    dBasis.basis = dBasis.baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
+
+    family foreach { x =>
+      dBasis.update(x)
+      println(s"Basis updated with $x")
+    }
+
+    dBasis
+  }
+
   def buildCdBasis(): CanonicalDirectBasis = {
     val family = mooreFamily()
     buildCdBasis(family)
@@ -21,9 +37,7 @@ class Table {
 
     cdBasis.buildSectors()
 
-    family.foreach {closedSet =>
-      cdBasis.update(closedSet)
-    }
+    family foreach cdBasis.update
 
     cdBasis
   }
@@ -42,7 +56,7 @@ class Table {
 
     cdBasis.buildSectors()
 
-    family.foreach(closedSet => cdBasis.update(closedSet))
+    family foreach cdBasis.update
 
     cdBasis
   }
@@ -91,7 +105,7 @@ class Table {
   // Returns indexes of non-constant columns
   def nonConstant(): List[Int] = {
     val filteredCols = columns.zipWithIndex filter { tuple: (List[Int], Int) =>
-      val colSum = tuple._1.foldLeft(0)((x,y) => x + y)
+      val colSum = tuple._1.foldLeft(0)(_ + _)
       (colSum > 0) && (colSum < tuple._1.size)
     }
     filteredCols.map(_._2)
