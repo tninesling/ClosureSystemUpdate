@@ -6,7 +6,7 @@ object StatisticsGeneratingExample {
   def main(args: Array[String]) = {
     // Rows, Columns, Total implications, Implications broken, Time taken
 
-    val stats = /*(1 to 1000).toList.par.map*/ (1 to 50).toList.map { x =>
+    val stats = (1 to 100).toList.map{x=>// (1 to 50).toList.map { x =>
       // Randomly generate a table and generate the basis
       val t = generateTable()
       val r = t.reduce()
@@ -77,8 +77,8 @@ object StatisticsGeneratingExample {
 
   // Generates a Table object of random size less or equal to 15 x 15
   def generateTable(): Table = {
-    val numRows = generateRandomBetween(5,7)//(10, 15)
-    val numCols = generateRandomBetween(5,7)//(10, 15)
+    val numRows = generateRandomBetween(5, 10)
+    val numCols = generateRandomBetween(5, 10)
 
     val t = new Table()
 

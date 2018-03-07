@@ -11,11 +11,32 @@ class TableSpec extends FlatSpec with Matchers {
   testTable.rows = testTable.transpose(columns)
 
   "The nonConstant function" should "return 3 non-constant columns" in {
-    testTable.nonConstant().size shouldBe 3
+    testTable.nonConstant.columns.size shouldBe 3
+  }
+  it should "store equivalences x -> a for all columns x" in {
+    testTable.nonConstant.equivalences should equal (Set(Implication(Set("b"), Set("a")), Implication(Set("c"), Set("a")), Implication(Set("d"), Set("a"))))
+  }
+  it should "store equivalences x -> 6 for all columns x" in {
+    val t = new Table()
+    t.fromFile("./src/test/data/example3/larochelle.csv")
+    val nc = t.nonConstant
+
+    val allEquivalentToSix: Set[Implication] =
+      (1 to 22).toList
+        .filterNot(_ == 6)
+        .map(x => Implication(Set(x.toString), Set("6")))
+        .toSet
+
+    nc.equivalences should equal (allEquivalentToSix)
   }
 
   "The uniqueSingletonClosures function" should "return 3 columns with unique singleton closures" in {
-    testTable.uniqueSingletonClosures().size shouldBe 3
+    testTable.uniqueSingletonClosures.columns.size shouldBe 3
+  }
+  it should "return a table with the equivalence 7 <-> 8" in {
+    val t = new Table()
+    t.fromFile("./src/test/data/example3/larochelle.csv")
+    t.uniqueSingletonClosures.equivalences should equal (Set(Implication(Set("7"), Set("8")), Implication(Set("8"), Set("7"))))
   }
 
   "The closure function" should "return column 0 for column 0" in {
@@ -56,6 +77,28 @@ class TableSpec extends FlatSpec with Matchers {
   "The reduce function" should "alter the table to reduced form of 2 columns" in {
     val reducedTestTable = testTable.reduce()
     reducedTestTable.columns.size shouldBe 2
+  }
+  it should "track the equivalences x -> a for all x and b <-> d" in {
+    val r = testTable.reduce()
+    val allImplyA = Set("b", "c", "d").map(x => Implication(Set(x), Set("a")))
+    val cEquivToD = Set(Implication(Set("b"), Set("d")), Implication(Set("d"), Set("b")))
+
+    r.equivalences should equal(allImplyA | cEquivToD)
+  }
+  it should "track the equivalences x -> 6 for all x and 7 <-> 8" in {
+    val t = new Table
+    t.fromFile("./src/test/data/example3/larochelle.csv")
+    val r = t.reduce()
+
+    val allEquivalentToSix: Set[Implication] =
+      (1 to 22).toList
+        .filterNot(_ == 6)
+        .map(x => Implication(Set(x.toString), Set("6")))
+        .toSet
+
+    val sevenEquivalentToEight = Set(Implication(Set("7"), Set("8")), Implication(Set("8"), Set("7")))
+
+    r.equivalences should equal (allEquivalentToSix | sevenEquivalentToEight)
   }
 
   "The table" should "have the correct column labels" in {
@@ -101,5 +144,16 @@ class TableSpec extends FlatSpec with Matchers {
     correctBasis.fromFile("./src/test/data/example2/basis.txt")
 
     generatedBasis.basis should equal(correctBasis.basis)
+  }
+  it should "store the correct equivalences" in {
+    println("My test")
+    val r = testTable.reduce()
+    val cdb = r.buildCdBasis()
+
+    val allImplyA = Set("b", "c", "d").map(x => Implication(Set(x), Set("a")))
+    val cEquivToD = Set(Implication(Set("b"), Set("d")), Implication(Set("d"), Set("b")))
+
+    r.equivalences should equal(allImplyA | cEquivToD)
+    cdb.equivalences should equal (allImplyA | cEquivToD)
   }
 }

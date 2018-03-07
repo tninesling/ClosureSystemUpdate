@@ -14,15 +14,4 @@ class NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
 
     removeWeakImplications()
   }
-
-  // Remove implications from the basis which are weaker than existing implications
-  def removeWeakImplications() = {
-    basis =
-      basis.filter(implication =>
-        (basis - implication).forall(basisImp =>
-          !(basisImp.premise.subsetOf(implication.premise) &&
-          basisImp.conclusion.equals(implication.conclusion))
-        )
-      )
-  }
 }
