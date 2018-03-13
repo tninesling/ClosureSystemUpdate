@@ -14,20 +14,14 @@ class TableSpec extends FlatSpec with Matchers {
     testTable.nonConstant.columns.size shouldBe 3
   }
   it should "store equivalences x -> a for all columns x" in {
-    testTable.nonConstant.equivalences should equal (Set(Implication(Set("b"), Set("a")), Implication(Set("c"), Set("a")), Implication(Set("d"), Set("a"))))
+    testTable.nonConstant.equivalences should equal (Set[Equivalence](AllEquivalence(Set("a"))))
   }
   it should "store equivalences x -> 6 for all columns x" in {
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val nc = t.nonConstant
 
-    val allEquivalentToSix: Set[Implication] =
-      (1 to 22).toList
-        .filterNot(_ == 6)
-        .map(x => Implication(Set(x.toString), Set("6")))
-        .toSet
-
-    nc.equivalences should equal (allEquivalentToSix)
+    nc.equivalences should equal (Set[Equivalence](AllEquivalence(Set("6"))))
   }
 
   "The uniqueSingletonClosures function" should "return 3 columns with unique singleton closures" in {
@@ -36,7 +30,7 @@ class TableSpec extends FlatSpec with Matchers {
   it should "return a table with the equivalence 7 <-> 8" in {
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
-    t.uniqueSingletonClosures.equivalences should equal (Set(Implication(Set("7"), Set("8")), Implication(Set("8"), Set("7"))))
+    t.uniqueSingletonClosures.equivalences should equal (Set[Equivalence](BinaryEquivalence(Set("7"), Set("8"))))
   }
 
   "The closure function" should "return column 0 for column 0" in {
@@ -80,8 +74,8 @@ class TableSpec extends FlatSpec with Matchers {
   }
   it should "track the equivalences x -> a for all x and b <-> d" in {
     val r = testTable.reduce()
-    val allImplyA = Set("b", "c", "d").map(x => Implication(Set(x), Set("a")))
-    val cEquivToD = Set(Implication(Set("b"), Set("d")), Implication(Set("d"), Set("b")))
+    val allImplyA = Set[Equivalence](AllEquivalence(Set("a")))
+    val cEquivToD = Set[Equivalence](BinaryEquivalence(Set("b"), Set("d")))
 
     r.equivalences should equal(allImplyA | cEquivToD)
   }
@@ -90,13 +84,9 @@ class TableSpec extends FlatSpec with Matchers {
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val r = t.reduce()
 
-    val allEquivalentToSix: Set[Implication] =
-      (1 to 22).toList
-        .filterNot(_ == 6)
-        .map(x => Implication(Set(x.toString), Set("6")))
-        .toSet
+    val allEquivalentToSix = Set[Equivalence](AllEquivalence(Set("6")))
 
-    val sevenEquivalentToEight = Set(Implication(Set("7"), Set("8")), Implication(Set("8"), Set("7")))
+    val sevenEquivalentToEight = Set[Equivalence](BinaryEquivalence(Set("7"), Set("8")))
 
     r.equivalences should equal (allEquivalentToSix | sevenEquivalentToEight)
   }
@@ -150,8 +140,8 @@ class TableSpec extends FlatSpec with Matchers {
     val r = testTable.reduce()
     val cdb = r.buildCdBasis()
 
-    val allImplyA = Set("b", "c", "d").map(x => Implication(Set(x), Set("a")))
-    val cEquivToD = Set(Implication(Set("b"), Set("d")), Implication(Set("d"), Set("b")))
+    val allImplyA = Set[Equivalence](AllEquivalence(Set("a")))
+    val cEquivToD = Set[Equivalence](BinaryEquivalence(Set("b"), Set("d")))
 
     r.equivalences should equal(allImplyA | cEquivToD)
     cdb.equivalences should equal (allImplyA | cEquivToD)

@@ -6,7 +6,7 @@ class Table {
   var header = List.empty[String]
   var columns = List.empty[List[Int]]
   var rows = List.empty[List[Int]]
-  var equivalences = Set.empty[Implication]
+  var equivalences = Set.empty[Equivalence]
   var previousTable: Option[Table] = None
 
 
@@ -28,17 +28,13 @@ class Table {
   def nonConstant(): Table = {
     val colSums = columns.map(col => col.tail.foldLeft(col.head)(_ + _))
     var nonConstantCols = List.empty[Int]
-    var newEquivalences = Set.empty[Implication]
+    var newEquivalences = Set.empty[Equivalence]
 
     colSums.zipWithIndex.foreach { case (colSum, ind) =>
       if (colSum == this.rows.size) {
         // If col x is all ones, we add y -> x for all y
         val colHeader = this.header(ind)
-        /*val newImps = (this.header.toSet - colHeader).map(prem =>
-          Implication(Set(prem), Set(colHeader))
-        )*/
-        val newImps = Set(Implication(Set(""), Set(colHeader)))
-        newEquivalences = newEquivalences | newImps
+        newEquivalences = newEquivalences + AllEquivalence(Set(colHeader))
       } else {
         nonConstantCols = nonConstantCols :+ ind
       }
@@ -53,7 +49,7 @@ class Table {
   def uniqueSingletonClosures(): Table = {
     val indices = (0 to this.header.size - 1).toList
     val closures = indices.map(x => closure(Set(x)))
-    var newEquivalences = Set.empty[Implication]
+    var newEquivalences = Set.empty[Equivalence]
 
     val uniqueIndices = indices.filterNot { i =>
       indices.filter(_ < i).exists { j =>
@@ -61,8 +57,7 @@ class Table {
         if (isDuplicate) {
           val hi = this.header(i)
           val hj = this.header(j)
-          val newImps = Set(Implication(Set(hi), Set(hj)), Implication(Set(hj), Set(hi)))
-          newEquivalences = newEquivalences | newImps
+          newEquivalences = newEquivalences + BinaryEquivalence(Set(hi), Set(hj))
         }
         isDuplicate
       }
@@ -75,7 +70,7 @@ class Table {
 
   // Removes column y if closure(y) == closure(closure(y)/y)
   def uniqueClosures(): Table = {
-    var newEquivalences = Set.empty[Implication]
+    var newEquivalences = Set.empty[Equivalence]
 
     val indices = (0 to this.header.size - 1).toList.filterNot { i =>
       val y = Set(i)
@@ -87,7 +82,7 @@ class Table {
         val h1 = Set(header(i))
         val h2 = (closureOfThis &~ y).map(x => header(x))
 
-        newEquivalences = newEquivalences | Set(Implication(h1, h2), Implication(h2, h1))
+        newEquivalences = newEquivalences + NonbinaryEquivalence(h1, h2)
       }
       reduceable
     }
@@ -103,11 +98,15 @@ class Table {
 
     val dBasis = new DBasis
     dBasis.baseSet = family.flatten
-    dBasis.basis = dBasis.baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
+    dBasis.equivalences = dBasis.baseSet.map(x => AllEquivalence(Set(x)))
+    dBasis.basis = Set.empty[Implication]/*dBasis.baseSet.map(baseElement =>
+      Implication(Set.empty[String], Set(baseElement))
+    )*/
 
     family foreach { x =>
       dBasis.update(x)
       //println(s"Basis updated with $x")
+      //println(dBasis)
     }
     dBasis.equivalences = this.equivalences
 
@@ -124,7 +123,8 @@ class Table {
 
     val cdBasis = new CanonicalDirectBasis
     cdBasis.baseSet = baseSet
-    cdBasis.basis = baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
+    cdBasis.equivalences = baseSet.map(x => AllEquivalence(Set(x)))
+    cdBasis.basis = Set.empty[Implication]//baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
     cdBasis.buildSectors()
 
     family.foreach{ x =>
@@ -270,6 +270,11 @@ class Table {
         }.toList
       }
     }
+
+  override def toString(): String = {
+    val ls = header.mkString(", ") :: rows.map(_.mkString(", "))
+    ls.mkString("\n")
+  }
 
   def toCsv = {
     println(header.mkString(", "))

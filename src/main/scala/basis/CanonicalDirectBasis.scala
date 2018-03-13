@@ -27,6 +27,33 @@ class CanonicalDirectBasis extends Basis {
     basis = sectorsToBasis()
   }
 
+  override def handleEquivalence(newSet: Set[String])(e: Equivalence): Unit = {
+    e match {
+      case BinaryEquivalence(x, y) => {
+        val expanded = e.expand(this.baseSet)
+
+        val premOfBroken = newSet.intersect(x | y)
+        val concOfBroken = (x | y) &~ newSet
+
+        val replaceable = this.basis.filter(imp => premOfBroken.subsetOf(imp.premise))
+
+        val additionalImps =
+          replaceable.map { case Implication(left, right) =>
+            Implication(left.diff(premOfBroken).union(concOfBroken), right)
+          }
+
+        this.basis = this.basis | additionalImps + Implication(concOfBroken, premOfBroken)
+      }
+      case AllEquivalence(y) => {
+        this.baseSet = this.baseSet | y
+        this.basis = this.basis | e.expand(this.baseSet)
+      }
+      case NonbinaryEquivalence(_,_) => {
+        this.basis = this.basis | e.expand(this.baseSet)
+      }
+    }
+  }
+/*
   override def handleBinaryEquivalences(newSet: Set[String]) = {
     super.handleBinaryEquivalences(newSet)
 
@@ -48,7 +75,7 @@ class CanonicalDirectBasis extends Basis {
     }
 
     this.basis = this.basis | binaryUnbrokenEquivs | replacedImps
-  }
+  }*/
 
   /**
    *  Removes a meet irreducible element from the corresponding lattice.
@@ -161,12 +188,13 @@ class CanonicalDirectBasis extends Basis {
   def toDbasis(): DBasis = {
     val db = new DBasis
     db.copy(this)
-
+/*
     val refined = this.nonBinary filterNot {imp1 =>
       (nonBinary - imp1) exists {imp2 =>
         db.refines(binary, imp2, imp1)
       }
-    }
+    }*/
+    val refined = db.filterRefinements(this.binary, this.nonBinary, this.nonBinary)
 
     db.basis = this.binary | refined
     db

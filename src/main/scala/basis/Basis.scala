@@ -6,61 +6,20 @@ import scala.io.Source
 trait Basis {
   var baseSet = Set.empty[String]
   var basis = Set.empty[Implication]
-  var equivalences = Set.empty[Implication]
+  var equivalences = Set.empty[Equivalence]
   var closedSets = Set.empty[Set[String]]
+
+  def handleEquivalence(newSet: Set[String])(e: Equivalence): Unit
 
   // Handler for equivalences in the table which need to be evaluated before update
   def handleEquivalences(newSet: Set[String]) = {
-    handleBinaryEquivalences(newSet)
-    handleNonbinaryEquivalences(newSet)
+    val affected = this.equivalences.filterNot(_.holdsOn(newSet))
+    affected.foreach(handleEquivalence(newSet))
 
     // Remove the affected equivalences from our tracked equivalences
     // since they no longer hold on the table
-    this.equivalences = this.equivalences &~ this.affectedEquivalences(newSet)
+    this.equivalences = this.equivalences &~ affected
   }
-
-  /**
-   * Equivalences x -> y for all x must be removed; these are stored with empty string
-   * in premise. All other binary equivalences must be handled independently by
-   * subclasses
-   */
-  def handleBinaryEquivalences(newSet: Set[String]) = {
-    val equivs = this.equivalences.filter(_.premise.equals(Set("")))
-    val newImps = for {
-      eq <- equivs
-      prem <- this.baseSet &~ eq.conclusion
-    } yield Implication(Set(prem), eq.conclusion)
-    
-    this.baseSet = this.baseSet | newImps.flatMap(_.conclusion) // breaking x -> y is equivalent to adding y back to table
-    this.basis = this.basis | newImps
-    this.equivalences = this.equivalences &~ equivs
-  }
-
-  def handleNonbinaryEquivalences(newSet: Set[String]) = {
-    val nonbinaryEquivs =
-      this.affectedEquivalences(newSet).filter(x =>
-        (x.premise.size > 1) || (x.conclusion.size > 1)
-      )
-
-    val goodEquivs = nonbinaryEquivs.filter(_.holdsOn(newSet))
-    val badEquivs = nonbinaryEquivs.filterNot(_.holdsOn(newSet))
-
-    val expandedEquivs = for {
-      imp <- badEquivs
-      x <- imp.premise
-      y <- imp.conclusion
-    } yield Implication(Set(x), Set(y))
-
-    this.basis = this.basis | goodEquivs | expandedEquivs
-  }
-
-  def affectedEquivalences(newSet: Set[String]) =
-    this.equivalences.filter(x =>
-      x.premise
-        .union(x.conclusion)
-        .intersect(newSet)
-        .nonEmpty
-    )
 
   // Modifies the basis to include the new closed set in its Moore family
   def update(newSet: Set[String]) = {

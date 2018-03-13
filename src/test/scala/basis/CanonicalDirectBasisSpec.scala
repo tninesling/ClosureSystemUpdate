@@ -83,7 +83,6 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
     val r2 = t2.reduce()
 
     val cdb = r2.buildCdBasis()
-    cdb.handleEquivalences(Set("5"))
     cdb.update(Set("5"))
 
     cdb.basis should equal (target.basis)
@@ -123,7 +122,7 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     val target = new CanonicalDirectBasis
     target.fromFile("./src/test/data/example1/basis.txt")
-  
+
     cdb.basis should equal (target.basis)
   }
   it should "properly remove the meet irreducible element m_1 m_2" in {
