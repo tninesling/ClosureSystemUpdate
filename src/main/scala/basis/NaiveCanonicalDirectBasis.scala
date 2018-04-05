@@ -2,15 +2,14 @@ package basis
 
 class NaiveCanonicalDirectBasis extends CanonicalDirectBasis {
 
-  override def update(closedSet: Set[String]) = {
+  override def update(newSet: Set[String]) = {
     val newImplications =
-      brokenImplications(closedSet).flatMap(implication =>
-        (baseSet &~ (closedSet | implication.conclusion)).map(extension =>
-          Implication(implication.premise + extension, implication.conclusion)
-        )
-      )
-
-    basis = unbrokenImplications(closedSet) | newImplications
+      for {
+        implication <- brokenImplications(newSet)
+        extension <- baseSet.diff(newSet | implication.conclusion)
+      } yield Implication(implication.premise + extension, implication.conclusion)
+      
+    basis = unbrokenImplications(newSet) | newImplications
 
     removeWeakImplications()
   }

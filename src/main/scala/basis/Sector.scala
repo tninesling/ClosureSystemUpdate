@@ -12,7 +12,6 @@ case class Sector(
     // The implications which are broken have left sides which are subsets
     // of the new closed set and a right side not in the closed set
     val brokenImplications = implications.filter(_.leftSide.subsetOf(closedSet))
-
     val validImplications = implications &~ brokenImplications
 
     val extensions =
