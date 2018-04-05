@@ -1,7 +1,10 @@
-package basis
+package examples
+
+import basis._
 
 object LaRochelleExample {
   def main(args: Array[String]) = {
+    /*
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val r = t.reduce()
@@ -27,6 +30,7 @@ object LaRochelleExample {
 
     val allHold = extra.filterNot(x => r.holds(x))
     println(allHold.size)
+    */
     /*
     val binaryCheck = target.binary &~ db.binary
     println(s"binMissing: ${binaryCheck.size}")

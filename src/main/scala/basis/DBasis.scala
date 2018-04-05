@@ -50,69 +50,6 @@ class DBasis extends Basis {
     this.basis = filteredUpdatedAndLifted | unbroken
   }
 
-  override def handleBinaryEquivalences(newSet: Set[String]) = {
-    super.handleBinaryEquivalences(newSet)
-    
-    val affectedBinaryEquivs =
-      this.affectedEquivalences(newSet).filter(x =>
-        (x.premise.size == 1) && (x.conclusion.size == 1)
-      )
-    val binaryUnbrokenEquivs = affectedBinaryEquivs.filter(_.holdsOn(newSet))
-    val binaryBrokenEquivs = affectedBinaryEquivs.filterNot(_.holdsOn(newSet))
-
-    // For the unbroken binary parts, simply add them to the basis
-    this.basis = this.basis | binaryUnbrokenEquivs
-
-    // For each broken binary implication x -> y, replace all instances of y with x
-    binaryBrokenEquivs.foreach { imp =>
-      val affected = this.basis.filter(x => imp.premise.subsetOf(x.premise))
-      val refined = affected.map { affectedImp =>
-        val newPremise = affectedImp.premise.diff(imp.premise).union(imp.conclusion)
-
-        Implication(newPremise, affectedImp.conclusion)
-      }
-
-      this.basis = this.basis.diff(affected).union(refined)
-    }
-  }
-
-  /**
-   * Removes a meet irreducible element from the corresponding lattice.
-   * This is equivalent to removing a row from the corresponding data table.
-   */
-  /*def remove(meetIrreducible: Set[String]) = {
-    this.closedSets = this.closedSets - meetIrreducible
-    val targetFamily = this.closedSets - meetIrreducible
-    val upperCover = // intersection of supersets of meetIrreducible set
-      targetFamily.filter(x => meetIrreducible.subsetOf(x))
-        .foldLeft(this.baseSet)(_ & _)
-
-    val closedSubsets = targetFamily.filter(_.subsetOf(meetIrreducible))
-    val maximalSubsets = // subsets such that no larger subset exists
-      closedSubsets.filterNot(x =>
-        (closedSubsets - x).exists(y => x.subsetOf(y))
-      )
-    // Remove extra stuff
-    val partialOrder = this.binary
-    val minMaxSubsets = maximalSubsets.map { x =>
-      val refineable = partialOrder.filter(y =>
-        (y.premise | y.conclusion).subsetOf(x)
-      ).flatMap(_.premise)
-
-      x &~ refineable
-    }
-
-    val conclusions = upperCover &~ meetIrreducible
-    val premises = cartesianProduct[String](minMaxSubsets)
-
-    val newImplications = for {
-      p <- premises
-      c <- conclusions
-    } yield Implication(p, Set(c))
-
-    this.basis = this.basis | newImplications
-  }*/
-
   def targets(partialOrder: Set[Implication], newSet: Set[String]) =
     partialOrder.filterNot(_.holdsOn(newSet)).flatMap(_.conclusion) &~ newSet
 
@@ -212,7 +149,7 @@ class DBasis extends Basis {
   /* This is not entirely correct; produces incorrect CDB for some examples */
   def toCdb(): CanonicalDirectBasis = {
     val cdb = new CanonicalDirectBasis
-    cdb.copy(this)
+    cdb.copyValues(this)
 
     // Replace elements that are conclusion of binary imp with the premise of that imp
     // This generates the elements of the CDB that would have refinements in the D-basis
@@ -236,4 +173,8 @@ class DBasis extends Basis {
       )
     cdb
   }
+}
+
+object DBasis {
+  def buildDBasis(table: Table): DBasis = table.buildBasis(new DBasis())
 }

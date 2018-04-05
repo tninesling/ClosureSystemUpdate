@@ -1,12 +1,19 @@
 package basis
 
+import equivalences._
+import equivalences.EquivalenceClass._
+
+import cats.Monoid
+import cats.syntax.semigroup._
 import scala.io.Source
+import scala.collection.mutable.TreeSet
 
 class Table {
   var header = List.empty[String]
   var columns = List.empty[List[Int]]
   var rows = List.empty[List[Int]]
-  var equivalences = Set.empty[Implication]
+  var equivalences = Set.empty[EquivalenceClass]
+  var bottomElement = Set.empty[String]
   var previousTable: Option[Table] = None
 
 
@@ -16,7 +23,7 @@ class Table {
    *  3) If closure(y) = closure(closure(y)\y), remove y
    */
   def reduce(): Table = {
-    val reducedTable = this.nonConstant
+    val reducedTable = nonConstant
       .uniqueSingletonClosures
       .uniqueClosures
 
@@ -28,134 +35,128 @@ class Table {
   def nonConstant(): Table = {
     val colSums = columns.map(col => col.tail.foldLeft(col.head)(_ + _))
     var nonConstantCols = List.empty[Int]
-    var newEquivalences = Set.empty[Implication]
 
     colSums.zipWithIndex.foreach { case (colSum, ind) =>
-      if (colSum == this.rows.size) {
+      if (colSum == rows.size) {
         // If col x is all ones, we add y -> x for all y
-        val colHeader = this.header(ind)
-        /*val newImps = (this.header.toSet - colHeader).map(prem =>
-          Implication(Set(prem), Set(colHeader))
-        )*/
-        val newImps = Set(Implication(Set(""), Set(colHeader)))
-        newEquivalences = newEquivalences | newImps
+        val colHeader = Set(header(ind))
+        addBottomElement(colHeader)
       } else {
         nonConstantCols = nonConstantCols :+ ind
       }
     }
 
-    val nonConstantTable = this.select(nonConstantCols)
-    nonConstantTable.equivalences = this.equivalences | newEquivalences
+    val nonConstantTable = select(nonConstantCols)
+    nonConstantTable.equivalences = equivalences
+    nonConstantTable.bottomElement = bottomElement
     nonConstantTable
+  }
+
+  def addBottomElement(s: ClosedSet) = {
+    if (bottomElement.nonEmpty) {
+      equivalences.foreach{ equiv =>
+        if (equiv.contains(bottomElement)) {
+          equiv.add(s)
+          bottomElement = equiv.representative.getOrElse(s)
+        } else {
+          equiv.remove(s)
+        }
+      }
+    } else {
+      bottomElement = s
+      equivalences = equivalences.flatMap(_.partition(s))
+    }
   }
 
   // Returns indexes of columns with unique closures
   def uniqueSingletonClosures(): Table = {
-    val indices = (0 to this.header.size - 1).toList
-    val closures = indices.map(x => closure(Set(x)))
-    var newEquivalences = Set.empty[Implication]
+    val indices = (0 to header.size - 1).toList
+    val closures = indices.map(x => closure(List(x)))
 
     val uniqueIndices = indices.filterNot { i =>
       indices.filter(_ < i).exists { j =>
         val isDuplicate = closures(i).equals(closures(j))
         if (isDuplicate) {
-          val hi = this.header(i)
-          val hj = this.header(j)
-          val newImps = Set(Implication(Set(hi), Set(hj)), Implication(Set(hj), Set(hi)))
-          newEquivalences = newEquivalences | newImps
+          val hi = header(i)
+          val hj = header(j)
+          addBinaryEquivalence(Set(hi), Set(hj))
         }
         isDuplicate
       }
     }
 
-    val uniqueClosuresTable = this.select(uniqueIndices)
-    uniqueClosuresTable.equivalences = this.equivalences | newEquivalences
+    val uniqueClosuresTable = select(uniqueIndices)
+    uniqueClosuresTable.equivalences = equivalences
+    uniqueClosuresTable.bottomElement = bottomElement
     uniqueClosuresTable
+  }
+
+  def addBinaryEquivalence(s1: ClosedSet, s2: ClosedSet) = {
+    val newEqClass = equivalences.filter(eqc =>
+      eqc.contains(s1) || eqc.contains(s2)
+    ).foldLeft(Monoid[EquivalenceClass].empty)(_ |+| _)
+
+    val unaffected = equivalences.filterNot(eqc =>
+      eqc.contains(s1) || eqc.contains(s2)
+    )
+
+    equivalences = unaffected + newEqClass
   }
 
   // Removes column y if closure(y) == closure(closure(y)/y)
   def uniqueClosures(): Table = {
-    var newEquivalences = Set.empty[Implication]
-
-    val indices = (0 to this.header.size - 1).toList.filterNot { i =>
+    val indices = (0 to header.size - 1).toList.filterNot { i =>
       val y = Set(i)
-      val closureOfThis = closure(y)
-      val closureOfThose = closure(closureOfThis &~ y)
+      val closureOfThis = closure(y.toList)
+      val closureOfThose = closure((closureOfThis &~ y).toList)
 
       val reduceable = closureOfThis.equals(closureOfThose)
       if (reduceable) {
         val h1 = Set(header(i))
         val h2 = (closureOfThis &~ y).map(x => header(x))
-
-        newEquivalences = newEquivalences | Set(Implication(h1, h2), Implication(h2, h1))
+        addNonbinaryEquivalence(h1, h2)
       }
       reduceable
     }
 
-    val uniqueTable = this.select(indices)
-    uniqueTable.equivalences = this.equivalences | newEquivalences
+    val uniqueTable = select(indices)
+    uniqueTable.equivalences = equivalences
+    uniqueTable.bottomElement = bottomElement
     uniqueTable
   }
 
-  def buildDBasis(): DBasis = {
-    val family = mooreFamily()
-    println(s"Family size: ${family.size}")
+  // Adds cs to the equivalence class of s
+  def addNonbinaryEquivalence(s1: ClosedSet, s2: ClosedSet) =
+    equivalences.withFilter(_.contains(s1)).foreach(_.add(s2))
 
-    val dBasis = new DBasis
-    dBasis.baseSet = family.flatten
-    dBasis.basis = dBasis.baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
+  def buildNaiveCanonicalDirectBasis(): EqNaiveCanonicalDirectBasis = {
+    val encdb = new EqNaiveCanonicalDirectBasis
+    encdb.equivalences = Set(EquivalenceClass(
+      header.map(x => Set(x)).to[TreeSet]
+    ))
 
-    family foreach { x =>
-      dBasis.update(x)
-      //println(s"Basis updated with $x")
-    }
-    dBasis.equivalences = this.equivalences
+    rows.foreach(row =>
+      encdb.update(rowToClosedSet(row))
+    )
 
-    dBasis
+    encdb
   }
 
-  def buildCdBasis(): CanonicalDirectBasis = {
-    val family = mooreFamily()
-    buildCdBasis(family)
+  def buildBasis[T <: Basis](basis: T): T = {
+    basis.baseSet = header.toSet
+
+    rows.foreach(row =>
+      basis.update(rowToClosedSet(row))
+    )
+
+    basis
   }
 
-  def buildCdBasis(family: Set[Set[String]]): CanonicalDirectBasis = {
-    val baseSet = family.flatten
-
-    val cdBasis = new CanonicalDirectBasis
-    cdBasis.baseSet = baseSet
-    cdBasis.basis = baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
-    cdBasis.buildSectors()
-
-    family.foreach{ x =>
-      //println("updated with " + x)
-      cdBasis.update(x)
-    }
-
-    cdBasis.equivalences = this.equivalences
-
-    cdBasis
-  }
-
-  def buildNcdBasis(): NaiveCanonicalDirectBasis = {
-    val family = mooreFamily()//this.previousTable.getOrElse(this).mooreFamily()
-    buildNcdBasis(family)
-  }
-
-  def buildNcdBasis(family: Set[Set[String]]): NaiveCanonicalDirectBasis = {
-    val baseSet = family.flatten
-
-    val cdBasis = new NaiveCanonicalDirectBasis
-    cdBasis.baseSet = baseSet
-    cdBasis.basis = baseSet.map(baseElement => Implication(Set[String](), Set(baseElement)))
-    cdBasis.buildSectors()
-
-    family.foreach(cdBasis.update)
-
-    cdBasis.equivalences = this.equivalences
-
-    cdBasis
-  }
+  def rowToClosedSet(row: List[Int]): Set[String] =
+    row.zip(header)
+      .filter(_._1 == 1)
+      .map(_._2)
+      .toSet
 
   def printFamily() = {
     val family = mooreFamily()
@@ -163,28 +164,22 @@ class Table {
     println(txt)
   }
 
-  def mooreFamily(): Set[Set[String]] = {
-    val setsByIndex = mooreFamilyIndexes()
-
-    setsByIndex.map(indexSet =>
-      indexSet.map(index =>
-        header(index)
-      )
-    )
+  def mooreFamily(): Iterator[ClosedSet] = {
+    header.toSet.subsets.map(closure)
   }
 
-  def mooreFamilyIndexes(): Set[Set[Int]] = {
-    var familyIndexes = Set.empty[Set[Int]]
-    val baseSet = (0 to header.size - 1).toSet
-    val powSet = baseSet.subsets.map(closure).foreach { x =>
-      familyIndexes = familyIndexes + x
-    }
+  def closure(cs: ClosedSet): ClosedSet = {
+    val indices =
+      header.zipWithIndex
+        .filter(x => cs.contains(x._1))
+        .map(_._2)
 
-    familyIndexes
+    val closureIndices = closure(indices)
+    closureIndices.map(i => header(i))
   }
 
-  def closure(indexSet: Set[Int]): Set[Int] =
-    rowSupport(columnSupport(indexSet.toList)).toSet
+  def closure(indexList: List[Int]): Set[Int] =
+    rowSupport(columnSupport(indexList)).toSet
 
   def columnSupport(indexes: List[Int]): List[Int] =
     support(columns, indexes)
@@ -220,7 +215,7 @@ class Table {
         .filter { case (x,i) => columnNames.contains(x) }
         .map(_._2)
 
-    this.select(indexes.toList)
+    select(indexes.toList)
   }
 
   def select(table: List[List[Int]], indexes: List[Int]): List[List[Int]] = {
@@ -250,6 +245,9 @@ class Table {
     header = csv.head
     rows = csv.tail.map(ls => ls.map(_.toInt))
     columns = transpose(rows)
+    equivalences = header.toSet.map { x: String =>
+      EquivalenceClass(TreeSet(Set(x)))
+    }
   }
 
   def readCsv(fileLocation: String): List[List[String]] = {
@@ -271,15 +269,20 @@ class Table {
       }
     }
 
-  def toCsv = {
+  override def toString(): String = {
+    val ls = header.mkString(", ") :: rows.map(_.mkString(", "))
+    ls.mkString("\n")
+  }
+
+  def toCsv() = {
     println(header.mkString(", "))
     rows.foreach(row => println(row.mkString(", ")))
   }
 
   def apply(index: Int): Table = {
     val newTable = new Table()
-    newTable.header = List(this.header(index))
-    newTable.columns = List(this.columns(index))
+    newTable.header = List(header(index))
+    newTable.columns = List(columns(index))
     newTable.rows = transpose(newTable.columns)
 
     newTable
@@ -287,16 +290,16 @@ class Table {
 
   def prependTo(that: Table): Table = {
     val newTable = new Table()
-    newTable.header = this.header:::that.header
-    newTable.columns = this.columns:::that.columns
+    newTable.header = header:::that.header
+    newTable.columns = columns:::that.columns
     newTable.rows = transpose(newTable.columns)
 
     newTable
   }
 
-  def holds(imp: Implication): Boolean = {
-    val premiseCols = this.select(imp.premise)
-    val conclusionCols = this.select(imp.conclusion)
+  def holds(imp: EqImplication): Boolean = {
+    val premiseCols = select(imp.premise.flatMap(_.representative).flatten)
+    val conclusionCols = select(imp.conclusion.flatMap(_.representative).flatten)
 
     val premiseBools = allRowsEqual1(premiseCols.columns)
     val conclusionBools = allRowsEqual1(conclusionCols.columns)
@@ -306,6 +309,6 @@ class Table {
 
   def allRowsEqual1(cols: List[List[Int]]): List[Boolean] =
     cols.map(_.map(_ == 1))
-      .foldLeft(this.rows.map(x => true))((x,y) => x.zip(y).map { case (x,y) => x && y })
+      .foldLeft(rows.map(x => true))((x,y) => x.zip(y).map { case (x,y) => x && y })
 
 }

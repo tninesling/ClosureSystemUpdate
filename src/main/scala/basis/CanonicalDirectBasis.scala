@@ -27,29 +27,6 @@ class CanonicalDirectBasis extends Basis {
     basis = sectorsToBasis()
   }
 
-  override def handleBinaryEquivalences(newSet: Set[String]) = {
-    super.handleBinaryEquivalences(newSet)
-
-    val affectedBinaryEquivs = this.affectedEquivalences(newSet).filter(_.premise.size == 1)
-    val binaryUnbrokenEquivs = affectedBinaryEquivs.filter(_.holdsOn(newSet))
-    val binaryBrokenEquivs = affectedBinaryEquivs.filterNot(_.holdsOn(newSet))
-
-    // For each broken binary implication x -> y, replace all instances of y with x
-    val replacedImps = for {
-      replacement <- binaryBrokenEquivs
-      replaceable <- this.basis if(replaceable.premise.subsetOf(replacement.premise))
-    } yield {
-      val newPrem =
-        replaceable.premise
-          .diff(replacement.premise)
-          .union(replaceable.conclusion)
-
-      Implication(newPrem, replaceable.conclusion)
-    }
-
-    this.basis = this.basis | binaryUnbrokenEquivs | replacedImps
-  }
-
   /**
    *  Removes a meet irreducible element from the corresponding lattice.
    *  This is equivalent to removing a row from the corresponding data table.
@@ -142,13 +119,13 @@ class CanonicalDirectBasis extends Basis {
 
   def toNaiveCdb(): NaiveCanonicalDirectBasis = {
     val ncdb = new NaiveCanonicalDirectBasis
-    ncdb.copy(this)
+    ncdb.copyValues(this)
     ncdb
   }
 
   def toWildCdb(): WildCanonicalDirectBasis = {
     val wcdb = new WildCanonicalDirectBasis
-    wcdb.copy(this)
+    wcdb.copyValues(this)
 
     wcdb.basis =
       this.basis
@@ -160,7 +137,7 @@ class CanonicalDirectBasis extends Basis {
 
   def toDbasis(): DBasis = {
     val db = new DBasis
-    db.copy(this)
+    db.copyValues(this)
 
     val refined = this.nonBinary filterNot {imp1 =>
       (nonBinary - imp1) exists {imp2 =>

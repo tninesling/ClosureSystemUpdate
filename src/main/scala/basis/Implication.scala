@@ -1,6 +1,7 @@
 package basis
 
 import scala.collection.SortedSet
+import syntax._
 
 case class Implication(premise: Set[String], conclusion: Set[String]) {
   def holdsOn(s: Set[String]): Boolean =
@@ -8,6 +9,9 @@ case class Implication(premise: Set[String], conclusion: Set[String]) {
 
   def isBinary(): Boolean =
     (premise.size == 1) && (conclusion.size == 1)
+
+  def unitImplications(): Set[Implication] =
+    conclusion.map(c => Implication(premise, Set(c)))
 
   override def toString(): String =
     s"${premise.to[SortedSet].mkString(" ")} -> ${conclusion.to[SortedSet].mkString(" ")}"

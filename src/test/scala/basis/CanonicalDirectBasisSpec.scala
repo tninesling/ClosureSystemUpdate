@@ -66,7 +66,7 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
     db.basis should equal (target.basis)
   }
   */
-
+/*
   "The update method" should "represent the parent table when equivalences are broken" in {
     val origCols = List(List(1,0,1,0,1), List(1,1,1,1,1), List(0,1,0,1,0), List(1,0,0,0,0), List(0,0,1,0,0))
     val updatedCols = List(List(1,0,1,0,1,0), List(1,1,1,1,1,0), List(0,1,0,1,0,0), List(1,0,0,0,0,0), List(0,0,1,0,0,1))
@@ -82,13 +82,21 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
     t2.columns = origCols; t2.header = header; t2.rows = t2.transpose(origCols);
     val r2 = t2.reduce()
 
+
     val cdb = r2.buildCdBasis()
+
+    println(cdb.equivalences)
+    println(cdb.basis)
+
     cdb.handleEquivalences(Set("5"))
     cdb.update(Set("5"))
 
-    cdb.basis should equal (target.basis)
-  }
+    println(cdb.equivalences)
+    println(cdb.basis)
 
+    cdb.basis should equal (target.basis)
+  }*/
+/*
   "The upper cover of 145" should "be 12345" in {
     val cdb = new CanonicalDirectBasis
     cdb.fromFile("./src/test/data/example1/basis.txt")
@@ -123,7 +131,7 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     val target = new CanonicalDirectBasis
     target.fromFile("./src/test/data/example1/basis.txt")
-  
+
     cdb.basis should equal (target.basis)
   }
   it should "properly remove the meet irreducible element m_1 m_2" in {
@@ -145,5 +153,5 @@ class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
 
     cdb.basis should equal (target)
   }
-
+*/
 }

@@ -1,11 +1,13 @@
-package basis
+package examples
+
+import basis._
 
 import scala.util.{Try, Success, Failure}
 
 object StatisticsGeneratingExample {
   def main(args: Array[String]) = {
     // Rows, Columns, Total implications, Implications broken, Time taken
-
+    /*
     val stats = (1 to 100).toList.map{x=>// (1 to 50).toList.map { x =>
       // Randomly generate a table and generate the basis
       val t = generateTable()
@@ -73,6 +75,7 @@ object StatisticsGeneratingExample {
     }
 
     printCsv(stats.toList)
+    */
   }
 
   // Generates a Table object of random size less or equal to 15 x 15

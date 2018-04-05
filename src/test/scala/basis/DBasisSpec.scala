@@ -217,7 +217,7 @@ class DBasisSpec extends FlatSpec with Matchers {
 
     db.toCdb.basis should equal (cdb.basis)
   }
-
+/*
   "Edge case 1" should "be compared correctly" in {
     val columns = List(List(0,0,0,0,1), List(1,1,1,1,0), List(1,0,1,1,0), List(0,1,1,1,0), List(0,1,1,0,0))
     val header = List("1", "2", "3", "4", "5")
@@ -282,7 +282,7 @@ class DBasisSpec extends FlatSpec with Matchers {
     val updateSet = Set("2", "4", "5", "6")
     checkTable(columns, header, updateSet) should be (true)
   }
-
+*/
 /*
   "The removal process" should "properly remove the meet irreducible element 145" in {
     val cdb = new CanonicalDirectBasis
@@ -301,7 +301,7 @@ class DBasisSpec extends FlatSpec with Matchers {
     db.basis should equal (targetDb.basis)
   }
 */
-  def checkTable(columns: List[List[Int]], header: List[String], updateSet: Set[String]): Boolean = {
+  /*def checkTable(columns: List[List[Int]], header: List[String], updateSet: Set[String]): Boolean = {
     val t = new Table
     t.columns = columns
     t.header = header
@@ -316,5 +316,5 @@ class DBasisSpec extends FlatSpec with Matchers {
 
     val targetBasis = cdb.toDbasis.basis
     return cdb.toDbasis.basisEquals(db)
-  }
+  }*/
 }
