@@ -14,7 +14,9 @@ trait Basis {
     this.closedSets = this.closedSets + newSet
   }
 
-  //def addImplication(imp: Implication): Unit
+  def addImplication(imp: Implication): Unit = {
+    basis = basis + imp
+  }
 
   def unbrokenImplications(newSet: Set[String]) =
     this.basis.filter(_.holdsOn(newSet))
@@ -115,6 +117,17 @@ trait Basis {
     this.closedSets = other.closedSets
   }
 
+  override def equals(other: Any): Boolean =
+    other match {
+      case x: Basis =>
+        basis.equals(x.basis)
+      case _ =>
+        false
+    }
+
   override def toString(): String =
-    basis.mkString(", ")
+    if (basis.size < 20)
+      basis.mkString(", ")
+    else
+      basis.take(20).mkString(", ") + " ..."
 }

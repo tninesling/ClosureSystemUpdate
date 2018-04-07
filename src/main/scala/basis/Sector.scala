@@ -8,6 +8,11 @@ case class Sector(
   def +(that: SectorImplication) =
     Sector(parent, rightSide, implications + that)
 
+  def addImplication(imp: Implication): Sector = {
+    val s = this + SectorImplication(imp.premise)
+    s.enrich
+  }
+
   def update(closedSet: Set[String]): Sector = {
     // The implications which are broken have left sides which are subsets
     // of the new closed set and a right side not in the closed set
@@ -46,4 +51,4 @@ case class Sector(
       .flatten
 }
 
-case class SectorImplication(leftSide: Set[String], skewedDifferences: Set[String])
+case class SectorImplication(leftSide: Set[String], skewedDifferences: Set[String] = Set.empty[String])

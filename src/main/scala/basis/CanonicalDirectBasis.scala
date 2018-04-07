@@ -79,6 +79,14 @@ class CanonicalDirectBasis extends Basis {
   def buildSectors() =
     basis.foreach(addImplication)
 
+  override def addImplication(imp: Implication) = {
+    super.addImplication(imp)
+    val existingSector = sectors.getOrElse(imp.conclusion, new Sector(this, imp.conclusion))
+    val updatedSector = existingSector.addImplication(imp)
+
+    sectors.put(imp.conclusion, updatedSector)
+  }
+/*
   def addImplication(implication: Implication) = {
     val C = implication.premise
     val d = implication.conclusion
@@ -94,7 +102,7 @@ class CanonicalDirectBasis extends Basis {
                  .flatten
 
     sectors.put(d, dSec + SectorImplication(C, E))
-  }
+  }*/
 
   def sectorsToBasis(): Set[Implication] = {
     val sectorTuples = sectors.toSet

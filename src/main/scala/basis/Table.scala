@@ -2,6 +2,7 @@ package basis
 
 import equivalences._
 import equivalences.EquivalenceClass._
+import syntax._
 
 import cats.Monoid
 import cats.syntax.semigroup._
@@ -129,21 +130,15 @@ class Table {
   def addNonbinaryEquivalence(s1: ClosedSet, s2: ClosedSet) =
     equivalences.withFilter(_.contains(s1)).foreach(_.add(s2))
 
-  def buildNaiveCanonicalDirectBasis(): EqNaiveCanonicalDirectBasis = {
-    val encdb = new EqNaiveCanonicalDirectBasis
-    encdb.equivalences = Set(EquivalenceClass(
-      header.map(x => Set(x)).to[TreeSet]
-    ))
+  def buildCanonicalDirectBasis() = buildBasis(new CanonicalDirectBasis())
 
-    rows.foreach(row =>
-      encdb.update(rowToClosedSet(row))
-    )
+  def buildDBasis() = buildBasis(new DBasis())
 
-    encdb
-  }
+  def buildLoggingDBasis() = buildBasis(new DBasis with LoggingBasis)
 
   def buildBasis[T <: Basis](basis: T): T = {
     basis.baseSet = header.toSet
+    basis.basis = basis.baseSet.map(x => Set.empty[String] --> x)
 
     rows.foreach(row =>
       basis.update(rowToClosedSet(row))

@@ -9,9 +9,9 @@ import scala.collection.mutable.TreeSet
 import EquivalenceClass._
 import syntax._
 
-trait EqBasis {
+class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   var basis = Set.empty[EqImplication]
-  var reducedBasis: Basis = new NaiveCanonicalDirectBasis
+  //var reducedBasis: Basis = new NaiveCanonicalDirectBasis
   var equivalences = Set.empty[EquivalenceClass]
   var closedSets = Set.empty[ClosedSet]
   var bottomElement = Monoid[EquivalenceClass].empty
@@ -20,8 +20,7 @@ trait EqBasis {
   def update(s: ClosedSet) = {
     closedSets = closedSets + s
     handleEquivalences(s)
-    //addNewImplicationsToReducedBasis()
-    //reducedBasis.basis = mapToReducedBasis(basis)
+    addNewImplicationsToReducedBasis()
     reducedBasis.update(s)
     basis = mapToEquivalenceBasis(reducedBasis.basis)
     postUpdateCleanup()
@@ -68,12 +67,10 @@ trait EqBasis {
 
   def baseSet = equivalences.diff(Set(bottomElement)).flatMap(_.representative).flatten
 
-  /*
   def addNewImplicationsToReducedBasis() =
     basis.flatMap(_.toImplication)
       .flatMap(_.unitImplications)
       .foreach(reducedBasis.addImplication)
-  */
 
   def mapToReducedBasis(equivBasis: Set[EqImplication]): Set[Implication] =
     equivBasis.flatMap(_.toImplication).flatMap(_.unitImplications)
