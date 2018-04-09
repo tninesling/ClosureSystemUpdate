@@ -14,4 +14,11 @@ class EqImplicationSpec extends FlatSpec with Matchers {
     ))
   }
 
+  "The expansions method for DBasis updates" should "skip the old implication" in {
+    val imp = Set("x".eqClass, "y" <=> "z") --> "d"
+    imp.dbasisExpand(Set("z")) should equal (Set(
+      Set("x".eqClass, "z".eqClass) --> "d"
+    ))
+  }
+
 }

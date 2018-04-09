@@ -1,7 +1,6 @@
 package basis
 
 import scala.collection.SortedSet
-import syntax._
 
 case class Implication(premise: Set[String], conclusion: Set[String]) {
   def holdsOn(s: Set[String]): Boolean =

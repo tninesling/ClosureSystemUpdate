@@ -18,7 +18,11 @@ case class EquivalenceClass(elements: TreeSet[ClosedSet]) {
 
   def diff(eq: EquivalenceClass) = EquivalenceClass(elements.diff(eq.elements))
 
+  def intersect(a: ClosedSet) = EquivalenceClass(elements.filter(_.intersect(a).nonEmpty))
+
   def isEmpty() = elements.isEmpty
+
+  def nonEmpty() = !isEmpty()
 
   def filter(p: ClosedSet => Boolean) = EquivalenceClass(elements.filter(p))
 
@@ -32,10 +36,9 @@ case class EquivalenceClass(elements: TreeSet[ClosedSet]) {
     } yield p --> c
   }
 
-  def partition(a: ClosedSet): Set[EquivalenceClass] = {
+  def partition(a: ClosedSet): Set[EquivalenceClass] =
     Set(filter(_.subsetOf(a)), filterNot(_.subsetOf(a)))
       .filter(_.elements.exists(_.size == 1)) // keep nonempty equivalence classes with a join-irreducible
-  }
 
   def remove(a: ClosedSet) = elements -= a
 
@@ -48,6 +51,10 @@ case class EquivalenceClass(elements: TreeSet[ClosedSet]) {
   def singletons() = elements.filter(_.size == 1)
 
   def subsetOf(that: EquivalenceClass) = elements.subsetOf(that.elements)
+
+  def <=>(s: ClosedSet): EquivalenceClass = EquivalenceClass(elements + s)
+
+  def <=>(s: String): EquivalenceClass = <=>(Set(s))
 
   override def toString(): String =
     s"[${elements.to[SortedSet].map(_.mkString(" ")).mkString(",")}]"

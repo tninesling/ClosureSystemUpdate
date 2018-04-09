@@ -1,6 +1,7 @@
 package equivalences
 
 import basis.Basis
+import basis.DBasis
 import basis.Implication
 import basis.NaiveCanonicalDirectBasis
 import cats.Monoid
@@ -11,7 +12,6 @@ import syntax._
 
 class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   var basis = Set.empty[EqImplication]
-  //var reducedBasis: Basis = new NaiveCanonicalDirectBasis
   var equivalences = Set.empty[EquivalenceClass]
   var closedSets = Set.empty[ClosedSet]
   var bottomElement = Monoid[EquivalenceClass].empty
@@ -41,8 +41,14 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
    * by equivalences
    */
   def effectEqBasisChange(s: ClosedSet) = {
+    basis = reducedBasis match {
+      case db: DBasis =>
+        basis.flatMap(_.dbasisExpand(s))
+      case _ =>
+        basis.flatMap(_.expand(s))
+    }
+
     basis = basis | equivalences.flatMap(_.newBinaryImplications(s))
-    basis = basis.flatMap(_.expand(s))
   }
 
   /**

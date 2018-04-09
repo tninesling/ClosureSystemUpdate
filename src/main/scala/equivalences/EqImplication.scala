@@ -25,6 +25,21 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
       conc <- product(conclusion.map(_.partition(s)))
     } yield EqImplication(prem, conc)
 
+  /**
+   * If the basis is a DBasis, we expand binary implications normally, splitting
+   * the equivalences, but for nonbinary implications we replace the old implications
+   * with the new ones after splitting, since they will be refinements
+   */
+  def dbasisExpand(s: ClosedSet): Set[EqImplication] =
+    if (isBinary())
+      expand(s)
+    else {
+      for {
+        prem <- product(premise.map(_.partition(s))) if (prem.exists(_.intersect(s).nonEmpty))
+        conc <- product(conclusion.map(_.partition(s)))
+      } yield EqImplication(prem, conc)
+    }
+
   def addToPremise(eq: EquivalenceClass) =
     EqImplication(premise + eq, conclusion)
 
@@ -71,12 +86,15 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
 }
 
 object EqImplication {
-  def implies(s1: String, s2: String) =
+  def implies(s1: String, s2: String): EqImplication =
     EqImplication(
       Set(EquivalenceClass(TreeSet(Set(s1)))),
       Set(EquivalenceClass(TreeSet(Set(s2))))
     )
 
-  def implies(eq1: EquivalenceClass, eq2: EquivalenceClass) =
+  def implies(eq1: EquivalenceClass, eq2: EquivalenceClass): EqImplication =
     EqImplication(Set(eq1), Set(eq2))
+
+  def implies(s: String, eqc: EquivalenceClass): EqImplication =
+    implies(EquivalenceClass(TreeSet(Set(s))), eqc)
 }
