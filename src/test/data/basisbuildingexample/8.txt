@@ -1,0 +1,407 @@
+Using command line: ./DBasisHDA -i Large_set_10x22.txt -mins 0 -r -o 8.txt
+Using input file: Large_set_10x22.txt
+Using minSupport: 0
+Using zero base: false
+Using code base: DBasisHDA version 0.0.13b [Build Date/Time: Apr  9 2018, 13:44:55]
+0.00 Reducing table.
+0.00 Equivalent columns for reduced table in original table starting from 1
+1 2 3 4 9 10 11 12 13 14 15 16 19 20 21 
+ Equivalent columns in original table starting from 1, blank means null set 
+5<=> 4 12 16 
+6<=> 
+7<=> 4 
+8<=> 4 
+17<=> 10 11 13 14 16 18 
+18<=> 10 16 
+22<=> 1 
+0.00 Creating row comparison table.
+0.00 Creating column comparison table.
+0.00 Creating up and down arrows.
+0.00 std::vector<Implication> FindDBasis 
+0.00 Table::getFullBinaryBasis 
+0.00 Table::getFullBinaryBasis done.
+0.00 Table::getDFullNonBinaryBasis FindDBasis 
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 6. Sets 3.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 3 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 30. Sets 12.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 12 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 16. Sets 8.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 8 Starting reduction.
+12 13 << reduces 12 19 for column 3
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 24. Sets 12.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 12 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 6.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 106. Sets 37.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 37 Starting reduction.
+1 15 16 << reduces 2 15 16 for column 9
+10 15 << reduces 3 15 for column 9
+1 4 11 << reduces 1 11 12 for column 9
+1 12 15 << reduces 2 12 15 for column 9
+1 12 21 << reduces 2 12 21 for column 9
+4 10 11 << reduces 10 11 12 for column 9
+4 10 21 << reduces 10 12 21 for column 9
+4 11 14 << reduces 11 12 14 for column 9
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 18. Sets 9.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 9 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 18. Sets 9.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 9 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 16. Sets 8.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 8 Starting reduction.
+3 4 << reduces 3 19 for column 12
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 22. Sets 9.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 9 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 30. Sets 12.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 12 Starting reduction.
+13 20 << reduces 13 21 for column 14
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 5.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 68. Sets 25.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 25 Starting reduction.
+9 20 << reduces 9 21 for column 15
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 18. Sets 9.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 9 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 7.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 94. Sets 29.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 29 Starting reduction.
+3 4 15 << reduces 3 12 15 for column 19
+3 4 11 16 << reduces 3 11 12 16 for column 19
+3 4 11 20 << reduces 3 11 12 20 for column 19
+12 13 20 << reduces 12 13 21 for column 19
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 4.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 6. Sets 3.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 3 Starting reduction.
+0.00 Reduction finished.
+0.00 Calling shd.
+Producing hypergraph with a parameter siz: 6.
+0.00 Returned from shd.
+0.00 readDualToImplication start.
+0.00 Counting data points.
+0.00 Count finished. Datapoints 36. Sets 12.
+0.00 Read back 0 data points.
+0.00 readDualToImplication finish.
+0.00 Implication size: 12 Starting reduction.
+0.00 Reduction finished.
+0.00 diff s d16
+0.00 Table::getDFullNonBinaryBasis FindDBasis done
+0.00 std::vector<Implication> FindDBasis done. 
+0.00 0;2 -> 1 ; support = 5; RealSupport = 5; rows = 2, 3, 4, 7, 8, 
+0.00 1;12 -> 4 ; support = 4; RealSupport = 4; rows = 3, 5, 6, 7, 
+0.00 2;19 -> 4 ; support = 2; RealSupport = 2; rows = 4, 5, 
+0.00 3;3 -> 10 ; support = 4; RealSupport = 4; rows = 2, 3, 5, 7, 
+0.00 4;9 -> 10 ; support = 4; RealSupport = 4; rows = 2, 3, 5, 8, 
+0.00 5;9 -> 11 ; support = 4; RealSupport = 4; rows = 2, 3, 5, 8, 
+0.00 6;19 -> 13 ; support = 2; RealSupport = 2; rows = 4, 5, 
+0.00 7;19 -> 14 ; support = 2; RealSupport = 2; rows = 4, 5, 
+0.00 8;19 -> 15 ; support = 2; RealSupport = 2; rows = 4, 5, 
+0.00 9;21 -> 20 ; support = 4; RealSupport = 4; rows = 1, 4, 6, 8, 
+0.00 10;10 20 -> 1 ; support = 4; RealSupport = 4; rows = 1, 2, 7, 8, 
+0.00 11;13 20 -> 1 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 12;14 20 -> 1 ; support = 4; RealSupport = 4; rows = 1, 4, 7, 8, 
+0.00 13;1 3 -> 2 ; support = 3; RealSupport = 3; rows = 2, 3, 7, 
+0.00 14;3 20 -> 2 ; support = 2; RealSupport = 2; rows = 2, 7, 
+0.00 15;1 4 -> 2 ; support = 4; RealSupport = 4; rows = 3, 4, 7, 8, 
+0.00 16;4 10 20 -> 2 ; support = 2; RealSupport = 2; rows = 7, 8, 
+0.00 17;4 13 20 -> 2 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 18;4 14 20 -> 2 ; support = 3; RealSupport = 3; rows = 4, 7, 8, 
+0.00 19;1 9 -> 2 ; support = 3; RealSupport = 3; rows = 2, 3, 8, 
+0.00 20;9 20 -> 2 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 21;1 15 -> 2 ; support = 3; RealSupport = 3; rows = 2, 4, 8, 
+0.00 22;10 15 20 -> 2 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 23;13 15 20 -> 2 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 24;14 15 20 -> 2 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 25;10 12 -> 3 ; support = 3; RealSupport = 3; rows = 3, 5, 7, 
+0.00 26;10 19 -> 3 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 27;11 19 -> 3 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 28;1 12 -> 3 ; support = 2; RealSupport = 2; rows = 3, 7, 
+0.00 29;12 13 -> 3 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 30;12 14 -> 3 ; support = 2; RealSupport = 2; rows = 5, 7, 
+0.00 31;16 19 -> 3 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 32;2 13 -> 4 ; support = 3; RealSupport = 3; rows = 3, 4, 8, 
+0.00 33;2 14 -> 4 ; support = 3; RealSupport = 3; rows = 4, 7, 8, 
+0.00 34;2 21 -> 4 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 35;3 13 -> 4 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 36;3 14 -> 4 ; support = 2; RealSupport = 2; rows = 5, 7, 
+0.00 37;3 21 -> 4 ; support = 0; RealSupport = 0; rows = 
+0.00 38;9 13 -> 4 ; support = 3; RealSupport = 3; rows = 3, 5, 8, 
+0.00 39;9 14 -> 4 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 40;9 21 -> 4 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 41;13 15 -> 4 ; support = 3; RealSupport = 3; rows = 4, 5, 8, 
+0.00 42;14 15 -> 4 ; support = 3; RealSupport = 3; rows = 4, 5, 8, 
+0.00 43;15 21 -> 4 ; support = 3; RealSupport = 3; rows = 4, 6, 8, 
+0.00 44;2 10 13 -> 9 ; support = 2; RealSupport = 2; rows = 3, 8, 
+0.00 45;2 10 21 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 46;2 11 -> 9 ; support = 3; RealSupport = 3; rows = 2, 3, 8, 
+0.00 47;2 13 16 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 48;2 16 21 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 49;3 11 -> 9 ; support = 3; RealSupport = 3; rows = 2, 3, 5, 
+0.00 50;3 13 -> 9 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 51;3 21 -> 9 ; support = 0; RealSupport = 0; rows = 
+0.00 52;4 10 11 -> 9 ; support = 3; RealSupport = 3; rows = 3, 5, 8, 
+0.00 53;4 10 13 -> 9 ; support = 3; RealSupport = 3; rows = 3, 5, 8, 
+0.00 54;4 10 21 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 55;1 4 11 -> 9 ; support = 2; RealSupport = 2; rows = 3, 8, 
+0.00 56;4 11 13 -> 9 ; support = 3; RealSupport = 3; rows = 3, 5, 8, 
+0.00 57;4 11 14 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 58;1 4 16 21 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 59;4 13 16 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 60;4 14 16 21 -> 9 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 61;1 12 15 -> 9 ; support = 0; RealSupport = 0; rows = 
+0.00 62;1 12 21 -> 9 ; support = 0; RealSupport = 0; rows = 
+0.00 63;12 13 -> 9 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 64;12 14 15 -> 9 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 65;12 14 21 -> 9 ; support = 0; RealSupport = 0; rows = 
+0.00 66;10 15 -> 9 ; support = 3; RealSupport = 3; rows = 2, 5, 8, 
+0.00 67;1 11 15 -> 9 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 68;11 13 15 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 69;11 14 15 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 70;1 15 16 -> 9 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 71;13 15 16 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 72;14 15 16 -> 9 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 73;1 11 -> 10 ; support = 4; RealSupport = 4; rows = 1, 2, 3, 8, 
+0.00 74;11 13 -> 10 ; support = 4; RealSupport = 4; rows = 1, 3, 5, 8, 
+0.00 75;11 14 -> 10 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 76;1 12 -> 10 ; support = 2; RealSupport = 2; rows = 3, 7, 
+0.00 77;12 13 -> 10 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 78;12 14 -> 10 ; support = 2; RealSupport = 2; rows = 5, 7, 
+0.00 79;1 16 -> 10 ; support = 4; RealSupport = 4; rows = 1, 2, 7, 8, 
+0.00 80;13 16 -> 10 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 81;14 16 -> 10 ; support = 4; RealSupport = 4; rows = 1, 5, 7, 8, 
+0.00 82;10 13 -> 11 ; support = 4; RealSupport = 4; rows = 1, 3, 5, 8, 
+0.00 83;10 15 -> 11 ; support = 3; RealSupport = 3; rows = 2, 5, 8, 
+0.00 84;10 21 -> 11 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 85;12 13 -> 11 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 86;12 15 -> 11 ; support = 2; RealSupport = 2; rows = 5, 6, 
+0.00 87;12 21 -> 11 ; support = 1; RealSupport = 1; rows = 6, 
+0.00 88;13 16 -> 11 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 89;15 16 -> 11 ; support = 4; RealSupport = 4; rows = 2, 5, 6, 8, 
+0.00 90;16 21 -> 11 ; support = 3; RealSupport = 3; rows = 1, 6, 8, 
+0.00 91;3 4 -> 12 ; support = 3; RealSupport = 3; rows = 3, 5, 7, 
+0.00 92;3 13 -> 12 ; support = 2; RealSupport = 2; rows = 3, 5, 
+0.00 93;3 14 -> 12 ; support = 2; RealSupport = 2; rows = 5, 7, 
+0.00 94;10 19 -> 12 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 95;11 19 -> 12 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 96;16 19 -> 12 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 97;3 21 -> 12 ; support = 0; RealSupport = 0; rows = 
+0.00 98;1 4 11 -> 13 ; support = 2; RealSupport = 2; rows = 3, 8, 
+0.00 99;1 4 15 -> 13 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 100;4 10 11 -> 13 ; support = 3; RealSupport = 3; rows = 3, 5, 8, 
+0.00 101;4 10 15 -> 13 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 102;11 14 -> 13 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 103;14 15 -> 13 ; support = 3; RealSupport = 3; rows = 4, 5, 8, 
+0.00 104;14 21 -> 13 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 105;1 21 -> 13 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 106;10 21 -> 13 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 107;1 4 15 -> 14 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 108;4 10 15 -> 14 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 109;1 4 16 -> 14 ; support = 2; RealSupport = 2; rows = 7, 8, 
+0.00 110;4 10 16 -> 14 ; support = 3; RealSupport = 3; rows = 5, 7, 8, 
+0.00 111;1 4 20 -> 14 ; support = 3; RealSupport = 3; rows = 4, 7, 8, 
+0.00 112;4 10 20 -> 14 ; support = 2; RealSupport = 2; rows = 7, 8, 
+0.00 113;13 15 -> 14 ; support = 3; RealSupport = 3; rows = 4, 5, 8, 
+0.00 114;13 16 -> 14 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 115;13 20 -> 14 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 116;1 21 -> 14 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 117;10 21 -> 14 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 118;2 11 14 -> 15 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 119;2 13 14 -> 15 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 120;2 11 16 -> 15 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 121;2 13 16 -> 15 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 122;2 11 20 -> 15 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 123;2 13 20 -> 15 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 124;2 21 -> 15 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 125;3 11 14 -> 15 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 126;3 13 14 -> 15 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 127;3 11 16 -> 15 ; support = 2; RealSupport = 2; rows = 2, 5, 
+0.00 128;3 13 16 -> 15 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 129;3 11 20 -> 15 ; support = 1; RealSupport = 1; rows = 2, 
+0.00 130;3 13 20 -> 15 ; support = 0; RealSupport = 0; rows = 
+0.00 131;3 21 -> 15 ; support = 0; RealSupport = 0; rows = 
+0.00 132;4 11 14 -> 15 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 133;4 13 14 -> 15 ; support = 3; RealSupport = 3; rows = 4, 5, 8, 
+0.00 134;4 11 16 -> 15 ; support = 3; RealSupport = 3; rows = 5, 6, 8, 
+0.00 135;4 13 16 -> 15 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 136;4 11 20 -> 15 ; support = 2; RealSupport = 2; rows = 6, 8, 
+0.00 137;4 13 20 -> 15 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 138;4 21 -> 15 ; support = 3; RealSupport = 3; rows = 4, 6, 8, 
+0.00 139;9 14 -> 15 ; support = 2; RealSupport = 2; rows = 5, 8, 
+0.00 140;9 16 -> 15 ; support = 3; RealSupport = 3; rows = 2, 5, 8, 
+0.00 141;9 20 -> 15 ; support = 2; RealSupport = 2; rows = 2, 8, 
+0.00 142;10 14 -> 16 ; support = 4; RealSupport = 4; rows = 1, 5, 7, 8, 
+0.00 143;11 14 -> 16 ; support = 3; RealSupport = 3; rows = 1, 5, 8, 
+0.00 144;12 14 -> 16 ; support = 2; RealSupport = 2; rows = 5, 7, 
+0.00 145;10 15 -> 16 ; support = 3; RealSupport = 3; rows = 2, 5, 8, 
+0.00 146;11 15 -> 16 ; support = 4; RealSupport = 4; rows = 2, 5, 6, 8, 
+0.00 147;12 15 -> 16 ; support = 2; RealSupport = 2; rows = 5, 6, 
+0.00 148;10 20 -> 16 ; support = 4; RealSupport = 4; rows = 1, 2, 7, 8, 
+0.00 149;11 20 -> 16 ; support = 4; RealSupport = 4; rows = 1, 2, 6, 8, 
+0.00 150;12 20 -> 16 ; support = 2; RealSupport = 2; rows = 6, 7, 
+0.00 151;3 4 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 152;3 4 11 16 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 153;3 4 11 20 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 154;1 12 15 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 155;10 12 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 156;1 11 12 16 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 157;10 11 12 16 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 158;1 11 12 20 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 159;10 11 12 20 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 160;3 13 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 161;12 13 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 162;3 13 16 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 163;12 13 16 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 164;3 13 20 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 165;12 13 20 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 166;3 11 14 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 167;11 12 14 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 168;3 13 14 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 169;12 13 14 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 170;3 14 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 171;12 14 15 -> 19 ; support = 1; RealSupport = 1; rows = 5, 
+0.00 172;12 14 21 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 173;1 12 21 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 174;3 21 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 175;10 12 21 -> 19 ; support = 0; RealSupport = 0; rows = 
+0.00 176;1 14 -> 20 ; support = 4; RealSupport = 4; rows = 1, 4, 7, 8, 
+0.00 177;1 15 -> 20 ; support = 3; RealSupport = 3; rows = 2, 4, 8, 
+0.00 178;1 16 -> 20 ; support = 4; RealSupport = 4; rows = 1, 2, 7, 8, 
+0.00 179;1 4 15 -> 21 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 180;1 4 11 16 -> 21 ; support = 1; RealSupport = 1; rows = 8, 
+0.00 181;4 11 20 -> 21 ; support = 2; RealSupport = 2; rows = 6, 8, 
+0.00 182;4 15 20 -> 21 ; support = 3; RealSupport = 3; rows = 4, 6, 8, 
+0.00 183;1 13 15 -> 21 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 184;1 13 16 -> 21 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 185;13 20 -> 21 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 186;1 11 14 -> 21 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 187;1 13 14 -> 21 ; support = 3; RealSupport = 3; rows = 1, 4, 8, 
+0.00 188;1 14 15 -> 21 ; support = 2; RealSupport = 2; rows = 4, 8, 
+0.00 189;11 14 20 -> 21 ; support = 2; RealSupport = 2; rows = 1, 8, 
+0.00 190;14 15 20 -> 21 ; support = 2; RealSupport = 2; rows = 4, 8, 
+Total Support(column->it's total support)
+1 -> 0
+2 -> 0
+3 -> 0
+4 -> 0
+5 -> 0
+6 -> 0
+7 -> 0
+8 -> 0
+9 -> 0
+10 -> 0
+11 -> 0
+12 -> 0
+13 -> 0
+14 -> 0
+15 -> 0
+16 -> 0
+17 -> 0
+18 -> 0
+19 -> 0
+20 -> 0
+21 -> 0
+22 -> 0
+Closing output file

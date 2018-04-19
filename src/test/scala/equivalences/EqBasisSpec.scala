@@ -4,7 +4,8 @@ import basis.CanonicalDirectBasis
 import basis.DBasis
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import syntax._
+import syntax.eqimplication._
+import syntax.equivalenceclass._
 
 class EqBasisSpec extends FlatSpec with Matchers {
 

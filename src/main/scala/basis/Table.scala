@@ -2,7 +2,7 @@ package basis
 
 import equivalences._
 import equivalences.EquivalenceClass._
-import syntax._
+import syntax.implication._
 
 import cats.Monoid
 import cats.syntax.semigroup._
@@ -147,6 +147,21 @@ class Table {
     basis
   }
 
+  def buildEqBasis(reducedBasis: Basis): EqBasis = {
+    val eqb = new EqBasis(reducedBasis)
+    val base = header.toSet
+    val allEq: EquivalenceClass = base.foldLeft(Monoid[EquivalenceClass].empty)(_ <=> _)
+
+    eqb.equivalences = Set(allEq)
+    eqb.bottomElement = allEq
+
+    rows.foreach(row =>
+      eqb.update(rowToClosedSet(row))
+    )
+
+    eqb
+  }
+
   def rowToClosedSet(row: List[Int]): Set[String] =
     row.zip(header)
       .filter(_._1 == 1)
@@ -263,6 +278,14 @@ class Table {
         }.toList
       }
     }
+
+  def takeNRows(n: Int): Table = {
+    val t = new Table
+    t.header = header
+    t.rows = rows.take(n)
+    t.columns = transpose(t.rows)
+    t
+  }
 
   override def toString(): String = {
     val ls = header.mkString(", ") :: rows.map(_.mkString(", "))

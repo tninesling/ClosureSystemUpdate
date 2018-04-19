@@ -2,7 +2,7 @@ package basis
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import syntax._
+import syntax.implication._
 
 class CanonicalDirectBasisSpec extends FlatSpec with Matchers {
 

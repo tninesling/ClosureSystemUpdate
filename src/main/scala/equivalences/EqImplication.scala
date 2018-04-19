@@ -26,6 +26,17 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
     } yield EqImplication(prem, conc)
 
   /**
+   * Expands the implication, removing the class eq from
+   * the generated implications
+   */
+  def expandWithout(s: ClosedSet, eq: EquivalenceClass): Set[EqImplication] =
+    for {
+      prem <- product(premise.map(_.partition(s))).filterNot(_.equals(eq)) if (prem.nonEmpty)
+      conc <- product(conclusion.map(_.partition(s))).filterNot(_.equals(eq)) if (conc.nonEmpty)
+    } yield EqImplication(prem, conc)
+
+
+  /**
    * If the basis is a DBasis, we expand binary implications normally, splitting
    * the equivalences, but for nonbinary implications we replace the old implications
    * with the new ones after splitting, since they will be refinements
@@ -37,6 +48,16 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
       for {
         prem <- product(premise.map(_.partition(s))) if (prem.exists(_.intersect(s).nonEmpty))
         conc <- product(conclusion.map(_.partition(s)))
+      } yield EqImplication(prem, conc)
+    }
+
+  def dbasisExpandWithout(s: ClosedSet, eq: EquivalenceClass): Set[EqImplication] =
+    if (isBinary())
+      expandWithout(s, eq)
+    else {
+      for {
+        prem <- product(premise.map(_.partition(s))).filterNot(_.equals(eq)) if (prem.exists(_.intersect(s).nonEmpty))
+        conc <- product(conclusion.map(_.partition(s))).filterNot(_.equals(eq)) if (conc.nonEmpty)
       } yield EqImplication(prem, conc)
     }
 

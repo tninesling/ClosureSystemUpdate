@@ -10,6 +10,8 @@ class EquivalenceClassSpec extends FlatSpec with Matchers {
 
   EquivalenceClass(TreeSet(Set("a", "b"), Set("c"))).representative should be (Some(Set("a", "b")))
 
+  EquivalenceClass(TreeSet(Set("13"), Set("2"))).representative should be (Some(Set("2")))
+
   "The element b" should "be added to the equivalence class" in {
     val e = EquivalenceClass(TreeSet(Set("a")))
     e.add(Set("b"))

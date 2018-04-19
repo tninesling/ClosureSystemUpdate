@@ -4,7 +4,7 @@ import cats.Monoid
 import scala.collection.mutable.TreeSet
 import scala.collection.SortedSet
 
-import syntax._
+import syntax.eqimplication._
 
 case class EquivalenceClass(elements: TreeSet[ClosedSet]) {
 

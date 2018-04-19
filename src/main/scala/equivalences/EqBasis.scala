@@ -8,7 +8,7 @@ import cats.Monoid
 import scala.collection.mutable.TreeSet
 
 import EquivalenceClass._
-import syntax._
+import syntax.eqimplication._
 
 class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   var basis = Set.empty[EqImplication]
@@ -48,7 +48,10 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
         basis.flatMap(_.expand(s))
     }
 
-    basis = basis | equivalences.flatMap(_.newBinaryImplications(s))
+    basis = basis.union(
+      equivalences.withFilter(x => !x.equals(bottomElement))
+        .flatMap(_.newBinaryImplications(s))
+    )
   }
 
   /**
@@ -61,13 +64,29 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
 
   /**
    * If the bottom element is not in the new set, then it is no longer a unique
-   * lowest element
+   * lowest element. For bottom element {x,y} and new set A, if x is in A but y is not,
+   * we should add implications a -> y for a in A. If x is the unique bottom element
+   * and x is not in A, then the new bottom element is the empty set, and we need
+   * to add s -> t for s in A \cup x and t in X \setminus (A \cup x)
    */
-  def effectBottomElementChange(s: ClosedSet) = {
+  def effectBottomElementChange(A: ClosedSet) = {
     if (!bottomElement.isEmpty) {
-      val newPremises = baseSet.filterNot(x => bottomElement.contains(x)).map(equivalenceClass)
-      basis = basis | newPremises.map(p => p --> bottomElement.filterNot(_.subsetOf(s)))
-      bottomElement = bottomElement.filter(_.subsetOf(s))
+      val prevBottom = bottomElement
+      val newClosedSet = bottomElement.filterNot(_.subsetOf(A))
+      val nextBottom = bottomElement.filter(_.subsetOf(A))
+
+      val newImplications = baseSet.withFilter(x => !prevBottom.contains(x))
+        .map(equivalenceClass)
+        .map(_ --> newClosedSet)
+
+      basis = basis | newImplications
+      bottomElement = nextBottom
+
+      if (prevBottom.nonEmpty && nextBottom.isEmpty) {
+        val prem = A.map(equivalenceClass) + prevBottom
+        val concs = equivalences &~ prem
+        basis = basis | concs.map(conc => prem --> Set(conc))
+      }
     }
   }
 
@@ -79,7 +98,8 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
       .foreach(reducedBasis.addImplication)
 
   def mapToReducedBasis(equivBasis: Set[EqImplication]): Set[Implication] =
-    equivBasis.flatMap(_.toImplication).flatMap(_.unitImplications)
+    equivBasis.flatMap(_.toImplication)
+      .flatMap(_.unitImplications)
 
   def mapToEquivalenceBasis(rBasis: Set[Implication]): Set[EqImplication] =
     rBasis.map(imp => EqImplication(
@@ -157,7 +177,6 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
     basis.filter(_.premise.subsetOf(eqs))
       .flatMap(_.conclusion)
       .union(eqs)
-
 
   def brokenEqImplications(newSet: ClosedSet) =
     basis.filterNot(_.holdsOn(newSet))

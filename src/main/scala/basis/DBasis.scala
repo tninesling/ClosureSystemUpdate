@@ -170,6 +170,23 @@ class DBasis extends Basis {
     cdb
   }
 
+  /**
+   * Parses a DBasis from the output of the hypergraph dualization algorithm
+   */
+  def fromHypergraphDualizationFile(fileLocation: String) = {
+    val lines = scala.io.Source.fromFile(fileLocation).getLines
+
+    lines.withFilter(_.matches("""\d\.\d\d.*->.*"""))
+      .foreach{ line =>
+        val strippedLine = line.replaceAll("""\d\.\d\d \d+;""", "").replaceAll(" ; .*", "")
+        addImplication(
+          parseImplication(strippedLine)
+        )
+      }
+
+    generateBaseSet()
+  }
+
   def withLogging(): LoggingBasis = {
     val newBasis = new DBasis with LoggingBasis
     newBasis.copyValues(this)

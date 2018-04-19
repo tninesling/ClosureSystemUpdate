@@ -57,7 +57,7 @@ trait Basis {
     generateBaseSet()
   }
 
-  // Parses an implication string "12->3" as the tuple (Set("1","2"), Set("3"))
+  // Parses an implication string "1 2 -> 3" as the tuple (Set("1","2"), Set("3"))
   def parseImplication(impString: String): Implication = {
     val split = impString.split("->")
     val left = parseSet(split(0).trim())
@@ -110,6 +110,8 @@ trait Basis {
       product(newAcc, operands.tail)
     }
   }
+
+  def isEmpty(): Boolean = basis.isEmpty
 
   def copyValues(other: Basis) = {
     this.baseSet = other.baseSet
