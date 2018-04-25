@@ -67,6 +67,24 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
   def addToConclusion(eq: EquivalenceClass) =
     EqImplication(premise, conclusion + eq)
 
+  // If the premise or conclusion contains existing, we replace it with the replacement class
+  def replace(existing: EquivalenceClass, replacement: EquivalenceClass) = {
+    val prem =
+      if (premise.contains(existing))
+        (premise - existing) + replacement
+      else
+        premise
+
+    val conc =
+      if (conclusion.contains(existing))
+        (conclusion - existing) + replacement
+      else
+        conclusion
+
+    EqImplication(prem, conc)
+  }
+
+
   def toImplication(): Option[Implication] = {
     val asImp = Implication(
       premise.flatMap(_.representative).flatten,

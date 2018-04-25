@@ -4,26 +4,31 @@ import basis.Basis
 import basis.DBasis
 import basis.Implication
 import basis.NaiveCanonicalDirectBasis
-import cats.Monoid
 import scala.collection.mutable.TreeSet
-
-import EquivalenceClass._
 import syntax.eqimplication._
 
 class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   var basis = Set.empty[EqImplication]
   var equivalences = Set.empty[EquivalenceClass]
   var closedSets = Set.empty[ClosedSet]
-  var bottomElement = Monoid[EquivalenceClass].empty
 
+  // Maybe we need to keep all EqImplications x -> \emptyset when we have other y <-> \emptyset
 
-  def update(s: ClosedSet) = {
+  def update(s: ClosedSet) = { // do we need to update base set for reduced basis here?
+    //println(s"New set: $s")
     closedSets = closedSets + s
+    //println(s"Equivalences: $equivalences")
+    //println(s"Basis: $basis")
     handleEquivalences(s)
-    addNewImplicationsToReducedBasis()
+    //println(s"New equivalences: $equivalences")
+    //println(s"New basis: $basis")
+    //println(s"Previous reduced basis: ${reducedBasis.basis}")
+    //addNewImplicationsToReducedBasis()
+    reducedBasis.basis = mapToReducedBasis(basis)
     reducedBasis.update(s)
+    //println(s"Updated reduced basis: ${reducedBasis.basis}")
     basis = mapToEquivalenceBasis(reducedBasis.basis)
-    postUpdateCleanup()
+    //postUpdateCleanup()
   }
 
   /**
@@ -33,64 +38,60 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   def handleEquivalences(s: ClosedSet) = {
     effectEqBasisChange(s)
     effectEquivalenceChange(s)
-    effectBottomElementChange(s)
+    reducedBasis.baseSet = baseSet
   }
 
   /**
    * Adds to the basis implications which were previously encapsulated
    * by equivalences
    */
-  def effectEqBasisChange(s: ClosedSet) = {
+  def effectEqBasisChange(cs: ClosedSet) = {
     basis = reducedBasis match {
       case db: DBasis =>
-        basis.flatMap(_.dbasisExpand(s))
+        basis.flatMap(_.dbasisExpand(cs))
       case _ =>
-        basis.flatMap(_.expand(s))
+        basis.flatMap(_.expand(cs))
     }
 
-    basis = basis.union(
-      equivalences.withFilter(x => !x.equals(bottomElement))
-        .flatMap(_.newBinaryImplications(s))
-    )
+    //val newBinaryImps = equivalences.flatMap(newTransitiveImplications(s))
+    //basis = basis | newBinaryImps
+    equivalences.foreach{ eqc =>
+      basis = basis | newTransitiveImplications(cs)(eqc)
+    }
   }
+
+  def newTransitiveImplications(cs: ClosedSet)(eqc: EquivalenceClass) = {
+    val splitEq = eqc.partition(cs)
+    for {
+      x <- splitEq
+      y <- splitEq - x
+      p <- upSet(x)
+      c <- downSet(y)
+    } yield p --> c
+  }
+
+  def upSet(eqc: EquivalenceClass): Set[EquivalenceClass] =
+    basis.withFilter(_.isBinary)
+      .withFilter(_.conclusion.equals(Set(eqc)))
+      .flatMap(_.premise)
+      .union(Set(eqc))
+
+  def downSet(eqc: EquivalenceClass): Set[EquivalenceClass] =
+    basis.withFilter(_.isBinary)
+      .withFilter(_.premise.equals(Set(eqc)))
+      .flatMap(_.conclusion)
+      .union(Set(eqc))
 
   /**
    * Splits equivalences into classes which hold on the new
    * closed set
    */
-  def effectEquivalenceChange(s: ClosedSet) = {
-    equivalences = equivalences.flatMap(_.partition(s))
+  def effectEquivalenceChange(cs: ClosedSet) = {
+    equivalences = equivalences.flatMap(_.filter(_.size <= 1).partition(cs))
+    checkForNewNonbinaryEquivalences(cs)
   }
 
-  /**
-   * If the bottom element is not in the new set, then it is no longer a unique
-   * lowest element. For bottom element {x,y} and new set A, if x is in A but y is not,
-   * we should add implications a -> y for a in A. If x is the unique bottom element
-   * and x is not in A, then the new bottom element is the empty set, and we need
-   * to add s -> t for s in A \cup x and t in X \setminus (A \cup x)
-   */
-  def effectBottomElementChange(A: ClosedSet) = {
-    if (!bottomElement.isEmpty) {
-      val prevBottom = bottomElement
-      val newClosedSet = bottomElement.filterNot(_.subsetOf(A))
-      val nextBottom = bottomElement.filter(_.subsetOf(A))
-
-      val newImplications = baseSet.withFilter(x => !prevBottom.contains(x))
-        .map(equivalenceClass)
-        .map(_ --> newClosedSet)
-
-      basis = basis | newImplications
-      bottomElement = nextBottom
-
-      if (prevBottom.nonEmpty && nextBottom.isEmpty) {
-        val prem = A.map(equivalenceClass) + prevBottom
-        val concs = equivalences &~ prem
-        basis = basis | concs.map(conc => prem --> Set(conc))
-      }
-    }
-  }
-
-  def baseSet = equivalences.diff(Set(bottomElement)).flatMap(_.representative).flatten
+  def baseSet = equivalences.flatMap(_.representative).flatten
 
   def addNewImplicationsToReducedBasis() =
     basis.flatMap(_.toImplication)
@@ -101,16 +102,25 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
     equivBasis.flatMap(_.toImplication)
       .flatMap(_.unitImplications)
 
-  def mapToEquivalenceBasis(rBasis: Set[Implication]): Set[EqImplication] =
-    rBasis.map(imp => EqImplication(
+  def mapToEquivalenceBasis(rBasis: Set[Implication]): Set[EqImplication] = {
+    val nontrivialImps = rBasis.map(imp => EqImplication(
       imp.premise.map(x => equivalenceClass(x)),
       imp.conclusion.map(x => equivalenceClass(x))
     ))
 
+    val bottomElements = equivalences.filter(_.contains(Set.empty[String]))
+    val trivialImps: Set[EqImplication] = for {
+      p <- equivalences.diff(bottomElements)
+      c <- bottomElements
+    } yield p --> c
+
+    trivialImps | nontrivialImps
+  }
+
   def postUpdateCleanup() = {
     checkForMissingImplicationsWithJoinReducibles()
-    checkForNewBottomElement()
-    checkForNewNonbinaryEquivalences()
+    //checkForNewBottomElement()
+    //checkForNewNonbinaryEquivalences()
   }
 
   /**
@@ -136,7 +146,7 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
    * If every other base element implies some element x,
    * remove those implications and set x as the bottom element
    */
-  def checkForNewBottomElement() = {
+  /*def checkForNewBottomElement() = {
     baseSet.foreach{ x =>
       val allImplyX = for {
           premEquiv <- equivalences if (!premEquiv.contains(x))
@@ -148,35 +158,39 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
         bottomElement = equivalenceClass(x)
       }
     }
-  }
+  }*/
 
-  def checkForNewNonbinaryEquivalences() = {
-    baseSet.map(equivalenceClass).foreach{ x =>
-      val cl_x = closure(Set(x))
+  def checkForNewNonbinaryEquivalences(cs: ClosedSet) = {
+    equivalences.filterNot(_.contains(Set.empty[String])).foreach{ x =>
+      // check the closure using only implications that hold
+      val cl_x = holdingClosure(cs)(Set(x))
 
       // if phi(x) = phi(phi(x)\x), then x <-> phi(x)\x
-      if (cl_x.equals(closure(cl_x - x))) {
+      if (closure(cl_x - x).contains(x)) { // regular closure gives us all implications we need
         val equivalentClosedSet = (cl_x - x).flatMap(_.representative).flatten
-
-        basis = basis.map{ imp =>
-          if (imp.premise.contains(x)) {
-            imp.addToPremise(equivalenceClass(equivalentClosedSet))
-          } else if (imp.conclusion.contains(x)) {
-            imp.addToConclusion(equivalenceClass(equivalentClosedSet))
-          } else {
-            imp
-          }
-        }
-
+        basis = basis.map(_.replace(x, x <=> equivalentClosedSet))
         x.add(equivalentClosedSet)
       }
     }
   }
 
   def closure(eqs: Set[EquivalenceClass]): Set[EquivalenceClass] =
-    basis.filter(_.premise.subsetOf(eqs))
+    basis.withFilter(_.premise.subsetOf(eqs))
       .flatMap(_.conclusion)
       .union(eqs)
+      .filterNot(_.contains(Set.empty[String]))
+
+  /**
+   * Computes the closure of a set only using the implications which hold on the
+   * set cs. Used after we add needed broken implications but they haven't been
+   * removed by the body-building process yet
+   */
+  def holdingClosure(cs: ClosedSet)(eqs: Set[EquivalenceClass]): Set[EquivalenceClass] =
+    basis.withFilter(_.holdsOn(cs))
+      .withFilter(_.premise.subsetOf(eqs))
+      .flatMap(_.conclusion)
+      .union(eqs)
+      .filterNot(_.contains(Set.empty[String]))
 
   def brokenEqImplications(newSet: ClosedSet) =
     basis.filterNot(_.holdsOn(newSet))

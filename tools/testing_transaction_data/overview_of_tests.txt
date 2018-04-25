@@ -1,0 +1,19 @@
+1. Information about software that we used:
+
+Microsoft SQL Server Business Intelligence Development Studio, 2008
+Data Mining Technique - Microsoft Association Rules
+
+2. Hardware:
+OS: Microsoft Windows 7 Home Premium
+Processor: Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz, 2501 Mhz, 2 Cores, 4 Log. Processors
+
+3. Book reference:
+
+3.1 ZhaoHui Tang, Jamie MacLennan, "Data Mining with SQL Server 2005", Wiley, 2005.
+3.2 Jiawei Han, Micheline Kamber, "Data Mining Concepts and Techniques", MK, 2006
+
+4. Data used for testing:
+
+4.1 The dataset was taken from Frequent Itemset Mining Dataset Repository, publicly available at http://fimi.ua.ac.be/data/retail.dat. This is retail market basket data from an anonymous Belgian retail store. We took first 90 rows converting them to a binary matrix format with size 90*502 and dencity 0.0162. Runnig time is about 42 seconds, results have about 104 mostly binary implications with the max. support = 5, confidence = 100% (DBasis).
+
+4.2 Data from Honolulu Cancer Center, a matrix with size 22*1112 and dencity 0.4684, fortran code with the target columns 1111, 1112 and ternary implications, support 8 and deficit 1 gave about 14819 implications. Microsoft Association Rules gave first 2000 rows with minimum support 15 and probability = 1. There were no implications with targets 1111 and 1112. DBasis gave column 1111 reduced, and no data for 1112 column by the time of testing.

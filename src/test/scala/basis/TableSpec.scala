@@ -1,6 +1,7 @@
 package basis
 
 import equivalences._
+import equivalences.syntax.equivalenceclass._
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -12,18 +13,30 @@ class TableSpec extends FlatSpec with Matchers {
   testTable.header = List("a", "b", "c", "d")
   testTable.columns = columns
   testTable.rows = testTable.transpose(columns)
-  testTable.equivalences = testTable.header.map(x => EquivalenceClass(TreeSet(Set(x)))).toSet
+  testTable.equivalences = testTable.header.map(x => EquivalenceClass(TreeSet(Set(x)))).toSet + EquivalenceClass(TreeSet(Set.empty[String]))
+
+  "The addBinaryEquivalence function" should "add the equivalence a <=> emptyset" in {
+    val t = new Table
+    val columns = List(List(1,1,1), List(0,1,0), List(0,1,1), List(0,1,0))
+    t.header = List("a", "b", "c", "d")
+    t.columns = columns
+    t.rows = t.transpose(columns)
+    t.equivalences = t.header.map(_.eqClass).toSet + Set.empty[String].eqClass
+
+    t.addBinaryEquivalence(Set.empty[String], Set("a"))
+    t.equivalences should equal (Set("a" <=> Set.empty[String], "b".eqClass, "c".eqClass, "d".eqClass))
+  }
 
   "The nonConstant function" should "return 3 non-constant columns" in {
     testTable.nonConstant.columns.size shouldBe 3
   }
   it should "track a as the bottom element" in {
-    testTable.nonConstant.bottomElement should equal (Set("a"))
+    testTable.nonConstant.equivalences should contain ("a" <=> Set.empty[String])
   }
   it should "track 6 as the bottom element" in {
     val t = new Table()
     t.fromFile("./src/test/data/example3/larochelle.csv")
-    t.nonConstant.bottomElement should equal (Set("6"))
+    t.nonConstant.equivalences should contain ("6" <=> Set.empty[String])
   }
 
   "The uniqueSingletonClosures function" should "return 3 columns with unique singleton closures" in {
@@ -34,10 +47,10 @@ class TableSpec extends FlatSpec with Matchers {
     t.fromFile("./src/test/data/example3/larochelle.csv")
     val eqs: Set[EquivalenceClass] =
       t.header.toSet
-        .withFilter(x => !Set("7", "8").contains(x))
+        .withFilter(x => !Set("6", "7", "8").contains(x))
         .map(x => EquivalenceClass(TreeSet(Set(x))))
 
-    t.uniqueSingletonClosures.equivalences should equal (eqs + EquivalenceClass(TreeSet(Set("7"), Set("8"))))
+    t.nonConstant.uniqueSingletonClosures.equivalences should equal (eqs + ("7" <=> "8") + ("6" <=> Set.empty[String]))
   }
 
   "The closure function" should "return column 0 for column 0" in {
@@ -82,12 +95,12 @@ class TableSpec extends FlatSpec with Matchers {
   it should "track a as bottom element and b <=> d" in {
     val r = testTable.reduce()
     r.equivalences should equal (Set(
-      EquivalenceClass(TreeSet(Set("a"))),
+      EquivalenceClass(TreeSet(Set.empty[String], Set("a"))),
       EquivalenceClass(TreeSet(Set("b"), Set("d"))),
       EquivalenceClass(TreeSet(Set("c")))
     ))
 
-    r.bottomElement should equal (Set("a"))
+    //r.bottomElement should equal (Set("a"))
   }
   it should "track 6 as bottom element and 7 <=> 8" in {
     val t = new Table
@@ -96,11 +109,12 @@ class TableSpec extends FlatSpec with Matchers {
 
     val eqs: Set[EquivalenceClass] =
       t.header.toSet
-        .withFilter(x => !Set("7", "8").contains(x))
-        .map(x => EquivalenceClass(TreeSet(Set(x))))
+        .withFilter(x => !Set("6", "7", "8").contains(x))
+        .map(_.eqClass)
+        //.map(x => EquivalenceClass(TreeSet(Set(x))))
 
-    r.equivalences should equal (eqs + EquivalenceClass(TreeSet(Set("7"), Set("8"))))
-    r.bottomElement should equal (Set("6"))
+    r.equivalences should equal (eqs + ("7" <=> "8") + ("6" <=> Set.empty[String]))//(eqs + EquivalenceClass(TreeSet(Set("7"), Set("8"))))
+    //r.bottomElement should equal (Set("6"))
   }
 
   "The table" should "have the correct column labels" in {
@@ -124,6 +138,5 @@ class TableSpec extends FlatSpec with Matchers {
                      Set("b", "c1", "c2", "a1", "a2"))
     r.mooreFamily().toSet should equal (family)
   }
-
 
 }

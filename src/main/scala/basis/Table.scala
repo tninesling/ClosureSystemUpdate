@@ -2,19 +2,20 @@ package basis
 
 import equivalences._
 import equivalences.EquivalenceClass._
+import equivalences.syntax.equivalenceclass._
 import syntax.implication._
 
 import cats.Monoid
 import cats.syntax.semigroup._
 import scala.io.Source
-import scala.collection.mutable.TreeSet
+//import scala.collection.mutable.TreeSet
 
 class Table {
   var header = List.empty[String]
   var columns = List.empty[List[Int]]
   var rows = List.empty[List[Int]]
   var equivalences = Set.empty[EquivalenceClass]
-  var bottomElement = Set.empty[String]
+  //var bottomElement = Set.empty[String]
   var previousTable: Option[Table] = None
 
 
@@ -41,7 +42,7 @@ class Table {
       if (colSum == rows.size) {
         // If col x is all ones, we add y -> x for all y
         val colHeader = Set(header(ind))
-        addBottomElement(colHeader)
+        addBinaryEquivalence(Set.empty[String], colHeader)//addBottomElement(colHeader)
       } else {
         nonConstantCols = nonConstantCols :+ ind
       }
@@ -49,11 +50,11 @@ class Table {
 
     val nonConstantTable = select(nonConstantCols)
     nonConstantTable.equivalences = equivalences
-    nonConstantTable.bottomElement = bottomElement
+    //nonConstantTable.bottomElement = bottomElement
     nonConstantTable
   }
 
-  def addBottomElement(s: ClosedSet) = {
+  /*def addBottomElement(s: ClosedSet) = {
     if (bottomElement.nonEmpty) {
       equivalences.foreach{ equiv =>
         if (equiv.contains(bottomElement)) {
@@ -67,7 +68,7 @@ class Table {
       bottomElement = s
       equivalences = equivalences.flatMap(_.partition(s))
     }
-  }
+  }*/
 
   // Returns indexes of columns with unique closures
   def uniqueSingletonClosures(): Table = {
@@ -88,7 +89,7 @@ class Table {
 
     val uniqueClosuresTable = select(uniqueIndices)
     uniqueClosuresTable.equivalences = equivalences
-    uniqueClosuresTable.bottomElement = bottomElement
+    //uniqueClosuresTable.bottomElement = bottomElement
     uniqueClosuresTable
   }
 
@@ -122,7 +123,7 @@ class Table {
 
     val uniqueTable = select(indices)
     uniqueTable.equivalences = equivalences
-    uniqueTable.bottomElement = bottomElement
+    //uniqueTable.bottomElement = bottomElement
     uniqueTable
   }
 
@@ -150,10 +151,11 @@ class Table {
   def buildEqBasis(reducedBasis: Basis): EqBasis = {
     val eqb = new EqBasis(reducedBasis)
     val base = header.toSet
-    val allEq: EquivalenceClass = base.foldLeft(Monoid[EquivalenceClass].empty)(_ <=> _)
+    val allEq: EquivalenceClass =
+      base.foldLeft(Monoid[EquivalenceClass].empty)(_ <=> _) <=> Set.empty[String]
 
     eqb.equivalences = Set(allEq)
-    eqb.bottomElement = allEq
+    //eqb.bottomElement = allEq
 
     rows.foreach(row =>
       eqb.update(rowToClosedSet(row))
@@ -174,9 +176,8 @@ class Table {
     println(txt)
   }
 
-  def mooreFamily(): Iterator[ClosedSet] = {
+  def mooreFamily(): Iterator[ClosedSet] =
     header.toSet.subsets.map(closure)
-  }
 
   def closure(cs: ClosedSet): ClosedSet = {
     val indices =
@@ -255,9 +256,7 @@ class Table {
     header = csv.head
     rows = csv.tail.map(ls => ls.map(_.toInt))
     columns = transpose(rows)
-    equivalences = header.toSet.map { x: String =>
-      EquivalenceClass(TreeSet(Set(x)))
-    }
+    equivalences = header.map(_.eqClass).toSet + Set.empty[String].eqClass
   }
 
   def readCsv(fileLocation: String): List[List[String]] = {

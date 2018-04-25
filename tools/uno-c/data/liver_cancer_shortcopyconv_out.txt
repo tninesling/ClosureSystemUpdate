@@ -1,0 +1,130 @@
+0.00 Reducing table.
+0.00 Equivalent columns for reduced table in original table starting from 1
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 26 27 28 29 30 
+ Equivalent columns in original table starting from 1, blank means null set 
+23<=> 21 
+24<=> 21 
+25<=> 17 
+0.00 Creating row comparison table.
+0.00 Creating column comparison table.
+0.00 Creating up and down arrows.
+0.00 Producing hypergraph with a parameter siz: 17.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 17.
+0.00 Producing hypergraph with a parameter siz: 17.
+0.00 Producing hypergraph with a parameter siz: 17.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 17.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.00 Producing hypergraph with a parameter siz: 18.
+0.01 Producing hypergraph with a parameter siz: 18.
+0.01 Producing hypergraph with a parameter siz: 17.
+0.01 Producing hypergraph with a parameter siz: 18.
+0.01 Producing hypergraph with a parameter siz: 18.
+0.01 Producing hypergraph with a parameter siz: 18.
+0.01 Producing hypergraph with a parameter siz: 18.
+0.02 Producing hypergraph with a parameter siz: 18.
+0.02 Producing hypergraph with a parameter siz: 18.
+0.02 Producing hypergraph with a parameter siz: 17.
+0.02 Producing hypergraph with a parameter siz: 12.
+0.02 Producing hypergraph with a parameter siz: 12.
+0.02 diff s d137
+0.02 0. 2 -> 29 ; support = 1
+0.02 1. 7 -> 29 ; support = 1
+0.02 2. 12 -> 29 ; support = 1
+0.02 3. 15 -> 30 ; support = 2
+0.02 4. 17 -> 30 ; support = 2
+0.02 5. 20 -> 30 ; support = 1
+0.02 6. 21 -> 30 ; support = 1
+0.02 7. 26 -> 30 ; support = 1
+0.02 8. 28 -> 30 ; support = 1
+0.02 71. 14 29 -> 2 ; support = 3
+0.02 195. 11 5 -> 7 ; support = 3
+0.02 198. 12 4 -> 7 ; support = 3
+0.02 207. 19 14 -> 7 ; support = 3
+0.02 210. 9 2 -> 8 ; support = 3
+0.02 220. 10 13 -> 8 ; support = 3
+0.02 253. 13 11 -> 9 ; support = 3
+0.02 262. 18 12 -> 9 ; support = 3
+0.02 278. 8 1 29 -> 10 ; support = 3
+0.02 279. 8 5 -> 10 ; support = 3
+0.02 282. 9 6 -> 10 ; support = 3
+0.02 283. 9 11 1 -> 10 ; support = 3
+0.02 288. 18 6 -> 10 ; support = 4
+0.02 294. 1 2 -> 11 ; support = 3
+0.02 305. 6 4 -> 11 ; support = 3
+0.02 390. 14 4 -> 12 ; support = 3
+0.02 393. 14 8 -> 12 ; support = 3
+0.02 399. 18 1 -> 12 ; support = 4
+0.02 401. 18 8 -> 12 ; support = 3
+0.02 402. 18 9 -> 12 ; support = 3
+0.02 404. 19 8 -> 12 ; support = 4
+0.02 406. 5 14 -> 13 ; support = 3
+0.02 407. 8 2 -> 13 ; support = 4
+0.02 414. 9 3 7 -> 13 ; support = 3
+0.02 415. 9 11 7 -> 13 ; support = 3
+0.02 416. 9 12 7 -> 13 ; support = 3
+0.02 430. 20 14 -> 13 ; support = 4
+0.02 437. 3 7 -> 14 ; support = 3
+0.02 440. 7 1 -> 14 ; support = 3
+0.02 442. 8 2 -> 14 ; support = 3
+0.02 448. 10 13 -> 14 ; support = 4
+0.02 450. 11 9 7 -> 14 ; support = 3
+0.02 451. 11 13 -> 14 ; support = 3
+0.02 460. 17 13 -> 14 ; support = 3
+0.02 466. 19 11 9 -> 14 ; support = 3
+0.02 467. 19 29 -> 14 ; support = 3
+0.02 473. 16 19 -> 15 ; support = 4
+0.02 475. 17 19 -> 15 ; support = 3
+0.02 476. 18 19 -> 15 ; support = 3
+0.02 487. 26 16 -> 15 ; support = 4
+0.02 550. 8 1 9 -> 18 ; support = 3
+0.02 552. 8 1 29 -> 18 ; support = 4
+0.02 557. 9 12 1 -> 18 ; support = 3
+0.02 558. 10 1 -> 18 ; support = 3
+0.02 562. 10 9 12 -> 18 ; support = 3
+0.02 563. 13 22 -> 18 ; support = 4
+0.02 566. 16 14 -> 18 ; support = 3
+0.02 568. 17 13 -> 18 ; support = 3
+0.02 574. 8 3 14 -> 19 ; support = 4
+0.02 575. 8 7 2 -> 19 ; support = 3
+0.02 576. 8 7 12 -> 19 ; support = 3
+0.02 579. 8 11 2 -> 19 ; support = 3
+0.02 580. 8 11 7 -> 19 ; support = 4
+0.02 584. 9 11 7 -> 19 ; support = 3
+0.02 593. 13 14 7 -> 19 ; support = 4
+0.02 594. 15 18 -> 19 ; support = 4
+0.02 596. 28 18 -> 19 ; support = 3
+0.02 598. 30 11 -> 19 ; support = 4
+0.02 601. 15 22 -> 20 ; support = 3
+0.02 603. 16 13 -> 20 ; support = 3
+0.02 606. 16 22 -> 20 ; support = 3
+0.02 611. 17 18 -> 20 ; support = 4
+0.02 613. 17 22 -> 20 ; support = 3
+0.02 614. 17 26 -> 20 ; support = 4
+0.02 618. 19 22 -> 20 ; support = 3
+0.02 626. 27 19 -> 20 ; support = 4
+0.02 658. 17 4 -> 22 ; support = 3
+0.02 660. 17 14 -> 22 ; support = 3
+0.02 690. 20 19 -> 26 ; support = 3
+0.02 695. 27 19 -> 26 ; support = 3
+0.02 702. 28 27 -> 26 ; support = 4
+0.02 704. 30 10 -> 26 ; support = 3
+0.02 707. 15 22 -> 27 ; support = 4
+0.02 708. 16 4 -> 27 ; support = 3
+0.02 709. 16 19 -> 27 ; support = 3
+0.02 711. 17 19 -> 27 ; support = 4
+0.02 713. 17 28 22 -> 27 ; support = 3
+0.02 757. 6 11 -> 29 ; support = 3
+0.02 763. 8 9 -> 29 ; support = 3
+0.02 764. 8 10 -> 29 ; support = 3
+0.02 779. 11 3 -> 29 ; support = 3
+0.02 801. 16 22 -> 30 ; support = 3
+0.02 802. 16 27 -> 30 ; support = 3

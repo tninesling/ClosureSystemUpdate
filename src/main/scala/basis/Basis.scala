@@ -78,7 +78,7 @@ trait Basis {
     var family = Set(Set[String]())
     val powerSet = baseSet.subsets.toList
 
-    powerSet foreach { subset =>
+    powerSet.foreach { subset =>
       var Y = subset.to[SortedSet]
       var previousY = Set[String]()
       while (previousY.size < Y.size) {

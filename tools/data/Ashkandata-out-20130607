@@ -1,0 +1,838 @@
+Equivalent columns for reduced table in original table starting from 1
+01458101121222427282930313338394448495152535455
+ Equivalent columns in original table starting from 1, blank means null set 
+3<=> 2 5 6 28 54 55 
+4<=> 2 9 11 12 52 55 
+7<=> 1 2 5 6 8 9 11 12 17 22 23 25 27 28 29 30 31 32 33 34 39 40 45 49 50 52 53 54 55 56 
+8<=> 28 54 56 
+10<=> 7 
+13<=> 8 
+14<=> 7 
+15<=> 7 
+16<=> 7 
+17<=> 1 2 9 12 54 55 
+18<=> 7 
+19<=> 7 
+20<=> 7 
+21<=> 7 
+24<=> 7 
+26<=> 7 
+27<=> 28 30 32 33 39 40 49 50 
+33<=> 30 32 39 
+35<=> 33 
+36<=> 33 
+37<=> 27 
+38<=> 33 
+41<=> 30 
+42<=> 40 
+43<=> 27 
+44<=> 40 
+46<=> 40 
+47<=> 27 
+48<=> 27 
+51<=> 27 
+57<=> 53 
+5 2 12 too small support = 0
+5 11 too small support = 0
+5 52 too small support = 0
+6 2 11 too small support = 0
+6 9 too small support = 0
+6 23 too small support = 0
+6 52 too small support = 0
+22 2 too small support = 0
+22 9 too small support = 0
+22 23 too small support = 0
+22 28 too small support = 0
+22 29 too small support = 0
+22 52 too small support = 0
+23 11 too small support = 0
+23 52 too small support = 0
+28 2 11 too small support = 0
+28 2 12 too small support = 0
+28 9 too small support = 0
+28 11 12 too small support = 0
+28 52 2 too small support = 0
+28 52 11 too small support = 0
+28 52 12 too small support = 0
+28 52 55 too small support = 0
+29 2 too small support = 0
+29 5 28 too small support = 0
+29 5 55 too small support = 0
+29 9 too small support = 0
+29 12 too small support = 0
+29 23 too small support = 0
+29 52 11 too small support = 0
+29 52 55 too small support = 0
+29 54 28 too small support = 0
+29 54 55 too small support = 0
+30 2 28 too small support = 0
+30 2 52 too small support = 0
+30 5 too small support = 0
+30 6 too small support = 0
+30 9 too small support = 0
+30 11 too small support = 0
+30 12 too small support = 0
+30 22 too small support = 0
+30 23 too small support = 0
+30 54 too small support = 0
+30 55 too small support = 0
+31 2 28 too small support = 0
+31 2 32 too small support = 0
+31 2 52 too small support = 0
+31 5 too small support = 0
+31 6 too small support = 0
+31 9 too small support = 0
+31 11 too small support = 0
+31 12 too small support = 0
+31 22 too small support = 0
+31 23 too small support = 0
+31 54 too small support = 0
+31 55 too small support = 0
+32 2 28 too small support = 0
+32 2 52 too small support = 0
+32 5 too small support = 0
+32 6 too small support = 0
+32 9 too small support = 0
+32 11 too small support = 0
+32 12 too small support = 0
+32 22 too small support = 0
+32 23 too small support = 0
+32 55 too small support = 0
+40 2 28 too small support = 0
+40 2 32 too small support = 0
+40 2 52 too small support = 0
+40 5 too small support = 0
+40 6 too small support = 0
+40 9 too small support = 0
+40 11 too small support = 0
+40 12 too small support = 0
+40 22 too small support = 0
+40 23 too small support = 0
+40 54 too small support = 0
+40 55 too small support = 0
+45 2 28 too small support = 0
+45 2 32 too small support = 0
+45 2 52 too small support = 0
+45 5 too small support = 0
+45 6 too small support = 0
+45 9 too small support = 0
+45 11 too small support = 0
+45 12 too small support = 0
+45 22 too small support = 0
+45 23 too small support = 0
+45 54 too small support = 0
+45 55 too small support = 0
+49 2 too small support = 0
+49 5 too small support = 0
+49 6 too small support = 0
+49 9 too small support = 0
+49 11 too small support = 0
+49 12 too small support = 0
+49 22 too small support = 0
+49 23 too small support = 0
+49 55 too small support = 0
+50 2 too small support = 0
+50 5 too small support = 0
+50 6 too small support = 0
+50 9 too small support = 0
+50 11 too small support = 0
+50 12 too small support = 0
+50 23 too small support = 0
+50 55 too small support = 0
+53 2 too small support = 0
+53 5 too small support = 0
+53 6 too small support = 0
+53 9 too small support = 0
+53 11 too small support = 0
+53 12 too small support = 0
+53 22 too small support = 0
+53 23 too small support = 0
+53 29 too small support = 0
+53 31 45 too small support = 0
+53 54 too small support = 0
+53 55 too small support = 0
+53 56 too small support = 0
+54 11 too small support = 0
+54 52 too small support = 0
+56 2 5 too small support = 0
+56 2 6 too small support = 0
+56 2 28 too small support = 0
+56 2 52 too small support = 0
+56 5 28 too small support = 0
+56 6 28 too small support = 0
+56 9 too small support = 0
+56 23 too small support = 0
+56 55 too small support = 0
+54 9 << reduces 5 9 for column 1
+56 2 54 << reduces 23 2 for column 1
+54 9 << reduces 23 9 for column 1
+32 54 << reduces 49 54 for column 1
+56 2 54 << reduces 54 9 for column 1
+1 12 5 too small support = 0
+1 28 too small support = 0
+6 12 5 too small support = 0
+6 12 28 too small support = 0
+6 12 54 too small support = 0
+6 12 55 too small support = 0
+11 1 55 too small support = 0
+11 5 too small support = 0
+11 12 28 too small support = 0
+11 23 too small support = 0
+11 54 too small support = 0
+22 1 55 too small support = 0
+22 6 5 too small support = 0
+22 6 54 too small support = 0
+22 6 55 too small support = 0
+22 11 55 too small support = 0
+22 12 5 too small support = 0
+22 12 54 too small support = 0
+22 12 55 too small support = 0
+25 1 5 too small support = 0
+25 1 54 too small support = 0
+25 1 55 too small support = 0
+25 6 5 too small support = 0
+25 6 54 too small support = 0
+25 6 55 too small support = 0
+25 11 55 too small support = 0
+25 12 5 too small support = 0
+25 12 54 too small support = 0
+25 12 55 too small support = 0
+25 23 too small support = 0
+25 28 too small support = 0
+25 29 too small support = 0
+29 1 too small support = 0
+30 1 too small support = 0
+30 25 too small support = 0
+31 1 too small support = 0
+31 25 too small support = 0
+32 25 too small support = 0
+32 54 28 too small support = 0
+32 54 29 too small support = 0
+45 1 too small support = 0
+45 25 too small support = 0
+50 1 32 too small support = 0
+50 25 too small support = 0
+50 54 28 too small support = 0
+50 54 29 too small support = 0
+50 54 32 too small support = 0
+52 1 too small support = 0
+52 5 too small support = 0
+52 6 too small support = 0
+52 22 too small support = 0
+52 23 too small support = 0
+52 25 too small support = 0
+52 54 too small support = 0
+53 1 too small support = 0
+53 25 too small support = 0
+56 1 6 5 too small support = 0
+56 1 6 54 too small support = 0
+56 11 28 too small support = 0
+56 11 29 too small support = 0
+56 12 5 too small support = 0
+56 12 28 too small support = 0
+56 12 54 too small support = 0
+56 25 5 too small support = 0
+56 25 54 too small support = 0
+1 12 54 << reduces 1 23 for column 2
+6 28 54 << reduces 6 28 5 for column 2
+11 1 2 too small support = 0
+22 30 too small support = 0
+22 31 too small support = 0
+22 32 too small support = 0
+22 39 too small support = 0
+22 40 too small support = 0
+22 45 too small support = 0
+22 49 too small support = 0
+22 53 too small support = 0
+22 54 12 too small support = 0
+25 2 too small support = 0
+25 30 too small support = 0
+25 31 too small support = 0
+25 32 too small support = 0
+25 39 too small support = 0
+25 40 too small support = 0
+25 45 too small support = 0
+25 49 too small support = 0
+25 50 too small support = 0
+25 52 too small support = 0
+25 53 too small support = 0
+28 1 too small support = 0
+28 54 32 too small support = 0
+28 54 39 too small support = 0
+28 54 49 too small support = 0
+31 2 39 too small support = 0
+39 2 1 too small support = 0
+39 2 52 too small support = 0
+39 2 54 too small support = 0
+39 6 too small support = 0
+39 11 too small support = 0
+39 12 too small support = 0
+39 55 too small support = 0
+40 1 too small support = 0
+40 2 39 too small support = 0
+45 2 39 too small support = 0
+50 1 39 too small support = 0
+50 1 49 too small support = 0
+50 54 39 too small support = 0
+50 54 49 too small support = 0
+56 11 2 too small support = 0
+56 11 52 too small support = 0
+56 12 2 too small support = 0
+56 12 52 too small support = 0
+22 55 << reduces 25 55 for column 5
+5 12 1 too small support = 0
+5 12 2 too small support = 0
+5 12 9 too small support = 0
+23 12 1 too small support = 0
+23 12 2 too small support = 0
+23 12 9 too small support = 0
+23 28 2 too small support = 0
+25 9 too small support = 0
+28 12 2 too small support = 0
+29 22 too small support = 0
+29 25 too small support = 0
+39 2 28 too small support = 0
+39 5 too small support = 0
+39 9 too small support = 0
+39 22 too small support = 0
+39 23 too small support = 0
+39 25 too small support = 0
+39 54 28 too small support = 0
+40 25 too small support = 0
+49 25 too small support = 0
+49 54 28 too small support = 0
+56 5 2 too small support = 0
+22 11 << reduces 25 11 for column 6
+22 12 << reduces 25 12 for column 6
+29 54 << reduces 29 5 for column 6
+1 2 6 too small support = 0
+6 12 2 too small support = 0
+39 54 29 too small support = 0
+49 54 29 too small support = 0
+1 2 5 << reduces 1 23 for column 9
+1 2 5 << reduces 23 2 for column 9
+6 2 1 too small support = 0
+28 2 23 too small support = 0
+22 6 << reduces 25 6 for column 11
+22 12 << reduces 25 12 for column 11
+52 2 << reduces 52 9 for column 11
+11 2 << reduces 11 9 for column 12
+22 6 << reduces 25 6 for column 12
+22 11 << reduces 25 11 for column 12
+52 2 << reduces 52 9 for column 12
+11 1 9 too small support = 0
+5 2 1 << reduces 5 9 for column 23
+5 12 << reduces 23 12 for column 28
+32 29 << reduces 39 29 for column 28
+32 52 << reduces 39 52 for column 28
+30 29 << reduces 40 29 for column 28
+40 32 << reduces 40 39 for column 28
+30 49 << reduces 40 49 for column 28
+30 52 << reduces 40 52 for column 28
+32 29 << reduces 49 29 for column 28
+32 52 << reduces 49 52 for column 28
+50 32 << reduces 50 39 for column 28
+50 30 << reduces 50 40 for column 28
+50 32 << reduces 50 49 for column 28
+6 11 2 too small support = 0
+56 6 2 too small support = 0
+56 28 2 too small support = 0
+56 28 5 too small support = 0
+56 28 6 too small support = 0
+56 28 12 too small support = 0
+56 28 30 << reduces 31 45 28 for column 29
+56 40 32 << reduces 31 45 32 for column 29
+56 40 32 << reduces 31 45 39 for column 29
+56 30 49 << reduces 31 45 49 for column 29
+56 50 30 << reduces 31 45 50 for column 29
+56 6 54 << reduces 56 6 5 for column 29
+56 28 30 << reduces 56 28 31 for column 29
+56 28 32 << reduces 56 28 39 for column 29
+56 28 30 << reduces 56 28 40 for column 29
+56 28 30 << reduces 56 28 45 for column 29
+56 28 32 << reduces 56 28 49 for column 29
+56 40 32 << reduces 56 31 32 for column 29
+56 40 32 << reduces 56 31 39 for column 29
+56 30 49 << reduces 56 31 49 for column 29
+56 40 32 << reduces 56 40 39 for column 29
+56 30 49 << reduces 56 40 49 for column 29
+56 40 32 << reduces 56 45 32 for column 29
+56 40 32 << reduces 56 45 39 for column 29
+56 30 49 << reduces 56 45 49 for column 29
+56 50 30 << reduces 56 50 31 for column 29
+56 50 32 << reduces 56 50 39 for column 29
+56 50 30 << reduces 56 50 40 for column 29
+56 50 30 << reduces 56 50 45 for column 29
+56 50 32 << reduces 56 50 49 for column 29
+56 28 11 too small support = 0
+32 28 << reduces 39 28 for column 30
+32 29 << reduces 39 29 for column 30
+32 52 << reduces 39 52 for column 30
+50 32 << reduces 50 39 for column 30
+32 29 << reduces 39 29 for column 31
+30 29 << reduces 40 29 for column 31
+32 29 << reduces 49 29 for column 31
+56 28 32 << reduces 56 28 39 for column 31
+56 28 32 << reduces 56 28 49 for column 31
+56 28 30 << reduces 56 40 for column 31
+56 50 32 << reduces 56 50 39 for column 31
+56 50 32 << reduces 56 50 49 for column 31
+56 2 11 too small support = 0
+56 2 12 too small support = 0
+32 52 << reduces 39 52 for column 34
+32 28 << reduces 39 28 for column 40
+32 29 << reduces 39 29 for column 40
+32 52 << reduces 39 52 for column 40
+32 28 << reduces 49 28 for column 40
+32 29 << reduces 49 29 for column 40
+32 52 << reduces 49 52 for column 40
+50 32 << reduces 50 39 for column 40
+50 32 << reduces 50 49 for column 40
+32 29 << reduces 39 29 for column 45
+30 29 << reduces 40 29 for column 45
+32 29 << reduces 49 29 for column 45
+56 28 32 << reduces 56 28 39 for column 45
+56 28 32 << reduces 56 28 49 for column 45
+56 28 30 << reduces 56 40 for column 45
+56 50 32 << reduces 56 50 39 for column 45
+56 50 32 << reduces 56 50 49 for column 45
+32 28 << reduces 39 28 for column 49
+32 29 << reduces 39 29 for column 49
+32 52 << reduces 39 52 for column 49
+30 28 << reduces 40 28 for column 49
+30 29 << reduces 40 29 for column 49
+40 32 << reduces 40 39 for column 49
+30 52 << reduces 40 52 for column 49
+50 32 << reduces 50 39 for column 49
+50 30 << reduces 50 40 for column 49
+32 28 << reduces 39 28 for column 50
+32 29 << reduces 39 29 for column 50
+32 52 << reduces 39 52 for column 50
+30 28 << reduces 40 28 for column 50
+30 29 << reduces 40 29 for column 50
+40 32 << reduces 40 39 for column 50
+30 49 << reduces 40 49 for column 50
+30 52 << reduces 40 52 for column 50
+32 28 << reduces 49 28 for column 50
+32 29 << reduces 49 29 for column 50
+32 52 << reduces 49 52 for column 50
+34 1 too small support = 0
+34 5 too small support = 0
+34 6 too small support = 0
+34 9 too small support = 0
+34 11 too small support = 0
+34 12 too small support = 0
+34 22 too small support = 0
+34 23 too small support = 0
+34 25 too small support = 0
+34 54 too small support = 0
+34 55 too small support = 0
+11 2 << reduces 11 9 for column 52
+34 40 32 << reduces 34 40 39 for column 52
+34 40 32 << reduces 34 49 for column 52
+1 29 too small support = 0
+1 30 too small support = 0
+1 31 too small support = 0
+1 40 too small support = 0
+1 45 too small support = 0
+1 52 too small support = 0
+1 53 too small support = 0
+1 32 << reduces 1 49 for column 54
+1 50 32 too small support = 0
+1 50 39 too small support = 0
+1 50 49 too small support = 0
+2 29 too small support = 0
+2 31 32 too small support = 0
+2 31 39 too small support = 0
+2 39 1 too small support = 0
+2 39 54 too small support = 0
+2 40 32 too small support = 0
+2 40 39 too small support = 0
+2 45 32 too small support = 0
+2 45 39 too small support = 0
+2 49 too small support = 0
+2 50 too small support = 0
+2 53 too small support = 0
+5 30 too small support = 0
+5 31 too small support = 0
+5 32 too small support = 0
+5 39 too small support = 0
+5 40 too small support = 0
+5 45 too small support = 0
+5 49 too small support = 0
+5 50 too small support = 0
+5 53 too small support = 0
+6 30 too small support = 0
+6 31 too small support = 0
+6 32 too small support = 0
+6 39 too small support = 0
+6 40 too small support = 0
+6 45 too small support = 0
+6 49 too small support = 0
+6 50 too small support = 0
+6 53 too small support = 0
+11 30 too small support = 0
+11 31 too small support = 0
+11 32 too small support = 0
+11 39 too small support = 0
+11 40 too small support = 0
+11 45 too small support = 0
+11 49 too small support = 0
+11 50 too small support = 0
+11 53 too small support = 0
+12 29 too small support = 0
+12 30 too small support = 0
+12 31 too small support = 0
+12 32 too small support = 0
+12 39 too small support = 0
+12 40 too small support = 0
+12 45 too small support = 0
+12 49 too small support = 0
+12 50 too small support = 0
+12 53 too small support = 0
+54 28 29 too small support = 0
+54 28 32 too small support = 0
+54 28 39 too small support = 0
+54 28 49 too small support = 0
+54 30 too small support = 0
+54 31 too small support = 0
+54 32 29 too small support = 0
+54 39 29 too small support = 0
+54 40 too small support = 0
+54 45 too small support = 0
+54 49 29 too small support = 0
+54 50 28 too small support = 0
+54 50 29 too small support = 0
+54 50 32 too small support = 0
+54 50 39 too small support = 0
+54 50 49 too small support = 0
+54 53 too small support = 0
+1 6 54 << reduces 1 6 5 for column 55
+12 54 << reduces 12 5 for column 55
+25 54 << reduces 25 5 for column 55
+29 54 << reduces 29 5 for column 56
+30 2 << reduces 31 2 for column 56
+30 29 << reduces 31 29 for column 56
+30 2 << reduces 31 45 for column 56
+30 2 << reduces 45 2 for column 56
+30 29 << reduces 45 29 for column 56
+diff s d119
+0. 9 -> 2 ; support = 1
+1. 23 -> 5 ; support = 1
+2. 25 -> 22 ; support = 2
+3. 53 -> 28 ; support = 1
+4. 31 -> 30 ; support = 1
+5. 34 -> 30 ; support = 1
+6. 40 -> 30 ; support = 1
+7. 45 -> 30 ; support = 1
+8. 53 -> 30 ; support = 1
+9. 39 -> 32 ; support = 1
+10. 49 -> 32 ; support = 1
+11. 53 -> 32 ; support = 1
+12. 53 -> 34 ; support = 1
+13. 49 -> 39 ; support = 1
+14. 53 -> 39 ; support = 1
+15. 31 -> 40 ; support = 1
+16. 45 -> 40 ; support = 1
+17. 53 -> 40 ; support = 1
+18. 53 -> 49 ; support = 1
+19. 53 -> 50 ; support = 1
+20. 53 -> 52 ; support = 1
+21. 5 -> 54 ; support = 1
+22. 23 -> 54 ; support = 1
+23. 9 -> 55 ; support = 1
+24. 23 -> 55 ; support = 1
+25. 6 12 -> 1 ; support = 1
+26. 22 6 -> 1 ; support = 1
+27. 22 11 -> 1 ; support = 1
+28. 22 12 -> 1 ; support = 2
+29. 32 54 -> 1 ; support = 4
+30. 50 22 -> 1 ; support = 3
+31. 50 54 -> 1 ; support = 2
+32. 56 2 54 -> 1 ; support = 3
+33. 56 11 -> 1 ; support = 2
+34. 56 12 -> 1 ; support = 3
+35. 56 22 -> 1 ; support = 2
+36. 1 12 54 -> 2 ; support = 4
+37. 1 12 55 -> 2 ; support = 4
+38. 6 28 54 -> 2 ; support = 4
+39. 11 12 55 -> 2 ; support = 3
+40. 52 11 -> 2 ; support = 2
+41. 52 12 -> 2 ; support = 3
+42. 52 55 -> 2 ; support = 2
+43. 6 1 55 -> 5 ; support = 4
+44. 6 2 -> 5 ; support = 4
+45. 6 54 -> 5 ; support = 4
+46. 22 55 -> 5 ; support = 4
+47. 25 54 -> 5 ; support = 4
+48. 28 2 -> 5 ; support = 3
+49. 28 12 -> 5 ; support = 1
+50. 28 54 55 -> 5 ; support = 1
+51. 29 54 -> 5 ; support = 1
+52. 56 6 29 -> 5 ; support = 2
+53. 11 1 -> 6 ; support = 2
+54. 22 11 -> 6 ; support = 2
+55. 22 12 -> 6 ; support = 2
+56. 25 1 -> 6 ; support = 2
+57. 28 11 -> 6 ; support = 1
+58. 29 11 -> 6 ; support = 1
+59. 29 54 -> 6 ; support = 1
+60. 29 55 -> 6 ; support = 2
+61. 56 11 -> 6 ; support = 2
+62. 56 12 -> 6 ; support = 2
+63. 56 25 -> 6 ; support = 2
+64. 1 2 5 -> 9 ; support = 2
+65. 1 2 55 -> 9 ; support = 2
+66. 1 12 2 -> 9 ; support = 2
+67. 1 12 54 -> 9 ; support = 2
+68. 1 12 55 -> 9 ; support = 2
+69. 11 2 -> 9 ; support = 2
+70. 11 12 55 -> 9 ; support = 2
+71. 52 2 -> 9 ; support = 2
+72. 52 11 -> 9 ; support = 2
+73. 52 12 -> 9 ; support = 2
+74. 52 55 -> 9 ; support = 2
+75. 6 12 -> 11 ; support = 2
+76. 22 6 -> 11 ; support = 2
+77. 22 12 -> 11 ; support = 2
+78. 25 1 -> 11 ; support = 2
+79. 29 6 28 -> 11 ; support = 2
+80. 29 55 -> 11 ; support = 2
+81. 52 2 -> 11 ; support = 2
+82. 52 12 -> 11 ; support = 2
+83. 52 55 -> 11 ; support = 2
+84. 56 1 6 -> 11 ; support = 2
+85. 56 12 -> 11 ; support = 1
+86. 56 25 -> 11 ; support = 3
+87. 11 1 -> 12 ; support = 1
+88. 11 2 -> 12 ; support = 4
+89. 22 6 -> 12 ; support = 2
+90. 22 11 -> 12 ; support = 3
+91. 25 1 -> 12 ; support = 1
+92. 28 23 -> 12 ; support = 4
+93. 52 2 -> 12 ; support = 2
+94. 52 11 -> 12 ; support = 3
+95. 52 55 -> 12 ; support = 4
+96. 56 1 6 -> 12 ; support = 2
+97. 56 11 -> 12 ; support = 4
+98. 56 25 -> 12 ; support = 4
+99. 6 12 -> 22 ; support = 3
+100. 11 1 -> 22 ; support = 2
+101. 50 1 -> 22 ; support = 1
+102. 50 54 -> 22 ; support = 1
+103. 56 1 5 -> 22 ; support = 2
+104. 56 1 6 -> 22 ; support = 2
+105. 56 11 -> 22 ; support = 2
+106. 56 12 -> 22 ; support = 1
+107. 5 2 1 -> 23 ; support = 2
+108. 5 12 -> 23 ; support = 2
+109. 28 12 -> 23 ; support = 2
+110. 6 12 -> 25 ; support = 2
+111. 11 1 -> 25 ; support = 2
+112. 22 6 -> 25 ; support = 2
+113. 22 11 -> 25 ; support = 2
+114. 22 12 -> 25 ; support = 2
+115. 22 55 -> 25 ; support = 2
+116. 56 1 6 -> 25 ; support = 3
+117. 56 11 -> 25 ; support = 2
+118. 56 12 -> 25 ; support = 2
+119. 5 12 -> 28 ; support = 2
+120. 6 2 -> 28 ; support = 2
+121. 6 11 55 -> 28 ; support = 2
+122. 29 11 -> 28 ; support = 1
+123. 29 52 -> 28 ; support = 3
+124. 29 55 -> 28 ; support = 1
+125. 30 29 -> 28 ; support = 4
+126. 30 49 -> 28 ; support = 2
+127. 30 52 -> 28 ; support = 3
+128. 32 29 -> 28 ; support = 4
+129. 32 52 -> 28 ; support = 2
+130. 40 32 -> 28 ; support = 4
+131. 50 29 -> 28 ; support = 3
+132. 50 30 -> 28 ; support = 1
+133. 50 32 -> 28 ; support = 1
+134. 50 52 -> 28 ; support = 2
+135. 56 52 -> 28 ; support = 1
+136. 6 11 55 -> 29 ; support = 3
+137. 28 11 -> 29 ; support = 1
+138. 31 45 52 -> 29 ; support = 2
+139. 56 6 54 -> 29 ; support = 3
+140. 56 28 30 -> 29 ; support = 3
+141. 56 28 32 -> 29 ; support = 1
+142. 56 30 49 -> 29 ; support = 3
+143. 56 40 32 -> 29 ; support = 3
+144. 56 50 28 -> 29 ; support = 1
+145. 56 50 30 -> 29 ; support = 3
+146. 56 50 32 -> 29 ; support = 1
+147. 56 52 -> 29 ; support = 4
+148. 28 52 -> 30 ; support = 2
+149. 29 52 -> 30 ; support = 5
+150. 32 28 -> 30 ; support = 3
+151. 32 29 -> 30 ; support = 4
+152. 32 52 -> 30 ; support = 2
+153. 39 2 -> 30 ; support = 3
+154. 50 28 -> 30 ; support = 4
+155. 50 29 -> 30 ; support = 2
+156. 50 32 -> 30 ; support = 4
+157. 50 52 -> 30 ; support = 4
+158. 56 28 29 -> 30 ; support = 3
+159. 56 52 -> 30 ; support = 2
+160. 29 52 -> 31 ; support = 1
+161. 30 29 -> 31 ; support = 3
+162. 32 29 -> 31 ; support = 1
+163. 40 2 -> 31 ; support = 4
+164. 50 29 -> 31 ; support = 2
+165. 56 28 29 -> 31 ; support = 4
+166. 56 28 30 -> 31 ; support = 3
+167. 56 28 32 -> 31 ; support = 4
+168. 56 30 49 -> 31 ; support = 2
+169. 56 50 28 -> 31 ; support = 3
+170. 56 50 30 -> 31 ; support = 4
+171. 56 50 32 -> 31 ; support = 2
+172. 56 52 -> 31 ; support = 3
+173. 28 52 -> 32 ; support = 4
+174. 29 52 -> 32 ; support = 2
+175. 30 28 -> 32 ; support = 3
+176. 30 29 -> 32 ; support = 4
+177. 30 52 -> 32 ; support = 2
+178. 50 28 -> 32 ; support = 4
+179. 50 29 -> 32 ; support = 4
+180. 50 30 -> 32 ; support = 4
+181. 50 52 -> 32 ; support = 4
+182. 56 2 1 -> 32 ; support = 3
+183. 56 2 54 -> 32 ; support = 2
+184. 56 28 29 -> 32 ; support = 1
+185. 56 52 -> 32 ; support = 1
+186. 28 52 -> 34 ; support = 2
+187. 29 52 -> 34 ; support = 2
+188. 30 2 -> 34 ; support = 2
+189. 30 52 -> 34 ; support = 1
+190. 32 52 -> 34 ; support = 2
+191. 39 2 -> 34 ; support = 2
+192. 50 52 -> 34 ; support = 2
+193. 56 52 -> 34 ; support = 2
+194. 28 52 -> 39 ; support = 2
+195. 29 52 -> 39 ; support = 2
+196. 30 28 -> 39 ; support = 2
+197. 30 29 -> 39 ; support = 2
+198. 30 32 -> 39 ; support = 2
+199. 30 52 -> 39 ; support = 3
+200. 32 28 -> 39 ; support = 2
+201. 32 29 -> 39 ; support = 2
+202. 32 52 -> 39 ; support = 2
+203. 50 28 -> 39 ; support = 2
+204. 50 29 -> 39 ; support = 2
+205. 50 30 -> 39 ; support = 1
+206. 50 32 -> 39 ; support = 3
+207. 50 52 -> 39 ; support = 1
+208. 56 28 29 -> 39 ; support = 4
+209. 56 52 -> 39 ; support = 2
+210. 28 52 -> 40 ; support = 3
+211. 29 52 -> 40 ; support = 4
+212. 30 28 -> 40 ; support = 2
+213. 30 29 -> 40 ; support = 3
+214. 30 49 -> 40 ; support = 1
+215. 30 52 -> 40 ; support = 4
+216. 32 28 -> 40 ; support = 2
+217. 32 29 -> 40 ; support = 3
+218. 32 52 -> 40 ; support = 1
+219. 50 28 -> 40 ; support = 4
+220. 50 29 -> 40 ; support = 2
+221. 50 30 -> 40 ; support = 4
+222. 50 32 -> 40 ; support = 4
+223. 50 52 -> 40 ; support = 3
+224. 56 28 29 -> 40 ; support = 4
+225. 56 52 -> 40 ; support = 2
+226. 29 52 -> 45 ; support = 4
+227. 30 29 -> 45 ; support = 4
+228. 32 29 -> 45 ; support = 4
+229. 40 2 -> 45 ; support = 4
+230. 50 29 -> 45 ; support = 3
+231. 56 28 29 -> 45 ; support = 2
+232. 56 28 30 -> 45 ; support = 1
+233. 56 28 32 -> 45 ; support = 3
+234. 56 30 49 -> 45 ; support = 1
+235. 56 50 28 -> 45 ; support = 4
+236. 56 50 30 -> 45 ; support = 2
+237. 56 50 32 -> 45 ; support = 4
+238. 56 52 -> 45 ; support = 3
+239. 28 52 -> 49 ; support = 4
+240. 29 52 -> 49 ; support = 2
+241. 30 28 -> 49 ; support = 3
+242. 30 29 -> 49 ; support = 4
+243. 30 52 -> 49 ; support = 2
+244. 32 28 -> 49 ; support = 3
+245. 32 29 -> 49 ; support = 4
+246. 32 52 -> 49 ; support = 2
+247. 39 1 -> 49 ; support = 4
+248. 39 54 -> 49 ; support = 4
+249. 40 32 -> 49 ; support = 4
+250. 50 28 -> 49 ; support = 3
+251. 50 29 -> 49 ; support = 4
+252. 50 30 -> 49 ; support = 2
+253. 50 32 -> 49 ; support = 3
+254. 50 52 -> 49 ; support = 2
+255. 56 28 29 -> 49 ; support = 1
+256. 56 52 -> 49 ; support = 1
+257. 28 52 -> 50 ; support = 1
+258. 29 52 -> 50 ; support = 1
+259. 30 28 -> 50 ; support = 3
+260. 30 29 -> 50 ; support = 1
+261. 30 49 -> 50 ; support = 3
+262. 30 52 -> 50 ; support = 3
+263. 32 28 -> 50 ; support = 3
+264. 32 29 -> 50 ; support = 3
+265. 32 52 -> 50 ; support = 3
+266. 40 32 -> 50 ; support = 2
+267. 56 28 29 -> 50 ; support = 1
+268. 56 52 -> 50 ; support = 1
+269. 11 2 -> 52 ; support = 3
+270. 11 12 55 -> 52 ; support = 1
+271. 34 28 -> 52 ; support = 1
+272. 34 29 -> 52 ; support = 1
+273. 34 40 32 -> 52 ; support = 2
+274. 34 50 -> 52 ; support = 1
+275. 1 2 -> 54 ; support = 1
+276. 1 32 -> 54 ; support = 1
+277. 1 50 -> 54 ; support = 1
+278. 1 55 -> 54 ; support = 3
+279. 6 2 -> 54 ; support = 1
+280. 22 50 -> 54 ; support = 2
+281. 22 55 -> 54 ; support = 1
+282. 28 2 -> 54 ; support = 3
+283. 28 12 -> 54 ; support = 2
+284. 56 6 29 -> 54 ; support = 1
+285. 1 6 54 -> 55 ; support = 1
+286. 2 5 -> 55 ; support = 1
+287. 2 6 -> 55 ; support = 1
+288. 2 28 -> 55 ; support = 3
+289. 2 52 -> 55 ; support = 1
+290. 5 28 -> 55 ; support = 1
+291. 6 28 -> 55 ; support = 1
+292. 11 2 -> 55 ; support = 3
+293. 11 28 -> 55 ; support = 1
+294. 11 29 -> 55 ; support = 1
+295. 11 52 -> 55 ; support = 1
+296. 12 2 -> 55 ; support = 1
+297. 12 28 -> 55 ; support = 3
+298. 12 52 -> 55 ; support = 1
+299. 12 54 -> 55 ; support = 1
+300. 25 54 -> 55 ; support = 1
+301. 6 12 -> 56 ; support = 1
+302. 11 1 -> 56 ; support = 1
+303. 22 1 -> 56 ; support = 1
+304. 22 6 -> 56 ; support = 2
+305. 22 11 -> 56 ; support = 2
+306. 22 12 -> 56 ; support = 1
+307. 29 52 -> 56 ; support = 2
+308. 29 54 -> 56 ; support = 3
+309. 30 2 -> 56 ; support = 2
+310. 30 29 -> 56 ; support = 2
+311. 32 1 -> 56 ; support = 2
+312. 32 2 -> 56 ; support = 2
+313. 32 29 -> 56 ; support = 1
+314. 32 54 -> 56 ; support = 2
+315. 50 1 -> 56 ; support = 1
+316. 50 22 -> 56 ; support = 1
+317. 50 29 -> 56 ; support = 2
+318. 50 54 -> 56 ; support = 1

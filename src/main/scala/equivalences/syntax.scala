@@ -38,10 +38,18 @@ object syntax {
       def eqClass(): EquivalenceClass = EquivalenceClass(TreeSet(Set(s)))
     }
 
+    implicit class stringSetEquivalenceClassConstructorSyntax(s: ClosedSet) {
+      def eqClass(): EquivalenceClass = EquivalenceClass(TreeSet(s))
+    }
+
     implicit class stringEquivalentSyntax(s1: String) {
-      def equivalentTo(s2: String) = EquivalenceClass(TreeSet(Set(s1), Set(s2)))
+      def equivalentTo(s2: String): EquivalenceClass = EquivalenceClass(TreeSet(Set(s1), Set(s2)))
 
       def <=>(s2: String) = equivalentTo(s2)
+
+      def equivalentTo(s2: ClosedSet): EquivalenceClass = EquivalenceClass(TreeSet(Set(s1), s2))
+
+      def <=>(s2: ClosedSet) = equivalentTo(s2)
     }
   }
 }
