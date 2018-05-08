@@ -135,6 +135,8 @@ class Table {
 
   def buildDBasis() = buildBasis(new DBasis())
 
+  def buildNaiveCanonicalDirectBasis() = buildBasis(new NaiveCanonicalDirectBasis())
+
   def buildLoggingDBasis() = buildBasis(new DBasis with LoggingBasis)
 
   def buildBasis[T <: Basis](basis: T): T = {
@@ -328,4 +330,15 @@ class Table {
     cols.map(_.map(_ == 1))
       .foldLeft(rows.map(x => true))((x,y) => x.zip(y).map { case (x,y) => x && y })
 
+  def isEmpty() = rows.isEmpty && columns.isEmpty
+
+  def nonEmpty() = !isEmpty()
+}
+
+object Table {
+  def fromFile(s: String) = {
+    val t = new Table()
+    t.fromFile(s)
+    t
+  }
 }

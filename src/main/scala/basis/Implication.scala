@@ -6,6 +6,9 @@ case class Implication(premise: Set[String], conclusion: Set[String]) {
   def holdsOn(s: Set[String]): Boolean =
     conclusion.subsetOf(s) || !premise.subsetOf(s)
 
+  def contains(s: Set[String]): Boolean =
+    s.subsetOf(premise) || s.subsetOf(conclusion)
+
   def isBinary(): Boolean =
     (premise.size == 1) && (conclusion.size == 1)
 

@@ -35,57 +35,11 @@ class EqBasisSpec extends FlatSpec with Matchers {
       Set("c" <=> "d") --> Set("a" <=> "b")
     ))
   }
-  it should "add the new nonbinary implications to the Canonical Direct Basis" in {
-    val testBasis = new EqBasis(new CanonicalDirectBasis())
-    testBasis.equivalences = Set("a".eqClass, "a'".eqClass, "d".eqClass, "x".eqClass, "y" <=> "z")
-    testBasis.basis = Set(
-      "a" --> "x", "a'" --> ("y" <=> "z"),
-      Set("a".eqClass, "a'".eqClass) --> "d", Set("a".eqClass, "y" <=> "z") --> "d",
-      Set("x".eqClass, "a'".eqClass) --> "d", Set("x".eqClass, "y" <=> "z") --> "d"
-    )
-    testBasis.effectEqBasisChange(Set("z"))
-
-    testBasis.basis should contain allOf (
-      "a" --> "x", "a'" --> "y", "a'" --> "z", "y" --> "z",
-      Set("a".eqClass, "a'".eqClass) --> "d", Set("a".eqClass, "y".eqClass) --> "d",
-      Set("a".eqClass, "z".eqClass) --> "d", Set("x".eqClass, "a'".eqClass) --> "d",
-      Set("x".eqClass, "y".eqClass) --> "d", Set("x".eqClass, "z".eqClass) --> "d"
-    )
-  }
-  it should "add the new nonbinary implications to the DBasis" in {
-    val testBasis = new EqBasis(new DBasis())
-    testBasis.equivalences = Set("a".eqClass, "a'".eqClass, "d".eqClass, "x".eqClass, "y" <=> "z")
-    testBasis.basis = Set(
-      "a" --> "x", "a'" --> ("y" <=> "z"),
-      Set("x".eqClass, "y" <=> "z") --> "d"
-    )
-    testBasis.effectEqBasisChange(Set("z"))
-
-    testBasis.basis should contain allOf (
-      "a" --> "x", "a'" --> "y", "a'" --> "z", "y" --> "z",
-      Set("x".eqClass, "z".eqClass) --> "d"
-    )
-    testBasis.basis should not contain (Set("x".eqClass, "y".eqClass) --> "d")
-  }
-
-  "The effectEquivalenceChange function" should "add the new nonbinary equivalence" in {
-    val testBasis = new EqBasis(new DBasis())
-    val firstClass = "2" <=> "4"
-    val secondClass = "1" <=> "13" <=> Set.empty[String]
-    testBasis.equivalences = Set(firstClass, secondClass)
-    testBasis.basis = Set(firstClass --> secondClass)
-
-    testBasis.handleEquivalences(Set("1", "2"))
-
-    testBasis.equivalences should equal (Set(
-      "4" <=> Set("2", "13"), "2".eqClass, "13".eqClass, "1" <=> Set.empty[String]
-    ))
-  }
 
   "The handleEquivalences function" should "add the correct equivalences with the nonbinary equivalence" in {
     val firstEquivClass = "1" <=> "6" <=> "10" <=> "11" <=> "16" <=> "18" <=> "20" <=> "22" <=> Set.empty[String]
     val secondEquivClass = "2" <=> "3" <=> "9" <=> "15"
-    val thirdEquivClass = "4" <=> "5" <=> "7" <=> "8" <=> "12" <=> "19"// <=> Set("2", "13")
+    val thirdEquivClass = "4" <=> "5" <=> "7" <=> "8" <=> "12" <=> "19"
     val fourthEquivClass = "13" <=> "14" <=> "17" <=> "21"
 
     val testBasis = new EqBasis(new DBasis())
@@ -94,7 +48,17 @@ class EqBasisSpec extends FlatSpec with Matchers {
 
     testBasis.handleEquivalences(Set("1", "2", "3", "6", "9", "10", "11", "15", "16", "18", "20", "22"))
 
-    testBasis.equivalences should equal (Set(firstEquivClass, secondEquivClass, thirdEquivClass <=> Set("2", "13"), fourthEquivClass))
+    testBasis.equivalences should equal (Set(firstEquivClass, secondEquivClass, thirdEquivClass, fourthEquivClass))
+  }
+
+  "The equivalence classes" should "be equal" in {
+    val first = "1" <=> "2" <=> "5"
+    val second = "2" <=> "5" <=> "1"
+    val third = "5" <=> "2" <=> "1"
+
+    first should equal (second)
+    first should equal (third)
+    second should equal (third)
   }
 
 }

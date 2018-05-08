@@ -12,23 +12,19 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   var equivalences = Set.empty[EquivalenceClass]
   var closedSets = Set.empty[ClosedSet]
 
-  // Maybe we need to keep all EqImplications x -> \emptyset when we have other y <-> \emptyset
-
-  def update(s: ClosedSet) = { // do we need to update base set for reduced basis here?
-    //println(s"New set: $s")
+  def update(s: ClosedSet) = {
     closedSets = closedSets + s
-    //println(s"Equivalences: $equivalences")
-    //println(s"Basis: $basis")
     handleEquivalences(s)
-    //println(s"New equivalences: $equivalences")
-    //println(s"New basis: $basis")
-    //println(s"Previous reduced basis: ${reducedBasis.basis}")
-    //addNewImplicationsToReducedBasis()
+
     reducedBasis.basis = mapToReducedBasis(basis)
     reducedBasis.update(s)
-    //println(s"Updated reduced basis: ${reducedBasis.basis}")
-    basis = mapToEquivalenceBasis(reducedBasis.basis)
-    //postUpdateCleanup()
+
+    basis = basis.filter(x =>
+      x.isBinary() &&
+      x.holdsOn(s)
+    ).union(mapToEquivalenceBasis(reducedBasis.basis))
+
+    reducedBasis.basis = mapToReducedBasis(basis) // clean up unnecessary implications already covered in Sigma_{eq}
   }
 
   /**
@@ -46,15 +42,16 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
    * by equivalences
    */
   def effectEqBasisChange(cs: ClosedSet) = {
+    basis = basis.flatMap(_.expand(cs))
+    /* temporarily like this until I can figure out the D-basis-specific expansion
     basis = reducedBasis match {
       case db: DBasis =>
         basis.flatMap(_.dbasisExpand(cs))
       case _ =>
         basis.flatMap(_.expand(cs))
     }
+    */
 
-    //val newBinaryImps = equivalences.flatMap(newTransitiveImplications(s))
-    //basis = basis | newBinaryImps
     equivalences.foreach{ eqc =>
       basis = basis | newTransitiveImplications(cs)(eqc)
     }
@@ -87,8 +84,9 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
    * closed set
    */
   def effectEquivalenceChange(cs: ClosedSet) = {
-    equivalences = equivalences.flatMap(_.filter(_.size <= 1).partition(cs))
-    checkForNewNonbinaryEquivalences(cs)
+    equivalences = equivalences.flatMap(_.partition(cs))
+    //  .map(_.filter(_.size < 2))
+    //checkForNewNonbinaryEquivalences(cs)
   }
 
   def baseSet = equivalences.flatMap(_.representative).flatten
@@ -103,24 +101,10 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
       .flatMap(_.unitImplications)
 
   def mapToEquivalenceBasis(rBasis: Set[Implication]): Set[EqImplication] = {
-    val nontrivialImps = rBasis.map(imp => EqImplication(
+    rBasis.map(imp => EqImplication(
       imp.premise.map(x => equivalenceClass(x)),
       imp.conclusion.map(x => equivalenceClass(x))
     ))
-
-    val bottomElements = equivalences.filter(_.contains(Set.empty[String]))
-    val trivialImps: Set[EqImplication] = for {
-      p <- equivalences.diff(bottomElements)
-      c <- bottomElements
-    } yield p --> c
-
-    trivialImps | nontrivialImps
-  }
-
-  def postUpdateCleanup() = {
-    checkForMissingImplicationsWithJoinReducibles()
-    //checkForNewBottomElement()
-    //checkForNewNonbinaryEquivalences()
   }
 
   /**
@@ -161,6 +145,7 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
   }*/
 
   def checkForNewNonbinaryEquivalences(cs: ClosedSet) = {
+    var intermediateBasis = basis
     equivalences.filterNot(_.contains(Set.empty[String])).foreach{ x =>
       // check the closure using only implications that hold
       val cl_x = holdingClosure(cs)(Set(x))
@@ -168,10 +153,11 @@ class EqBasis(var reducedBasis: Basis = new NaiveCanonicalDirectBasis()) {
       // if phi(x) = phi(phi(x)\x), then x <-> phi(x)\x
       if (closure(cl_x - x).contains(x)) { // regular closure gives us all implications we need
         val equivalentClosedSet = (cl_x - x).flatMap(_.representative).flatten
-        basis = basis.map(_.replace(x, x <=> equivalentClosedSet))
+        intermediateBasis = intermediateBasis.map(_.replace(x, x <=> equivalentClosedSet))
         x.add(equivalentClosedSet)
       }
     }
+    basis = intermediateBasis
   }
 
   def closure(eqs: Set[EquivalenceClass]): Set[EquivalenceClass] =

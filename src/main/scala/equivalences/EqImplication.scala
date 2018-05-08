@@ -8,16 +8,11 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
     conclusion.flatMap(_.elements).flatten.subsetOf(s) ||
     !premise.flatMap(_.elements).flatten.subsetOf(s)
 
-  def isBinary(): Boolean = {
-    val singleEquivalences =
-      premise.size == 1 && conclusion.size == 1
+  def contains(s: ClosedSet): Boolean =
+    s.subsetOf(premise.flatMap(_.elements).flatten) ||
+    s.subsetOf(conclusion.flatMap(_.elements).flatten)
 
-    val singleRepresentatives  =
-      premise.flatMap(_.representative).flatten.size == 1 &&
-      conclusion.flatMap(_.representative).flatten.size == 1
-
-    singleEquivalences && singleRepresentatives
-  }
+  def isBinary(): Boolean = premise.size == 1 && conclusion.size == 1
 
   def expand(s: ClosedSet): Set[EqImplication] =
     for {
@@ -40,13 +35,16 @@ case class EqImplication(premise: Set[EquivalenceClass], conclusion: Set[Equival
    * If the basis is a DBasis, we expand binary implications normally, splitting
    * the equivalences, but for nonbinary implications we replace the old implications
    * with the new ones after splitting, since they will be refinements
+   *
+   * TODO: Filter out the premises correctly (filter condition is causing us to
+   * miss nonbinary implications which are not affected by a broken equivalence)
    */
   def dbasisExpand(s: ClosedSet): Set[EqImplication] =
     if (isBinary())
       expand(s)
     else {
       for {
-        prem <- product(premise.map(_.partition(s))) if (prem.exists(_.intersect(s).nonEmpty))
+        prem <- product(premise.map(_.partition(s))) if (!prem.equals(premise))
         conc <- product(conclusion.map(_.partition(s)))
       } yield EqImplication(prem, conc)
     }
@@ -131,8 +129,11 @@ object EqImplication {
       Set(EquivalenceClass(TreeSet(Set(s2))))
     )
 
+  def implies(eqs1: Set[EquivalenceClass], eqs2: Set[EquivalenceClass]): EqImplication =
+    EqImplication(eqs1, eqs2)
+
   def implies(eq1: EquivalenceClass, eq2: EquivalenceClass): EqImplication =
-    EqImplication(Set(eq1), Set(eq2))
+    implies(Set(eq1), Set(eq2))
 
   def implies(s: String, eqc: EquivalenceClass): EqImplication =
     implies(EquivalenceClass(TreeSet(Set(s))), eqc)

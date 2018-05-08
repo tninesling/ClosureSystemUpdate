@@ -42,7 +42,7 @@ class DBasisSpec extends FlatSpec with Matchers {
     val newSet = Set("a1", "a2")
     val targets = testBasis.targets(binary, newSet)
     val lifted = testBasis.lift(targets, binary, Set("a1", "a2", "a_y"), Implication(Set("x", "y"), Set("d")))
-    val correctLifted = Set(Implication(Set("a1", "y"), Set("d")), Implication(Set("x", "a2"), Set("d")))
+    val correctLifted = Set(Set("a1", "y") --> "d", Set("x", "a2") --> "d", Set("a1", "a2") --> "d")
 
     lifted should equal (correctLifted)
   }
@@ -53,6 +53,30 @@ class DBasisSpec extends FlatSpec with Matchers {
     val targets = testBasis.targets(binary, newSet)
 
     testBasis.lift(targets, binary, newSet, Set("2", "5") --> "1") should equal (Set(Set("2", "5") --> "1"))
+  }
+  it should "not be empty" in {
+    val testTable = new Table
+    testTable.fromFile("./src/test/data/basisbuildingexample/Original10x22.csv")
+
+    val fourRowBasis = testTable.takeNRows(4)
+      .nonConstant
+      .uniqueSingletonClosures
+      .buildNaiveCanonicalDirectBasis()
+      .toDbasis()
+
+    val newSet = Set(12,8,19,4,15,11,9,13,16,5,10,6,17,14,18,7,3).map(_.toString)
+    val targetSet = fourRowBasis.targets(fourRowBasis.binary, newSet)
+    val liftResult = fourRowBasis.lift(
+      targetSet,
+      fourRowBasis.binary,
+      newSet,
+      Set("13", "20") --> "21"
+    )
+    println(s"Targets: $targetSet")
+    println(s"Lift result: $liftResult")
+    println(s"20 up: ${fourRowBasis.minStrictUpSet(fourRowBasis.binary, newSet, Set("20"))}")
+    println(s"2 up: ${fourRowBasis.minStrictUpSet(fourRowBasis.binary, newSet, Set("2"))}")
+    liftResult.isEmpty should be (false)
   }
 
   // Example 4.3

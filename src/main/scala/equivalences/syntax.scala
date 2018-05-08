@@ -18,9 +18,13 @@ object syntax {
     implicit class equivalenceClassSetImpliesSyntax(eqs1: Set[EquivalenceClass]) {
       def implies(eqs2: Set[EquivalenceClass]): EqImplication = EqImplication(eqs1, eqs2)
 
+      def implies(eqc: EquivalenceClass): EqImplication = implies(Set(eqc))
+
       def implies(s: String): EqImplication = EqImplication(eqs1, Set(EquivalenceClass(TreeSet(Set(s)))))
 
       def -->(eqs2: Set[EquivalenceClass]) = implies(eqs2)
+
+      def -->(eqc: EquivalenceClass) = implies(eqc)
 
       def -->(s: String) = implies(s)
     }
