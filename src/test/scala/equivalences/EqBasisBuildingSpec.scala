@@ -3,11 +3,8 @@ package equivalences
 import basis.DBasis
 import basis.NaiveCanonicalDirectBasis
 import basis.Table
-import cats.Monoid
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import syntax.equivalenceclass._
-import syntax.eqimplication._
 
 class EqBasisBuildingSpec extends FlatSpec with Matchers {
 

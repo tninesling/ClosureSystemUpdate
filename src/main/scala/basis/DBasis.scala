@@ -89,11 +89,6 @@ class DBasis extends Basis {
     Implication(reducedPremise, imp.conclusion)
   }
 
-  /** Returns a set containing A and all elements above A in the partial order */
-  def upSet(partialOrder: Set[Implication], A: Set[String]): Set[String] =
-    A | partialOrder.filter(_.conclusion.subsetOf(A))
-                    .flatMap(_.premise)
-
   /** For sets x and y greaterThanOrEqualTo(x, y) is True if x -> y is in Sigma^b (binary) */
   def greaterThanOrEqualTo(partialOrder: Set[Implication], x: Set[String], y: Set[String]) =
     partialOrder.contains(Implication(x, y))
@@ -118,20 +113,6 @@ class DBasis extends Basis {
       Implication((imp.premise &~ extensionIdeal) | ext, imp.conclusion)
     else
       Implication(imp.premise | ext, imp.conclusion)
-  }
-
-  /**
-   * Calculates the ideal of an element in the lattice. The ideal of a set A
-   * consists of all elements in sets below A in the partial order
-   */
-  def ideal(partialOrder: Set[Implication], topSet: Set[String]): Set[String] = {
-    val children = partialOrder.filter(_.premise.subsetOf(topSet))
-                               .flatMap(_.conclusion)
-
-    if (children.subsetOf(topSet))
-      topSet
-    else
-      ideal(partialOrder, topSet | children)
   }
 
   /* This is not entirely correct; produces incorrect CDB for some examples */

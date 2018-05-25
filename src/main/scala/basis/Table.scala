@@ -166,6 +166,27 @@ class Table {
     eqb
   }
 
+  def buildEqDBasis(): DBasis = {
+    val db = new DBasis with EquivalenceHandling
+    // start with set of single equivalence class containing all elements and empty set
+    db.equivalences = Set(
+      header.foldLeft(Set.empty[String].eqClass)(_ <=> _)
+    )
+
+    rows.map(rowToClosedSet)
+      .foreach(db.update)
+
+    db
+  }
+
+  def buildEqCdb(): NaiveCanonicalDirectBasis = {
+    val cdb = new NaiveCanonicalDirectBasis with EquivalenceHandling
+    cdb.equivalences = Set(header.foldLeft(Set.empty[String].eqClass)(_ <=> _))
+
+    rows.map(rowToClosedSet).foreach(cdb.update)
+    cdb
+  }
+
   def rowToClosedSet(row: List[Int]): Set[String] =
     row.zip(header)
       .filter(_._1 == 1)

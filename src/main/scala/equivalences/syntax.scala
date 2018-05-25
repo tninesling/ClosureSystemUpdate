@@ -39,21 +39,37 @@ object syntax {
   // EquivalenceClass syntax
   object equivalenceclass {
     implicit class stringEquivalenceClassConstructorSyntax(s: String) {
-      def eqClass(): EquivalenceClass = EquivalenceClass(TreeSet(Set(s)))
+      def eqClass(): EquivalenceClass =
+        EquivalenceClass(TreeSet(Set(s)))
     }
 
     implicit class stringSetEquivalenceClassConstructorSyntax(s: ClosedSet) {
-      def eqClass(): EquivalenceClass = EquivalenceClass(TreeSet(s))
+      def eqClass(): EquivalenceClass =
+        EquivalenceClass(TreeSet(s))
     }
 
     implicit class stringEquivalentSyntax(s1: String) {
-      def equivalentTo(s2: String): EquivalenceClass = EquivalenceClass(TreeSet(Set(s1), Set(s2)))
+      def equivalentTo(s2: String): EquivalenceClass =
+        EquivalenceClass(TreeSet(Set(s1), Set(s2)))
 
       def <=>(s2: String) = equivalentTo(s2)
 
-      def equivalentTo(s2: ClosedSet): EquivalenceClass = EquivalenceClass(TreeSet(Set(s1), s2))
+      def equivalentTo(s2: ClosedSet): EquivalenceClass =
+        EquivalenceClass(TreeSet(Set(s1), s2))
 
       def <=>(s2: ClosedSet) = equivalentTo(s2)
+    }
+
+    implicit class closedSetEquivalentSyntax(cs: ClosedSet) {
+      def equivalentTo(cs2: ClosedSet): EquivalenceClass =
+        EquivalenceClass(TreeSet(cs, cs2))
+
+      def <=>(cs2: ClosedSet) = equivalentTo(cs2)
+
+      def equivalentTo(s: String): EquivalenceClass =
+        equivalentTo(Set(s))
+
+      def <=>(s: String) = equivalentTo(s)
     }
   }
 }

@@ -4,7 +4,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import scala.collection.mutable.TreeSet
 import syntax.eqimplication._
-import syntax.equivalenceclass._
 
 class EqImplicationSpec extends FlatSpec with Matchers {
 

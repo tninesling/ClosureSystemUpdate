@@ -1,6 +1,5 @@
 package equivalences
 
-import basis.CanonicalDirectBasis
 import basis.DBasis
 import cats.syntax.semigroup._
 import org.scalatest.FlatSpec

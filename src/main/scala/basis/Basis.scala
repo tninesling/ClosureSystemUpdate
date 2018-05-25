@@ -2,12 +2,12 @@ package basis
 
 import scala.collection.SortedSet
 import scala.io.Source
+import syntax.implication._
 
 trait Basis {
   var baseSet = Set.empty[String]
   var basis = Set.empty[Implication]
   var closedSets = Set.empty[Set[String]]
-
 
   // Modifies the basis to include the new closed set in its Moore family
   def update(newSet: Set[String]) = {
@@ -37,6 +37,45 @@ trait Basis {
     A | basis.filter(_.premise.subsetOf(A))
       .map(_.conclusion)
       .flatten
+
+  def transitiveImplications(a: Set[String], b: Set[String]): Set[Implication] =
+    for {
+      p <- upSet(a)
+      c <- ideal(b)
+    } yield p --> c
+
+  def transitiveClosure(implications: Set[Implication]) = {
+    val newBinary = for {
+      imp <- implications if (imp.isBinary)
+      p <- upSet(imp.premise)
+      c <- ideal(imp.conclusion)
+    } yield p --> c
+
+    implications | newBinary
+  }
+
+  /** Returns a set containing cs and all elements above cs in the partial order */
+  def upSet(partialOrder: Set[Implication], cs: ClosedSet): ClosedSet =
+    cs | partialOrder.filter(_.conclusion.subsetOf(cs))
+                    .flatMap(_.premise)
+
+  def upSet(cs: ClosedSet): ClosedSet = upSet(binary, cs)
+
+  /**
+   * Calculates the ideal of an element in the lattice. The ideal of a set
+   * consists of all elements in sets below it in the partial order
+   */
+  def ideal(partialOrder: Set[Implication], topSet: ClosedSet): ClosedSet = {
+    val children = partialOrder.filter(_.premise.subsetOf(topSet))
+                               .flatMap(_.conclusion)
+
+    if (children.subsetOf(topSet))
+      topSet
+    else
+      ideal(partialOrder, topSet | children)
+  }
+
+  def ideal(topSet: ClosedSet): ClosedSet = ideal(binary, topSet)
 
   /** Reads the basis for a closure
    *  system. Expects a file formatted as the following:
