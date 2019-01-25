@@ -6,7 +6,7 @@ lazy val root = project in file(".")
 
 scalaVersion := "2.12.3"
 
-mainClass in (Compile, run) := Some("examples.StatisticsGeneratingExample")
+mainClass in (Compile, run) := Some("examples.LaRochelleExample")
 
 scalacOptions ++= Seq(
   "-encoding", "UTF-8",   // source files are in UTF-8
