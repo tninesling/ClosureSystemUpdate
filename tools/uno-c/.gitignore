@@ -1,8 +1,0 @@
-*.o
-/Debug
-/Release
-/shd31/shd.o
-/oslc/Debug/
-.DS_Store
-
-
